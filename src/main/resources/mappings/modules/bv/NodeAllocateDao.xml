@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.jeesite.modules.bv.dao.NodeAllocateDao">
+    
+	<sql id="nodeAllocateColumns">
+		a.id AS "id",
+		a.company_name AS "companyName",
+		a.mode_cooperate AS "modeCooperate",
+		a.rent_time AS "rentTime",
+		a.rent_long AS "rentLong",
+		a.node_data AS "nodeData",
+		a.ernt_unit AS "erntUnit",
+		a.quasi_unit AS "quasiUnit",
+		a.gate_data AS "gateData",
+		a.pay_time AS "payTime",
+		a.amount AS "amount",
+		a.deposit AS "deposit",
+		a.remark AS "remark"
+	</sql>
+	
+	<sql id="nodeAllocateJoins">
+	</sql>
+    
+	<select id="get" resultType="NodeAllocate">
+		SELECT 
+			<include refid="nodeAllocateColumns"/>
+		FROM t_bv_node_allocate a
+		<include refid="nodeAllocateJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="NodeAllocate">
+		SELECT 
+			<include refid="nodeAllocateColumns"/>
+		FROM t_bv_node_allocate a
+		<include refid="nodeAllocateJoins"/>
+		<where>
+			
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="NodeAllocate">
+		SELECT 
+			<include refid="nodeAllocateColumns"/>
+		FROM t_bv_node_allocate a
+		<include refid="nodeAllocateJoins"/>
+		<where>
+			
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO t_bv_node_allocate(
+			id,
+			company_name,
+			mode_cooperate,
+			rent_time,
+			rent_long,
+			node_data,
+			ernt_unit,
+			quasi_unit,
+			gate_data,
+			pay_time,
+			amount,
+			deposit,
+			remark
+		) VALUES (
+			#{id},
+			#{companyName},
+			#{modeCooperate},
+			#{rentTime},
+			#{rentLong},
+			#{nodeData},
+			#{erntUnit},
+			#{quasiUnit},
+			#{gateData},
+			#{payTime},
+			#{amount},
+			#{deposit},
+			#{remark}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE t_bv_node_allocate SET 	
+			company_name = #{companyName},
+			mode_cooperate = #{modeCooperate},
+			rent_time = #{rentTime},
+			rent_long = #{rentLong},
+			node_data = #{nodeData},
+			ernt_unit = #{erntUnit},
+			quasi_unit = #{quasiUnit},
+			gate_data = #{gateData},
+			pay_time = #{payTime},
+			amount = #{amount},
+			deposit = #{deposit},
+			remark = #{remark}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM t_bv_node_allocate
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

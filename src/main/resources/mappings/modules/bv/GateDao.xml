@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.jeesite.modules.bv.dao.GateDao">
+    
+	<sql id="gateColumns">
+		a.id AS "id",
+		a.gate_id AS "gateId",
+		a.firmware_version AS "firmwareVersion",
+		a.enter_time AS "enterTime",
+		a.remark AS "remark",
+		a.place_position AS "placePosition",
+		a.is_allocated AS "isAllocated",
+		a.which_customer AS "whichCustomer",
+		a.node_use AS "nodeUse",
+		a.sim_num AS "simNum",
+		a.conneted_nodes AS "connetedNodes",
+		a.electricity AS "electricity"
+	</sql>
+	
+	<sql id="gateJoins">
+	</sql>
+    
+	<select id="get" resultType="Gate">
+		SELECT 
+			<include refid="gateColumns"/>
+		FROM t_bv_gate a
+		<include refid="gateJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="getByGateId" resultType="Gate">
+		SELECT 
+			<include refid="gateColumns"/>
+		FROM t_bv_gate a
+		<include refid="gateJoins"/>
+		WHERE a.gate_id = #{gateId}
+	</select>
+	
+	<select id="findList" resultType="Gate">
+		SELECT 
+			<include refid="gateColumns"/>
+		FROM t_bv_gate a
+		<include refid="gateJoins"/>
+		<where>
+			
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.enter_time, a.gate_id
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findBetweenStartAndEnd" resultType="Gate">
+		SELECT 
+			<include refid="gateColumns"/>
+		FROM t_bv_gate a
+		<include refid="gateJoins"/>
+		<where>
+			gate_id <![CDATA[>=]]> #{startId}
+			AND gate_id <![CDATA[<=]]> #{endId}
+		</where>
+	</select>
+	
+	<select id="findAllList" resultType="Gate">
+		SELECT 
+			<include refid="gateColumns"/>
+		FROM t_bv_gate a
+		<include refid="gateJoins"/>
+		<where>
+			
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.enter_time, a.gate_id
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO t_bv_gate(
+			id,
+			gate_id,
+			firmware_version,
+			enter_time,
+			remark,
+			place_position,
+			is_allocated,
+			which_customer,
+			node_use,
+			sim_num,
+			conneted_nodes,
+			electricity
+		) VALUES (
+			#{id},
+			#{gateId},
+			#{firmwareVersion},
+			#{enterTime},
+			#{remark},
+			#{placePosition},
+			#{isAllocated},
+			#{whichCustomer},
+			#{nodeUse},
+			#{simNum},
+			#{connetedNodes},
+			#{electricity}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE t_bv_gate SET 	
+			gate_id = #{gateId},
+			firmware_version = #{firmwareVersion},
+			enter_time = #{enterTime},
+			remark = #{remark},
+			place_position = #{placePosition},
+			is_allocated = #{isAllocated},
+			which_customer = #{whichCustomer},
+			node_use = #{nodeUse},
+			sim_num = #{simNum},
+			conneted_nodes = #{connetedNodes},
+			electricity = #{electricity}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="updateAllocated">
+		UPDATE t_bv_gate SET 	
+			is_allocated = #{isAllocated}
+		WHERE gate_id = #{gateId}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM t_bv_gate
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

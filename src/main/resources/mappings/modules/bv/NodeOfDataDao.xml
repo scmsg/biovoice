@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.jeesite.modules.bv.dao.NodeOfDataDao">
+    
+	<sql id="nodeOfDataColumns">
+		a.id AS "id",
+		a.master_id AS "masterId",
+		a.node_id AS "nodeId",
+		a.product_type AS "productType",
+		a.charging_state AS "chargingState",
+		a.battery AS "battery",
+		a.signal_intensity AS "signalIntensity",
+		a.measure_interval AS "measureInterval",
+		a.view_data_flag AS "viewDataFlag",
+		a.start_record_flag AS "startRecordFlag",
+		a.light_on AS "lightOn",
+		a.time_tag AS "timeTag",
+		a.temperature AS "temperature",
+		a.humidity AS "humidity"
+	</sql>
+	
+	<sql id="nodeOfDataJoins">
+	</sql>
+    
+	<select id="get" resultType="NodeOfData">
+		SELECT 
+			<include refid="nodeOfDataColumns"/>
+		FROM t_node_of_data a
+		<include refid="nodeOfDataJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="NodeOfData">
+		SELECT 
+			<include refid="nodeOfDataColumns"/>
+		FROM t_node_of_data a
+		<include refid="nodeOfDataJoins"/>
+		<where>
+			
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="NodeOfData">
+		SELECT 
+			<include refid="nodeOfDataColumns"/>
+		FROM t_node_of_data a
+		<include refid="nodeOfDataJoins"/>
+		<where>
+			
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO t_node_of_data(
+			id,
+			master_id,
+			node_id,
+			product_type,
+			charging_state,
+			battery,
+			signal_intensity,
+			measure_interval,
+			view_data_flag,
+			start_record_flag,
+			light_on,
+			time_tag,
+			temperature,
+			humidity
+		) VALUES (
+			#{id},
+			#{masterId},
+			#{nodeId},
+			#{productType},
+			#{chargingState},
+			#{battery},
+			#{signalIntensity},
+			#{measureInterval},
+			#{viewDataFlag},
+			#{startRecordFlag},
+			#{lightOn},
+			#{timeTag},
+			#{temperature},
+			#{humidity}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE t_node_of_data SET 	
+			master_id = #{masterId},
+			node_id = #{nodeId},
+			product_type = #{productType},
+			charging_state = #{chargingState},
+			battery = #{battery},
+			signal_intensity = #{signalIntensity},
+			measure_interval = #{measureInterval},
+			view_data_flag = #{viewDataFlag},
+			start_record_flag = #{startRecordFlag},
+			light_on = #{lightOn},
+			time_tag = #{timeTag},
+			temperature = #{temperature},
+			humidity = #{humidity}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM t_node_of_data
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

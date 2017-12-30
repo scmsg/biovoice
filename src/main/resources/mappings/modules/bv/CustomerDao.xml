@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.jeesite.modules.bv.dao.CustomerDao">
+    
+	<sql id="customerColumns">
+		a.id AS "id",
+		a.company_name AS "companyName",
+		a.start_time AS "startTime",
+		a.end_time AS "endTime",
+		a.node_active AS "nodeActive",
+		a.node_buy AS "nodeBuy",
+		a.gate_active AS "gateActive",
+		a.gate_buy AS "gateBuy",
+		a.total_amount AS "totalAmount",
+		a.recervable AS "recervable",
+		a.deposit AS "deposit",
+		a.customer_name AS "customerName",
+		a.admin_account AS "adminAccount",
+		a.admin_password AS "adminPassword",
+		a.is_belong_company AS "isBelongCompany",
+		a.province_name AS "provinceName",
+		a.province_no AS "provinceNo",
+		a.city_name AS "cityName",
+		a.city_no AS "cityNo",
+		a.district_name AS "districtName",
+		a.district_no AS "districtNo",
+		a.address AS "address",
+		a.company_type AS "companyType",
+		a.contact AS "contact",
+		a.mobile AS "mobile",
+		a.remark AS "remark"
+	</sql>
+	
+	<sql id="customerJoins">
+	</sql>
+    
+	<select id="get" resultType="Customer">
+		SELECT 
+			<include refid="customerColumns"/>
+		FROM t_bv_customer a
+		<include refid="customerJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="Customer">
+		SELECT 
+			<include refid="customerColumns"/>
+		FROM t_bv_customer a
+		<include refid="customerJoins"/>
+		<where>
+			
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="Customer">
+		SELECT 
+			<include refid="customerColumns"/>
+		FROM t_bv_customer a
+		<include refid="customerJoins"/>
+		<where>
+			
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO t_bv_customer(
+			id,
+			company_name,
+			start_time,
+			end_time,
+			node_active,
+			node_buy,
+			gate_active,
+			gate_buy,
+			total_amount,
+			recervable,
+			deposit,
+			customer_name,
+			admin_account,
+			admin_password,
+			is_belong_company,
+			province_name,
+			province_no,
+			city_name,
+			city_no,
+			district_name,
+			district_no,
+			address,
+			company_type,
+			contact,
+			mobile,
+			remark
+		) VALUES (
+			#{id},
+			#{companyName},
+			#{startTime},
+			#{endTime},
+			#{nodeActive},
+			#{nodeBuy},
+			#{gateActive},
+			#{gateBuy},
+			#{totalAmount},
+			#{recervable},
+			#{deposit},
+			#{customerName},
+			#{adminAccount},
+			#{adminPassword},
+			#{isBelongCompany},
+			#{provinceName},
+			#{provinceNo},
+			#{cityName},
+			#{cityNo},
+			#{districtName},
+			#{districtNo},
+			#{address},
+			#{companyType},
+			#{contact},
+			#{mobile},
+			#{remark}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE t_bv_customer SET 	
+			company_name = #{companyName},
+			start_time = #{startTime},
+			end_time = #{endTime},
+			node_active = #{nodeActive},
+			node_buy = #{nodeBuy},
+			gate_active = #{gateActive},
+			gate_buy = #{gateBuy},
+			total_amount = #{totalAmount},
+			recervable = #{recervable},
+			deposit = #{deposit},
+			customer_name = #{customerName},
+			admin_account = #{adminAccount},
+			admin_password = #{adminPassword},
+			is_belong_company = #{isBelongCompany},
+			province_name = #{provinceName},
+			province_no = #{provinceNo},
+			city_name = #{cityName},
+			city_no = #{cityNo},
+			district_name = #{districtName},
+			district_no = #{districtNo},
+			address = #{address},
+			company_type = #{companyType},
+			contact = #{contact},
+			mobile = #{mobile},
+			remark = #{remark}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM t_bv_customer
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

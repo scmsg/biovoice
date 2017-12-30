@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.jeesite.modules.bv.dao.DepatementDao">
+    
+	<sql id="depatementColumns">
+		a.id AS "id",
+		a.dept_name AS "deptName",
+		a.dept_hdea AS "deptHdea",
+		a.dead_mobile AS "deadMobile"
+	</sql>
+	
+	<sql id="depatementJoins">
+	</sql>
+    
+	<select id="get" resultType="Depatement">
+		SELECT 
+			<include refid="depatementColumns"/>
+		FROM t_bv_depatement a
+		<include refid="depatementJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="Depatement">
+		SELECT 
+			<include refid="depatementColumns"/>
+		FROM t_bv_depatement a
+		<include refid="depatementJoins"/>
+		<where>
+			
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="Depatement">
+		SELECT 
+			<include refid="depatementColumns"/>
+		FROM t_bv_depatement a
+		<include refid="depatementJoins"/>
+		<where>
+			
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO t_bv_depatement(
+			id,
+			dept_name,
+			dept_hdea,
+			dead_mobile
+		) VALUES (
+			#{id},
+			#{deptName},
+			#{deptHdea},
+			#{deadMobile}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE t_bv_depatement SET 	
+			dept_name = #{deptName},
+			dept_hdea = #{deptHdea},
+			dead_mobile = #{deadMobile}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM t_bv_depatement
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

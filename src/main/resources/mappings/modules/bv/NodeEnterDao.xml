@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.jeesite.modules.bv.dao.NodeEnterDao">
+    
+	<sql id="nodeEnterColumns">
+		a.id AS "id",
+		a.start_id AS "startId",
+		a.enter_number AS "enterNumber",
+		a.end_id AS "endId",
+		a.enter_time AS "enterTime"
+	</sql>
+	
+	<sql id="nodeEnterJoins">
+	</sql>
+    
+	<select id="get" resultType="NodeEnter">
+		SELECT 
+			<include refid="nodeEnterColumns"/>
+		FROM t_bv_node_enter a
+		<include refid="nodeEnterJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="NodeEnter">
+		SELECT 
+			<include refid="nodeEnterColumns"/>
+		FROM t_bv_node_enter a
+		<include refid="nodeEnterJoins"/>
+		<where>
+			
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="NodeEnter">
+		SELECT 
+			<include refid="nodeEnterColumns"/>
+		FROM t_bv_node_enter a
+		<include refid="nodeEnterJoins"/>
+		<where>
+			
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO t_bv_node_enter(
+			id,
+			start_id,
+			enter_number,
+			end_id,
+			enter_time
+		) VALUES (
+			#{id},
+			#{startId},
+			#{enterNumber},
+			#{endId},
+			#{enterTime}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE t_bv_node_enter SET 	
+			start_id = #{startId},
+			enter_number = #{enterNumber},
+			end_id = #{endId},
+			enter_time = #{enterTime}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM t_bv_node_enter
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

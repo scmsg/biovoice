@@ -1,0 +1,60 @@
+<%@ page contentType="text/html;charset=UTF-8" %>
+<%@ include file="/WEB-INF/views/include/taglib.jsp"%>
+<html>
+<head>
+	<title>节点入库管理</title>
+	<meta name="decorator" content="default"/>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			
+		});
+		function page(n,s){
+			$("#pageNo").val(n);
+			$("#pageSize").val(s);
+			$("#searchForm").submit();
+        	return false;
+        }
+	</script>
+</head>
+<body>
+	<ul class="nav nav-tabs">
+		<li class="active"><a href="${ctx}/bv/nodeEnter/">节点入库列表</a></li>
+		<shiro:hasPermission name="bv:nodeEnter:edit"><li><a href="${ctx}/bv/nodeEnter/form">节点入库添加</a></li></shiro:hasPermission>
+	</ul>
+	<form:form id="searchForm" modelAttribute="nodeEnter" action="${ctx}/bv/nodeEnter/" method="post" class="breadcrumb form-search">
+		<input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
+		<input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>
+		<ul class="ul-form">
+			<li class="btns"><input id="btnSubmit" class="btn btn-primary" type="submit" value="查询"/></li>
+			<li class="clearfix"></li>
+		</ul>
+	</form:form>
+	<sys:message content="${message}"/>
+	<table id="contentTable" class="table table-striped table-bordered table-condensed">
+		<thead>
+			<tr>
+				<th>起始ID</th>
+				<th>数量</th>
+				<th>结束ID</th>
+				<th>入库时间</th>
+				<shiro:hasPermission name="bv:nodeEnter:edit"><th>操作</th></shiro:hasPermission>
+			</tr>
+		</thead>
+		<tbody>
+		<c:forEach items="${page.list}" var="nodeEnter">
+			<tr>
+				<td>${nodeEnter.startId}</td>
+				<td>${nodeEnter.enterNumber}</td>
+				<td>${nodeEnter.endId}</td>
+				<td><fmt:formatDate value="${nodeEnter.enterTime}" type="both"/></td>
+				<shiro:hasPermission name="bv:nodeEnter:edit"><td>
+    				<a href="${ctx}/bv/nodeEnter/form?id=${nodeEnter.id}">修改</a>
+					<a href="${ctx}/bv/nodeEnter/delete?id=${nodeEnter.id}" onclick="return confirmx('确认要删除该节点入库吗？', this.href)">删除</a>
+				</td></shiro:hasPermission>
+			</tr>
+		</c:forEach>
+		</tbody>
+	</table>
+	<div class="pagination">${page}</div>
+</body>
+</html>

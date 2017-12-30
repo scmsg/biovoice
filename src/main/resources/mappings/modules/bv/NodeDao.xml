@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.jeesite.modules.bv.dao.NodeDao">
+    
+	<sql id="nodeColumns">
+		a.id AS "id",
+		a.node_id AS "nodeId",
+		a.firmware_version AS "firmwareVersion",
+		a.enter_time AS "enterTime",
+		a.last_quasi_time AS "lastQuasiTime",
+		a.quasi_report AS "quasiReport",
+		a.remark AS "remark",
+		a.place_position AS "placePosition",
+		a.which_vessel AS "whichVessel",
+		a.bound_status AS "boundStatus",
+		a.bound_time AS "boundTime",
+		a.is_allocated AS "isAllocated",
+		a.which_customer AS "whichCustomer"
+	</sql>
+	
+	<sql id="nodeJoins">
+	</sql>
+    
+	<select id="get" resultType="Node">
+		SELECT 
+			<include refid="nodeColumns"/>
+		FROM t_bv_node a
+		<include refid="nodeJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="getByNodeId" resultType="Node">
+		SELECT 
+			<include refid="nodeColumns"/>
+		FROM t_bv_node a
+		<include refid="nodeJoins"/>
+		WHERE a.node_id = #{nodeId}
+	</select>
+	
+	<select id="findList" resultType="Node">
+		SELECT 
+			<include refid="nodeColumns"/>
+		FROM t_bv_node a
+		<include refid="nodeJoins"/>
+		<where>
+			
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.enter_time, a.node_id
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findBetweenStartAndEnd" resultType="Node">
+		SELECT 
+			<include refid="nodeColumns"/>
+		FROM t_bv_node a
+		<include refid="nodeJoins"/>
+		<where>
+			node_id <![CDATA[>=]]> #{startId}
+			AND node_id <![CDATA[<=]]> #{endId}
+		</where>
+	</select>
+	
+	<select id="findAllList" resultType="Node">
+		SELECT 
+			<include refid="nodeColumns"/>
+		FROM t_bv_node a
+		<include refid="nodeJoins"/>
+		<where>
+			
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.enter_time, a.node_id
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO t_bv_node(
+			id,
+			node_id,
+			firmware_version,
+			enter_time,
+			last_quasi_time,
+			quasi_report,
+			remark,
+			place_position,
+			which_vessel,
+			bound_status,
+			bound_time,
+			is_allocated,
+			which_customer
+		) VALUES (
+			#{id},
+			#{nodeId},
+			#{firmwareVersion},
+			#{enterTime},
+			#{lastQuasiTime},
+			#{quasiReport},
+			#{remark},
+			#{placePosition},
+			#{whichVessel},
+			#{boundStatus},
+			#{boundTime},
+			#{isAllocated},
+			#{whichCustomer}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE t_bv_node SET 	
+			node_id = #{nodeId},
+			firmware_version = #{firmwareVersion},
+			enter_time = #{enterTime},
+			last_quasi_time = #{lastQuasiTime},
+			quasi_report = #{quasiReport},
+			remark = #{remark},
+			place_position = #{placePosition},
+			which_vessel = #{whichVessel},
+			bound_status = #{boundStatus},
+			bound_time = #{boundTime},
+			is_allocated = #{isAllocated},
+			which_customer = #{whichCustomer}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="updateAllocated">
+		UPDATE t_bv_node SET 	
+			is_allocated = #{isAllocated}
+		WHERE node_id = #{nodeId}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM t_bv_node
+		WHERE id = #{id}
+	</update>
+	
+</mapper>
