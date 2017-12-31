@@ -36,6 +36,9 @@
 		FROM t_node_of_data a
 		<include refid="nodeOfDataJoins"/>
 		<where>
+			<if test="nodeId != null and nodeId != ''">
+				AND a.node_id  = #{nodeId}
+			</if>
 			
 		</where>
 		<choose>
@@ -53,6 +56,9 @@
 		FROM t_node_of_data a
 		<include refid="nodeOfDataJoins"/>
 		<where>
+			<if test="nodeId != null and nodeId != ''">
+				AND a.node_id  = #{nodeId}
+			</if>
 			
 		</where>		
 		<choose>

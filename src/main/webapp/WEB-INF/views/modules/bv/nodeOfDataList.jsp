@@ -19,11 +19,16 @@
 <body>
 	<ul class="nav nav-tabs">
 		<li class="active"><a href="${ctx}/bv/nodeOfData/">节点测量数据列表</a></li>
+		<li><a href="${ctx}/bv/nodeOfData/charts">节点测量数据图表</a></li>
 		<%-- <shiro:hasPermission name="bv:nodeOfData:edit"><li><a href="${ctx}/bv/nodeOfData/form">节点测量数据添加</a></li></shiro:hasPermission> --%>
 	</ul>
 	<form:form id="searchForm" modelAttribute="nodeOfData" action="${ctx}/bv/nodeOfData/" method="post" class="breadcrumb form-search">
 		<input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
 		<input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>
+		
+		<label>节点ID：</label>
+		<input id="nodeId" name="nodeId" type="input" value="${nodeOfData.nodeId}"/>
+		
 		<ul class="ul-form">
 			<li class="btns"><input id="btnSubmit" class="btn btn-primary" type="submit" value="查询"/></li>
 			<li class="clearfix"></li>
