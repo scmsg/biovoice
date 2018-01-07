@@ -3,8 +3,11 @@
  */
 package com.thinkgem.jeesite.modules.bv.dao;
 
+import java.util.List;
+
 import com.thinkgem.jeesite.common.persistence.CrudDao;
 import com.thinkgem.jeesite.common.persistence.annotation.MyBatisDao;
+import com.thinkgem.jeesite.modules.bv.dto.NodeOfDataDto;
 import com.thinkgem.jeesite.modules.bv.entity.NodeOfData;
 
 /**
@@ -14,5 +17,7 @@ import com.thinkgem.jeesite.modules.bv.entity.NodeOfData;
  */
 @MyBatisDao
 public interface NodeOfDataDao extends CrudDao<NodeOfData> {
+	
+	public List<NodeOfData> findPageGroubByNodeId(NodeOfDataDto nodeOfDataDto);
 	
 }

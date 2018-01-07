@@ -19,8 +19,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.thinkgem.jeesite.common.config.Global;
 import com.thinkgem.jeesite.common.persistence.Page;
-import com.thinkgem.jeesite.common.web.BaseController;
+import com.thinkgem.jeesite.common.utils.JacksonBundle;
 import com.thinkgem.jeesite.common.utils.StringUtils;
+import com.thinkgem.jeesite.common.web.BaseController;
 import com.thinkgem.jeesite.modules.bv.entity.client.Equipment;
 import com.thinkgem.jeesite.modules.bv.service.client.EquipmentService;
 
@@ -51,6 +52,7 @@ public class EquipmentController extends BaseController {
 	@RequiresPermissions("bv:client:equipment:view")
 	@RequestMapping(value = {"list", ""})
 	public String list(Equipment equipment, HttpServletRequest request, HttpServletResponse response, Model model) {
+		logger.info("equipment: "+JacksonBundle.nonNullMapper().toJson(equipment));
 		Page<Equipment> page = equipmentService.findPage(new Page<Equipment>(request, response), equipment); 
 		model.addAttribute("page", page);
 		if(StringUtils.isNotEmpty(equipment.getDepartmentId())){

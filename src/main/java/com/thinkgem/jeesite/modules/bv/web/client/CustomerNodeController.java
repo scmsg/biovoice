@@ -19,8 +19,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.thinkgem.jeesite.common.config.Global;
 import com.thinkgem.jeesite.common.persistence.Page;
-import com.thinkgem.jeesite.common.web.BaseController;
+import com.thinkgem.jeesite.common.utils.JacksonBundle;
 import com.thinkgem.jeesite.common.utils.StringUtils;
+import com.thinkgem.jeesite.common.web.BaseController;
 import com.thinkgem.jeesite.modules.bv.entity.client.CustomerNode;
 import com.thinkgem.jeesite.modules.bv.service.client.CustomerNodeService;
 
@@ -51,6 +52,7 @@ public class CustomerNodeController extends BaseController {
 	@RequiresPermissions("bv:client:customerNode:view")
 	@RequestMapping(value = {"list", ""})
 	public String list(CustomerNode customerNode, HttpServletRequest request, HttpServletResponse response, Model model) {
+		logger.info("customerNode: "+JacksonBundle.nonNullMapper().toJson(customerNode));
 		Page<CustomerNode> page = customerNodeService.findPage(new Page<CustomerNode>(request, response), customerNode); 
 		model.addAttribute("page", page);
 		if(StringUtils.isNotEmpty(customerNode.getUsePlaceId())){

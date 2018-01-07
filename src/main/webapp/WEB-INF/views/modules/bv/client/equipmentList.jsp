@@ -24,6 +24,7 @@
 	<form:form id="searchForm" modelAttribute="equipment" action="${ctx}/bv/client/equipment/" method="post" class="breadcrumb form-search">
 		<input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
 		<input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>
+		<input id="departmentId" name="departmentId" type="hidden" value="${departmentId}"/>
 		<ul class="ul-form">
 			<li class="btns"><input id="btnSubmit" class="btn btn-primary" type="submit" value="查询"/></li>
 			<li class="clearfix"></li>
@@ -38,8 +39,8 @@
 				
 				<th>高温告警值</th>
 				<th>高温预警值</th>
+				<th>预警电话1</th>
 				<th>告警电话1</th>
-				<th>告警电话</th>
 				<shiro:hasPermission name="bv:client:equipment:edit"><th>操作</th></shiro:hasPermission>
 			</tr>
 		</thead>
@@ -52,7 +53,7 @@
 				<td>${equipment.highTemperatureAlarm}</td>
 				<td>${equipment.highTemperatureWarning}</td>
 				<td>${equipment.warningPhone1}</td>
-				<td>${equipment.warningPhone2}</td>
+				<td>${equipment.alarmPhone1}</td>
 				
 				<shiro:hasPermission name="bv:client:equipment:edit"><td>
     				<a href="${ctx}/bv/client/equipment/form?id=${equipment.id}">修改</a>

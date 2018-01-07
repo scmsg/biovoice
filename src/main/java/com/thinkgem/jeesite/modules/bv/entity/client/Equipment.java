@@ -27,8 +27,8 @@ public class Equipment extends DataEntity<Equipment> {
 	private Float highHumidityWarning;		// 高湿度预警
 	private Float lowHumidityWarning;		// 低湿度预警
 	private Float lowHumidityAlarm;		// 低湿度告警
-	private String warningPhone1;		// 告警电话1
-	private String warningPhone2;		// 告警电话2
+	private String warningPhone1;		// 预警电话1
+	private String warningPhone2;		// 预警电话2
 	private String warningPhone3;		// 预警电话3
 	private String alarmPhone1;		// 告警电话
 	private String alarmPhone2;		// 告警电话2

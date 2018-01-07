@@ -22,6 +22,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.thinkgem.jeesite.common.config.Global;
 import com.thinkgem.jeesite.common.persistence.Page;
+import com.thinkgem.jeesite.common.utils.JacksonBundle;
 import com.thinkgem.jeesite.common.utils.StringUtils;
 import com.thinkgem.jeesite.common.web.BaseController;
 import com.thinkgem.jeesite.modules.bv.entity.NodeOfData;
@@ -54,7 +55,9 @@ public class NodeOfDataController extends BaseController {
 	@RequiresPermissions("bv:nodeOfData:view")
 	@RequestMapping(value = {"list", ""})
 	public String list(NodeOfData nodeOfData, HttpServletRequest request, HttpServletResponse response, Model model) {
-		Page<NodeOfData> page = nodeOfDataService.findPage(new Page<NodeOfData>(request, response), nodeOfData); 
+		logger.info("nodeOfDataList nodeOfData: "+JacksonBundle.nonNullMapper().toJson(nodeOfData));
+//		Page<NodeOfData> page = nodeOfDataService.findPage(new Page<NodeOfData>(request, response), nodeOfData); 
+		Page<NodeOfData> page = nodeOfDataService.findPageGroubByNodeId(new Page<NodeOfData>(request, response), nodeOfData);
 		model.addAttribute("page", page);
 		model.addAttribute("nodeOfData", nodeOfData);
 		return "modules/bv/nodeOfDataList";
@@ -63,7 +66,9 @@ public class NodeOfDataController extends BaseController {
 	@RequiresPermissions("bv:nodeOfData:view")
 	@RequestMapping(value = "charts")
 	public String charts(NodeOfData nodeOfData, HttpServletRequest request, HttpServletResponse response, Model model) {
+		logger.info("nodeOfDataCharts nodeOfData: "+JacksonBundle.nonNullMapper().toJson(nodeOfData));
 		if(null == nodeOfData || null == nodeOfData.getNodeId() || nodeOfData.getNodeId() == 0){
+			logger.info("请输入你要查看的节点ID，请检查~~");
 			addMessage(model, "请输入你要查看的节点ID，请检查");
 			return "modules/bv/nodeOfDataCharts";
 		}
@@ -99,6 +104,7 @@ public class NodeOfDataController extends BaseController {
 			JSONArray datasArray = new JSONArray(datas);
 			model.addAttribute("datas", datasArray);
 		}else{
+			logger.info("节点ID暂无测量数据，请检查~~");
 			addMessage(model, "节点ID暂无测量数据，请检查");
 		}
 				

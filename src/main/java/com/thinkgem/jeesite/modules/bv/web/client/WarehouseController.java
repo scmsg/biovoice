@@ -19,6 +19,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.thinkgem.jeesite.common.config.Global;
 import com.thinkgem.jeesite.common.persistence.Page;
+import com.thinkgem.jeesite.common.utils.JacksonBundle;
 import com.thinkgem.jeesite.common.utils.StringUtils;
 import com.thinkgem.jeesite.common.web.BaseController;
 import com.thinkgem.jeesite.modules.bv.entity.client.Warehouse;
@@ -51,6 +52,7 @@ public class WarehouseController extends BaseController {
 	@RequiresPermissions("bv:client:warehouse:view")
 	@RequestMapping(value = {"list", ""})
 	public String list(Warehouse warehouse, HttpServletRequest request, HttpServletResponse response, Model model) {
+		logger.info("warehouse: "+JacksonBundle.nonNullMapper().toJson(warehouse));
 		Page<Warehouse> page = warehouseService.findPage(new Page<Warehouse>(request, response), warehouse); 
 		model.addAttribute("page", page);
 		if(StringUtils.isNotEmpty(warehouse.getDepartmentId())){

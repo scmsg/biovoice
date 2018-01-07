@@ -50,6 +50,27 @@
 		</choose>
 	</select>
 	
+	<select id="findPageGroubByNodeId" resultType="NodeOfData">
+		SELECT 
+			<include refid="nodeOfDataColumns"/>
+		FROM t_node_of_data a
+		<include refid="nodeOfDataJoins"/>
+		<where>
+			<if test="nodeId != null and nodeId != ''">
+				AND a.node_id  = #{nodeId}
+			</if>
+			
+		</where>
+		GROUP BY  a.node_id,  a.master_id
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
 	<select id="findAllList" resultType="NodeOfData">
 		SELECT 
 			<include refid="nodeOfDataColumns"/>

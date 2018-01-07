@@ -24,6 +24,7 @@
 	<form:form id="searchForm" modelAttribute="trucks" action="${ctx}/bv/client/trucks/" method="post" class="breadcrumb form-search">
 		<input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
 		<input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>
+		<input id="departmentId" name="departmentId" type="hidden" value="${departmentId}"/>
 		<ul class="ul-form">
 			<li class="btns"><input id="btnSubmit" class="btn btn-primary" type="submit" value="查询"/></li>
 			<li class="clearfix"></li>

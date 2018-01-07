@@ -24,6 +24,8 @@
 			});
 		});
 	</script>
+	<link href="${ctxStatic}/bv/style.css" type="text/css" rel="stylesheet" />
+	<script src="${ctxStatic}/bv/tab.js"></script>
 </head>
 <body>
 	<ul class="nav nav-tabs">
@@ -34,150 +36,139 @@
 		<form:hidden path="id"/>
 		<form:hidden path="departmentId" value="${departmentId}"/>
 		<sys:message content="${message}"/>		
-		<div class="control-group">
-			<label class="control-label">设备名称：</label>
-			<div class="controls">
-				<form:input path="equipmentName" htmlEscape="false" maxlength="255" class="input-xlarge "/>
+		
+		<div class="tab-container">
+			<ul class="tab-head">
+				<li id="1" class="select"><a href="#">参数设置</a></li>
+				<li id="2" class="select"><a href="#">设施信息</a></li>
+				<li id="3" class="select"><a href="#">验证信息</a></li>
+			</ul>
+			<div id="tab-panel" class="tab-panel">
+				<section id="panel-1">
+					<div class="control-group">
+						<label class="control-label">设备名称：</label>
+						<div class="controls">
+							<form:input path="equipmentName" htmlEscape="false" maxlength="255" class="input-xlarge "/>
+						</div>
+					</div>
+					<div class="control-group">
+						<label class="control-label">负责人：</label>
+						<div class="controls">
+							<form:input path="managerId" htmlEscape="false" maxlength="64" class="input-xlarge "/>
+						</div>
+					</div>
+					<div class="control-group">
+						<label class="control-label">高温告警值：</label>
+						<div class="controls">
+							<form:input path="highTemperatureAlarm" htmlEscape="false" class="input-xlarge  number"/>℃
+						</div>
+						<label class="control-label">高温预警值：</label>
+						<div class="controls">
+							<form:input path="highTemperatureWarning" htmlEscape="false" class="input-xlarge  number"/>℃
+						</div>
+					</div>
+					<div class="control-group">
+						<label class="control-label">低温预警值：</label>
+						<div class="controls">
+							<form:input path="lowTemperatureWarning" htmlEscape="false" class="input-xlarge  number"/>℃
+						</div>
+						<label class="control-label">低温告警值：</label>
+						<div class="controls">
+							<form:input path="lowTemperatureAlarm" htmlEscape="false" class="input-xlarge  number"/>℃
+						</div>
+					</div>
+					<div class="control-group">
+						<label class="control-label">高湿度报警：</label>
+						<div class="controls">
+							<form:input path="highHumidityAlarm" htmlEscape="false" class="input-xlarge  number"/>%
+						</div>
+						<label class="control-label">高湿度预警：</label>
+						<div class="controls">
+							<form:input path="highHumidityWarning" htmlEscape="false" class="input-xlarge  number"/>%
+						</div>
+					</div>
+					<div class="control-group">
+						<label class="control-label">低湿度预警：</label>
+						<div class="controls">
+							<form:input path="lowHumidityWarning" htmlEscape="false" class="input-xlarge  number"/>%
+						</div>
+						<label class="control-label">低湿度告警：</label>
+						<div class="controls">
+							<form:input path="lowHumidityAlarm" htmlEscape="false" class="input-xlarge  number"/>%
+						</div>
+					</div>
+					<div class="control-group">
+						<label class="control-label">预警电话：</label>
+						<div class="controls">
+							<form:input path="warningPhone1" htmlEscape="false" maxlength="255" style="width: 150px; "/>
+							<form:input path="warningPhone2" htmlEscape="false" maxlength="255" style="width: 150px; "/>
+							<form:input path="warningPhone3" htmlEscape="false" maxlength="255" style="width: 150px; "/>
+						</div>
+					</div>
+					<div class="control-group">
+						<label class="control-label">告警电话：</label>
+						<div class="controls">
+							<form:input path="alarmPhone1" htmlEscape="false" maxlength="255" style="width: 150px; "/>
+							<form:input path="alarmPhone2" htmlEscape="false" maxlength="255" style="width: 150px; "/>
+							<form:input path="alarmPhone3" htmlEscape="false" maxlength="255" style="width: 150px; "/>
+						</div>
+					</div>
+					<div class="control-group">
+						<label class="control-label">测量周期：</label>
+						<div class="controls">
+							<form:input path="measuerPeriod" htmlEscape="false" maxlength="255" class="input-xlarge  digits"/>分钟
+						</div>
+					</div>
+				</section>
+				<section id="panel-2">
+					<div class="control-group">
+						<label class="control-label">设备生产日期：</label>
+						<div class="controls">
+							<input name="dateOfEquipmentProduction" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate "
+								value="<fmt:formatDate value="${equipment.dateOfEquipmentProduction}" pattern="yyyy-MM-dd HH:mm:ss"/>"
+								onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:false});"/>
+						</div>
+					</div>
+					<div class="control-group">
+						<label class="control-label">设备购买日期：</label>
+						<div class="controls">
+							<input name="equipmentPurchaseDate" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate "
+								value="<fmt:formatDate value="${equipment.equipmentPurchaseDate}" pattern="yyyy-MM-dd HH:mm:ss"/>"
+								onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:false});"/>
+						</div>
+					</div>
+					<div class="control-group">
+						<label class="control-label">设备品牌：</label>
+						<div class="controls">
+							<form:input path="equipmentBrand" htmlEscape="false" class="input-xlarge "/>
+						</div>
+					</div>
+				</section>
+				<section id="panel-3">
+					<div class="control-group">
+						<label class="control-label">验证单位：</label>
+						<div class="controls">
+							<form:input path="verificationUnit" htmlEscape="false" maxlength="255" class="input-xlarge "/>
+						</div>
+					</div>
+					<div class="control-group">
+						<label class="control-label">验证时间：</label>
+						<div class="controls">
+							<input name="verificationTime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate "
+								value="<fmt:formatDate value="${equipment.verificationTime}" pattern="yyyy-MM-dd HH:mm:ss"/>"
+								onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:false});"/>
+						</div>
+					</div>
+					<div class="control-group">
+						<label class="control-label">认证报告：</label>
+						<div class="controls">
+							<form:input path="verificationReport" htmlEscape="false" maxlength="255" class="input-xlarge "/>
+						</div>
+					</div>
+				</section>
 			</div>
 		</div>
-		<div class="control-group">
-			<label class="control-label">负责人：</label>
-			<div class="controls">
-				<form:input path="managerId" htmlEscape="false" maxlength="64" class="input-xlarge "/>
-			</div>
-		</div>
-		<div class="control-group">
-			<label class="control-label">高温告警值：</label>
-			<div class="controls">
-				<form:input path="highTemperatureAlarm" htmlEscape="false" class="input-xlarge  number"/>
-			</div>
-		</div>
-		<div class="control-group">
-			<label class="control-label">高温预警值：</label>
-			<div class="controls">
-				<form:input path="highTemperatureWarning" htmlEscape="false" class="input-xlarge  number"/>
-			</div>
-		</div>
-		<div class="control-group">
-			<label class="control-label">低温预警值：</label>
-			<div class="controls">
-				<form:input path="lowTemperatureWarning" htmlEscape="false" class="input-xlarge  number"/>
-			</div>
-		</div>
-		<div class="control-group">
-			<label class="control-label">低温告警值：</label>
-			<div class="controls">
-				<form:input path="lowTemperatureAlarm" htmlEscape="false" class="input-xlarge  number"/>
-			</div>
-		</div>
-		<div class="control-group">
-			<label class="control-label">高湿度报警：</label>
-			<div class="controls">
-				<form:input path="highHumidityAlarm" htmlEscape="false" class="input-xlarge  number"/>
-			</div>
-		</div>
-		<div class="control-group">
-			<label class="control-label">高湿度预警：</label>
-			<div class="controls">
-				<form:input path="highHumidityWarning" htmlEscape="false" class="input-xlarge  number"/>
-			</div>
-		</div>
-		<div class="control-group">
-			<label class="control-label">低湿度预警：</label>
-			<div class="controls">
-				<form:input path="lowHumidityWarning" htmlEscape="false" class="input-xlarge  number"/>
-			</div>
-		</div>
-		<div class="control-group">
-			<label class="control-label">低湿度告警：</label>
-			<div class="controls">
-				<form:input path="lowHumidityAlarm" htmlEscape="false" class="input-xlarge  number"/>
-			</div>
-		</div>
-		<div class="control-group">
-			<label class="control-label">告警电话1：</label>
-			<div class="controls">
-				<form:input path="warningPhone1" htmlEscape="false" maxlength="255" class="input-xlarge "/>
-			</div>
-		</div>
-		<div class="control-group">
-			<label class="control-label">告警电话2：</label>
-			<div class="controls">
-				<form:input path="warningPhone2" htmlEscape="false" maxlength="255" class="input-xlarge "/>
-			</div>
-		</div>
-		<div class="control-group">
-			<label class="control-label">预警电话3：</label>
-			<div class="controls">
-				<form:input path="warningPhone3" htmlEscape="false" maxlength="255" class="input-xlarge "/>
-			</div>
-		</div>
-		<div class="control-group">
-			<label class="control-label">告警电话：</label>
-			<div class="controls">
-				<form:input path="alarmPhone1" htmlEscape="false" maxlength="255" class="input-xlarge "/>
-			</div>
-		</div>
-		<div class="control-group">
-			<label class="control-label">告警电话2：</label>
-			<div class="controls">
-				<form:input path="alarmPhone2" htmlEscape="false" maxlength="255" class="input-xlarge "/>
-			</div>
-		</div>
-		<div class="control-group">
-			<label class="control-label">告警电话3：</label>
-			<div class="controls">
-				<form:input path="alarmPhone3" htmlEscape="false" maxlength="255" class="input-xlarge "/>
-			</div>
-		</div>
-		<div class="control-group">
-			<label class="control-label">测量周期：</label>
-			<div class="controls">
-				<form:input path="measuerPeriod" htmlEscape="false" maxlength="255" class="input-xlarge  digits"/>
-			</div>
-		</div>
-		<div class="control-group">
-			<label class="control-label">设备生产日期：</label>
-			<div class="controls">
-				<input name="dateOfEquipmentProduction" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate "
-					value="<fmt:formatDate value="${equipment.dateOfEquipmentProduction}" pattern="yyyy-MM-dd HH:mm:ss"/>"
-					onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:false});"/>
-			</div>
-		</div>
-		<div class="control-group">
-			<label class="control-label">设备购买日期：</label>
-			<div class="controls">
-				<input name="equipmentPurchaseDate" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate "
-					value="<fmt:formatDate value="${equipment.equipmentPurchaseDate}" pattern="yyyy-MM-dd HH:mm:ss"/>"
-					onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:false});"/>
-			</div>
-		</div>
-		<div class="control-group">
-			<label class="control-label">设备品牌：</label>
-			<div class="controls">
-				<form:input path="equipmentBrand" htmlEscape="false" class="input-xlarge "/>
-			</div>
-		</div>
-		<div class="control-group">
-			<label class="control-label">验证单位：</label>
-			<div class="controls">
-				<form:input path="verificationUnit" htmlEscape="false" maxlength="255" class="input-xlarge "/>
-			</div>
-		</div>
-		<div class="control-group">
-			<label class="control-label">验证时间：</label>
-			<div class="controls">
-				<input name="verificationTime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate "
-					value="<fmt:formatDate value="${equipment.verificationTime}" pattern="yyyy-MM-dd HH:mm:ss"/>"
-					onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:false});"/>
-			</div>
-		</div>
-		<div class="control-group">
-			<label class="control-label">认证报告：</label>
-			<div class="controls">
-				<form:input path="verificationReport" htmlEscape="false" maxlength="255" class="input-xlarge "/>
-			</div>
-		</div>
+		
 		<%-- <div class="control-group">
 			<label class="control-label">部门ID：</label>
 			<div class="controls">

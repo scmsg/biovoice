@@ -19,6 +19,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.thinkgem.jeesite.common.config.Global;
 import com.thinkgem.jeesite.common.persistence.Page;
+import com.thinkgem.jeesite.common.utils.JacksonBundle;
 import com.thinkgem.jeesite.common.utils.StringUtils;
 import com.thinkgem.jeesite.common.web.BaseController;
 import com.thinkgem.jeesite.modules.bv.entity.client.Depatement;
@@ -52,6 +53,7 @@ public class DepatementController extends BaseController {
 	@RequiresPermissions("bv:client:depatement:view")
 	@RequestMapping(value = {"list", ""})
 	public String list(Depatement depatement, HttpServletRequest request, HttpServletResponse response, Model model) {
+		logger.info("depatement: "+JacksonBundle.nonNullMapper().toJson(depatement));
 		if(StringUtils.isEmpty(depatement.getCompanyId())){
 			depatement.setCompanyId(UserUtils.getUser().getCompany().getId());
 		}

@@ -19,8 +19,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.thinkgem.jeesite.common.config.Global;
 import com.thinkgem.jeesite.common.persistence.Page;
-import com.thinkgem.jeesite.common.web.BaseController;
+import com.thinkgem.jeesite.common.utils.JacksonBundle;
 import com.thinkgem.jeesite.common.utils.StringUtils;
+import com.thinkgem.jeesite.common.web.BaseController;
 import com.thinkgem.jeesite.modules.bv.entity.client.Trucks;
 import com.thinkgem.jeesite.modules.bv.service.client.TrucksService;
 
@@ -51,6 +52,7 @@ public class TrucksController extends BaseController {
 	@RequiresPermissions("bv:client:trucks:view")
 	@RequestMapping(value = {"list", ""})
 	public String list(Trucks trucks, HttpServletRequest request, HttpServletResponse response, Model model) {
+		logger.info("trucks: "+JacksonBundle.nonNullMapper().toJson(trucks));
 		Page<Trucks> page = trucksService.findPage(new Page<Trucks>(request, response), trucks); 
 		model.addAttribute("page", page);
 		if(StringUtils.isNotEmpty(trucks.getDepartmentId())){

@@ -24,6 +24,7 @@
 	<form:form id="searchForm" modelAttribute="warehouse" action="${ctx}/bv/client/warehouse/" method="post" class="breadcrumb form-search">
 		<input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
 		<input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>
+		<input id="departmentId" name="departmentId" type="hidden" value="${departmentId}"/>
 		<ul class="ul-form">
 			<li class="btns"><input id="btnSubmit" class="btn btn-primary" type="submit" value="查询"/></li>
 			<li class="clearfix"></li>
@@ -39,7 +40,7 @@
 				
 				<th>高温告警值</th>
 				<th>高温预警值</th>
-				<th>告警电话1</th>
+				<th>预警电话1</th>
 				<th>告警电话1</th>
 				
 				<shiro:hasPermission name="bv:client:warehouse:edit"><th>操作</th></shiro:hasPermission>
