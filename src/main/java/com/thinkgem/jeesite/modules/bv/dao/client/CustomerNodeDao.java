@@ -1,18 +1,18 @@
 /**
  * Copyright &copy; 2012-2016 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
  */
-package com.thinkgem.jeesite.modules.bv.dao;
+package com.thinkgem.jeesite.modules.bv.dao.client;
 
 import com.thinkgem.jeesite.common.persistence.CrudDao;
 import com.thinkgem.jeesite.common.persistence.annotation.MyBatisDao;
-import com.thinkgem.jeesite.modules.bv.entity.Depatement;
+import com.thinkgem.jeesite.modules.bv.entity.client.CustomerNode;
 
 /**
- * 部门DAO接口
+ * 客户节点DAO接口
  * @author jinxi
- * @version 2017-12-30
+ * @version 2018-01-07
  */
 @MyBatisDao
-public interface DepatementDao extends CrudDao<Depatement> {
+public interface CustomerNodeDao extends CrudDao<CustomerNode> {
 	
 }

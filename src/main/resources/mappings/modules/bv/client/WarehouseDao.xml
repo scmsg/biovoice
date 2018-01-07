@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.jeesite.modules.bv.dao.client.WarehouseDao">
+    
+	<sql id="warehouseColumns">
+		a.id AS "id",
+		a.warehouse_name AS "warehouseName",
+		a.manager_id AS "managerId",
+		a.warehouse_type AS "warehouseType",
+		a.high_temperature_alarm AS "highTemperatureAlarm",
+		a.high_temperature_warning AS "highTemperatureWarning",
+		a.low_temperature_warning AS "lowTemperatureWarning",
+		a.low_temperature_alarm AS "lowTemperatureAlarm",
+		a.high_humidity_alarm AS "highHumidityAlarm",
+		a.high_humidity_warning AS "highHumidityWarning",
+		a.low_humidity_warning AS "lowHumidityWarning",
+		a.low_humidity_alarm AS "lowHumidityAlarm",
+		a.warning_phone1 AS "warningPhone1",
+		a.warning_phone2 AS "warningPhone2",
+		a.warning_phone3 AS "warningPhone3",
+		a.alarm_phone1 AS "alarmPhone1",
+		a.alarm_phone2 AS "alarmPhone2",
+		a.alarm_phone3 AS "alarmPhone3",
+		a.measuer_period AS "measuerPeriod",
+		a.warehouse_area AS "warehouseArea",
+		a.outlet_num AS "outletNum",
+		a.build_time AS "buildTime",
+		a.construction_unit AS "constructionUnit",
+		a.warehouse_plan AS "warehousePlan",
+		a.warehouse_hight AS "warehouseHight",
+		a.placement AS "placement",
+		a.specification AS "specification",
+		a.verification_unit AS "verificationUnit",
+		a.verification_time AS "verificationTime",
+		a.verification_report AS "verificationReport",
+		a.department_id AS "departmentId",
+		a.create_time AS "createTime",
+		a.update_time AS "updateTime"
+	</sql>
+	
+	<sql id="warehouseJoins">
+	</sql>
+    
+	<select id="get" resultType="Warehouse">
+		SELECT 
+			<include refid="warehouseColumns"/>
+		FROM t_bv_warehouse a
+		<include refid="warehouseJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="Warehouse">
+		SELECT 
+			<include refid="warehouseColumns"/>
+		FROM t_bv_warehouse a
+		<include refid="warehouseJoins"/>
+		<where>
+			<if test="departmentId != null and departmentId != ''">
+				AND a.department_id = #{departmentId}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="Warehouse">
+		SELECT 
+			<include refid="warehouseColumns"/>
+		FROM t_bv_warehouse a
+		<include refid="warehouseJoins"/>
+		<where>
+			<if test="departmentId != null and departmentId != ''">
+				AND a.department_id = #{departmentId}
+			</if>
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO t_bv_warehouse(
+			id,
+			warehouse_name,
+			manager_id,
+			warehouse_type,
+			high_temperature_alarm,
+			high_temperature_warning,
+			low_temperature_warning,
+			low_temperature_alarm,
+			high_humidity_alarm,
+			high_humidity_warning,
+			low_humidity_warning,
+			low_humidity_alarm,
+			warning_phone1,
+			warning_phone2,
+			warning_phone3,
+			alarm_phone1,
+			alarm_phone2,
+			alarm_phone3,
+			measuer_period,
+			warehouse_area,
+			outlet_num,
+			build_time,
+			construction_unit,
+			warehouse_plan,
+			warehouse_hight,
+			placement,
+			specification,
+			verification_unit,
+			verification_time,
+			verification_report,
+			department_id,
+			create_time,
+			update_time
+		) VALUES (
+			#{id},
+			#{warehouseName},
+			#{managerId},
+			#{warehouseType},
+			#{highTemperatureAlarm},
+			#{highTemperatureWarning},
+			#{lowTemperatureWarning},
+			#{lowTemperatureAlarm},
+			#{highHumidityAlarm},
+			#{highHumidityWarning},
+			#{lowHumidityWarning},
+			#{lowHumidityAlarm},
+			#{warningPhone1},
+			#{warningPhone2},
+			#{warningPhone3},
+			#{alarmPhone1},
+			#{alarmPhone2},
+			#{alarmPhone3},
+			#{measuerPeriod},
+			#{warehouseArea},
+			#{outletNum},
+			#{buildTime},
+			#{constructionUnit},
+			#{warehousePlan},
+			#{warehouseHight},
+			#{placement},
+			#{specification},
+			#{verificationUnit},
+			#{verificationTime},
+			#{verificationReport},
+			#{departmentId},
+			#{createTime},
+			#{updateTime}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE t_bv_warehouse SET 	
+			warehouse_name = #{warehouseName},
+			manager_id = #{managerId},
+			warehouse_type = #{warehouseType},
+			high_temperature_alarm = #{highTemperatureAlarm},
+			high_temperature_warning = #{highTemperatureWarning},
+			low_temperature_warning = #{lowTemperatureWarning},
+			low_temperature_alarm = #{lowTemperatureAlarm},
+			high_humidity_alarm = #{highHumidityAlarm},
+			high_humidity_warning = #{highHumidityWarning},
+			low_humidity_warning = #{lowHumidityWarning},
+			low_humidity_alarm = #{lowHumidityAlarm},
+			warning_phone1 = #{warningPhone1},
+			warning_phone2 = #{warningPhone2},
+			warning_phone3 = #{warningPhone3},
+			alarm_phone1 = #{alarmPhone1},
+			alarm_phone2 = #{alarmPhone2},
+			alarm_phone3 = #{alarmPhone3},
+			measuer_period = #{measuerPeriod},
+			warehouse_area = #{warehouseArea},
+			outlet_num = #{outletNum},
+			build_time = #{buildTime},
+			construction_unit = #{constructionUnit},
+			warehouse_plan = #{warehousePlan},
+			warehouse_hight = #{warehouseHight},
+			placement = #{placement},
+			specification = #{specification},
+			verification_unit = #{verificationUnit},
+			verification_time = #{verificationTime},
+			verification_report = #{verificationReport},
+			department_id = #{departmentId},
+			create_time = #{createTime},
+			update_time = #{updateTime}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM t_bv_warehouse
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

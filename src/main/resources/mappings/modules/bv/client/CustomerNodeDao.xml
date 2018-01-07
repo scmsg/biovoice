@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.jeesite.modules.bv.dao.client.CustomerNodeDao">
+    
+	<sql id="customerNodeColumns">
+		a.id AS "id",
+		a.node_name AS "nodeName",
+		a.node_id AS "nodeId",
+		a.placement_position AS "placementPosition",
+		a.verification_time AS "verificationTime",
+		a.verification_report AS "verificationReport",
+		a.remarks AS "remarks",
+		a.use_place_type AS "usePlaceType",
+		a.use_place_id AS "usePlaceId",
+		a.create_time AS "createTime",
+		a.update_time AS "updateTime"
+	</sql>
+	
+	<sql id="customerNodeJoins">
+	</sql>
+    
+	<select id="get" resultType="CustomerNode">
+		SELECT 
+			<include refid="customerNodeColumns"/>
+		FROM t_bv_customer_node a
+		<include refid="customerNodeJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="CustomerNode">
+		SELECT 
+			<include refid="customerNodeColumns"/>
+		FROM t_bv_customer_node a
+		<include refid="customerNodeJoins"/>
+		<where>
+			<if test="usePlaceId != null and usePlaceId != ''">
+				AND a.use_place_id = #{usePlaceId}
+			</if>
+			<if test="usePlaceType != null and usePlaceType != ''">
+				AND a.use_place_type = #{usePlaceType}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="CustomerNode">
+		SELECT 
+			<include refid="customerNodeColumns"/>
+		FROM t_bv_customer_node a
+		<include refid="customerNodeJoins"/>
+		<where>
+			<if test="usePlaceId != null and usePlaceId != ''">
+				AND a.use_place_id = #{usePlaceId}
+			</if>
+			<if test="usePlaceType != null and usePlaceType != ''">
+				AND a.use_place_type = #{usePlaceType}
+			</if>
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO t_bv_customer_node(
+			id,
+			node_name,
+			node_id,
+			placement_position,
+			verification_time,
+			verification_report,
+			remarks,
+			use_place_type,
+			use_place_id,
+			create_time,
+			update_time
+		) VALUES (
+			#{id},
+			#{nodeName},
+			#{nodeId},
+			#{placementPosition},
+			#{verificationTime},
+			#{verificationReport},
+			#{remarks},
+			#{usePlaceType},
+			#{usePlaceId},
+			#{createTime},
+			#{updateTime}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE t_bv_customer_node SET 	
+			node_name = #{nodeName},
+			node_id = #{nodeId},
+			placement_position = #{placementPosition},
+			verification_time = #{verificationTime},
+			verification_report = #{verificationReport},
+			remarks = #{remarks},
+			use_place_type = #{usePlaceType},
+			use_place_id = #{usePlaceId},
+			create_time = #{createTime},
+			update_time = #{updateTime}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM t_bv_customer_node
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

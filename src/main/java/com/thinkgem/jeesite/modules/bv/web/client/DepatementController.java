@@ -1,7 +1,9 @@
 /**
  * Copyright &copy; 2012-2016 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
  */
-package com.thinkgem.jeesite.modules.bv.web;
+package com.thinkgem.jeesite.modules.bv.web.client;
+
+import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -17,18 +19,19 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.thinkgem.jeesite.common.config.Global;
 import com.thinkgem.jeesite.common.persistence.Page;
-import com.thinkgem.jeesite.common.web.BaseController;
 import com.thinkgem.jeesite.common.utils.StringUtils;
-import com.thinkgem.jeesite.modules.bv.entity.Depatement;
-import com.thinkgem.jeesite.modules.bv.service.DepatementService;
+import com.thinkgem.jeesite.common.web.BaseController;
+import com.thinkgem.jeesite.modules.bv.entity.client.Depatement;
+import com.thinkgem.jeesite.modules.bv.service.client.DepatementService;
+import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
 
 /**
  * 部门Controller
  * @author jinxi
- * @version 2017-12-30
+ * @version 2018-01-07
  */
 @Controller
-@RequestMapping(value = "${adminPath}/bv/depatement")
+@RequestMapping(value = "${adminPath}/bv/client/depatement")
 public class DepatementController extends BaseController {
 
 	@Autowired
@@ -46,38 +49,54 @@ public class DepatementController extends BaseController {
 		return entity;
 	}
 	
-	@RequiresPermissions("bv:depatement:view")
+	@RequiresPermissions("bv:client:depatement:view")
 	@RequestMapping(value = {"list", ""})
 	public String list(Depatement depatement, HttpServletRequest request, HttpServletResponse response, Model model) {
+		if(StringUtils.isEmpty(depatement.getCompanyId())){
+			depatement.setCompanyId(UserUtils.getUser().getCompany().getId());
+		}
+		if(StringUtils.isEmpty(depatement.getCompanyName())){
+			depatement.setCompanyName(UserUtils.getUser().getCompany().getName());
+		}
 		Page<Depatement> page = depatementService.findPage(new Page<Depatement>(request, response), depatement); 
 		model.addAttribute("page", page);
-		return "modules/bv/depatementList";
+		model.addAttribute("companyId", depatement.getCompanyId());
+		model.addAttribute("companyName", depatement.getCompanyName());
+		return "modules/bv/client/depatementList";
 	}
 
-	@RequiresPermissions("bv:depatement:view")
+	@RequiresPermissions("bv:client:depatement:view")
 	@RequestMapping(value = "form")
 	public String form(Depatement depatement, Model model) {
 		model.addAttribute("depatement", depatement);
-		return "modules/bv/depatementForm";
+		return "modules/bv/client/depatementForm";
 	}
 
-	@RequiresPermissions("bv:depatement:edit")
+	@RequiresPermissions("bv:client:depatement:edit")
 	@RequestMapping(value = "save")
 	public String save(Depatement depatement, Model model, RedirectAttributes redirectAttributes) {
 		if (!beanValidator(model, depatement)){
 			return form(depatement, model);
 		}
+		if(StringUtils.isEmpty(depatement.getCompanyId())){
+			depatement.setCompanyId(UserUtils.getUser().getCompany().getId());
+		}
+		if(StringUtils.isEmpty(depatement.getCompanyName())){
+			depatement.setCompanyName(UserUtils.getUser().getCompany().getName());
+		}
+		depatement.setCreateTime(new Date());
+		depatement.setUpdateTime(new Date());
 		depatementService.save(depatement);
 		addMessage(redirectAttributes, "保存部门成功");
-		return "redirect:"+Global.getAdminPath()+"/bv/depatement/?repage";
+		return "redirect:"+Global.getAdminPath()+"/bv/client/depatement/?repage";
 	}
 	
-	@RequiresPermissions("bv:depatement:edit")
+	@RequiresPermissions("bv:client:depatement:edit")
 	@RequestMapping(value = "delete")
 	public String delete(Depatement depatement, RedirectAttributes redirectAttributes) {
 		depatementService.delete(depatement);
 		addMessage(redirectAttributes, "删除部门成功");
-		return "redirect:"+Global.getAdminPath()+"/bv/depatement/?repage";
+		return "redirect:"+Global.getAdminPath()+"/bv/client/depatement/?repage";
 	}
 
 }

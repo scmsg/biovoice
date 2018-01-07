@@ -27,10 +27,10 @@
 </head>
 <body>
 	<ul class="nav nav-tabs">
-		<li><a href="${ctx}/bv/depatement/">部门列表</a></li>
-		<li class="active"><a href="${ctx}/bv/depatement/form?id=${depatement.id}">部门<shiro:hasPermission name="bv:depatement:edit">${not empty depatement.id?'修改':'添加'}</shiro:hasPermission><shiro:lacksPermission name="bv:depatement:edit">查看</shiro:lacksPermission></a></li>
+		<li><a href="${ctx}/bv/client/depatement/">部门列表</a></li>
+		<li class="active"><a href="${ctx}/bv/client/depatement/form?id=${depatement.id}">部门<shiro:hasPermission name="bv:client:depatement:edit">${not empty depatement.id?'修改':'添加'}</shiro:hasPermission><shiro:lacksPermission name="bv:client:depatement:edit">查看</shiro:lacksPermission></a></li>
 	</ul><br/>
-	<form:form id="inputForm" modelAttribute="depatement" action="${ctx}/bv/depatement/save" method="post" class="form-horizontal">
+	<form:form id="inputForm" modelAttribute="depatement" action="${ctx}/bv/client/depatement/save" method="post" class="form-horizontal">
 		<form:hidden path="id"/>
 		<sys:message content="${message}"/>		
 		<div class="control-group">
@@ -52,7 +52,7 @@
 			</div>
 		</div>
 		<div class="form-actions">
-			<shiro:hasPermission name="bv:depatement:edit"><input id="btnSubmit" class="btn btn-primary" type="submit" value="保 存"/>&nbsp;</shiro:hasPermission>
+			<shiro:hasPermission name="bv:client:depatement:edit"><input id="btnSubmit" class="btn btn-primary" type="submit" value="保 存"/>&nbsp;</shiro:hasPermission>
 			<input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
 		</div>
 	</form:form>

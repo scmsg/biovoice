@@ -1,7 +1,7 @@
 /**
  * Copyright &copy; 2012-2016 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
  */
-package com.thinkgem.jeesite.modules.bv.service;
+package com.thinkgem.jeesite.modules.bv.service.client;
 
 import java.util.List;
 
@@ -10,13 +10,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.thinkgem.jeesite.common.persistence.Page;
 import com.thinkgem.jeesite.common.service.CrudService;
-import com.thinkgem.jeesite.modules.bv.entity.Depatement;
-import com.thinkgem.jeesite.modules.bv.dao.DepatementDao;
+import com.thinkgem.jeesite.modules.bv.entity.client.Depatement;
+import com.thinkgem.jeesite.modules.bv.dao.client.DepatementDao;
 
 /**
  * 部门Service
  * @author jinxi
- * @version 2017-12-30
+ * @version 2018-01-07
  */
 @Service
 @Transactional(readOnly = true)

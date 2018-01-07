@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.jeesite.modules.bv.dao.client.TrucksDao">
+    
+	<sql id="trucksColumns">
+		a.id AS "id",
+		a.plate_number AS "plateNumber",
+		a.driver_name AS "driverName",
+		a.driver_contact AS "driverContact",
+		a.manager_id AS "managerId",
+		a.department_id AS "departmentId",
+		a.create_time AS "createTime",
+		a.update_time AS "updateTime"
+	</sql>
+	
+	<sql id="trucksJoins">
+	</sql>
+    
+	<select id="get" resultType="Trucks">
+		SELECT 
+			<include refid="trucksColumns"/>
+		FROM t_bv_trucks a
+		<include refid="trucksJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="Trucks">
+		SELECT 
+			<include refid="trucksColumns"/>
+		FROM t_bv_trucks a
+		<include refid="trucksJoins"/>
+		<where>
+			<if test="departmentId != null and departmentId != ''">
+				AND a.department_id = #{departmentId}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="Trucks">
+		SELECT 
+			<include refid="trucksColumns"/>
+		FROM t_bv_trucks a
+		<include refid="trucksJoins"/>
+		<where>
+			<if test="departmentId != null and departmentId != ''">
+				AND a.department_id = #{departmentId}
+			</if>
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO t_bv_trucks(
+			id,
+			plate_number,
+			driver_name,
+			driver_contact,
+			manager_id,
+			department_id,
+			create_time,
+			update_time
+		) VALUES (
+			#{id},
+			#{plateNumber},
+			#{driverName},
+			#{driverContact},
+			#{managerId},
+			#{departmentId},
+			#{createTime},
+			#{updateTime}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE t_bv_trucks SET 	
+			plate_number = #{plateNumber},
+			driver_name = #{driverName},
+			driver_contact = #{driverContact},
+			manager_id = #{managerId},
+			department_id = #{departmentId},
+			create_time = #{createTime},
+			update_time = #{updateTime}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM t_bv_trucks
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

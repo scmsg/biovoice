@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.thinkgem.jeesite.modules.bv.dao.DepatementDao">
+<mapper namespace="com.thinkgem.jeesite.modules.bv.dao.client.DepatementDao">
     
 	<sql id="depatementColumns">
 		a.id AS "id",
 		a.dept_name AS "deptName",
 		a.dept_hdea AS "deptHdea",
-		a.dead_mobile AS "deadMobile"
+		a.dead_mobile AS "deadMobile",
+		a.company_id AS "companyId",
+		a.company_name AS "companyName"
 	</sql>
 	
 	<sql id="depatementJoins">
@@ -26,7 +28,12 @@
 		FROM t_bv_depatement a
 		<include refid="depatementJoins"/>
 		<where>
-			
+			<if test="companyId != null and companyId != ''">
+				AND a.company_id = #{companyId}
+			</if>
+			<if test="companyName != null and companyName != ''">
+				AND a.company_name = #{companyName}
+			</if>
 		</where>
 		<choose>
 			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
@@ -43,7 +50,12 @@
 		FROM t_bv_depatement a
 		<include refid="depatementJoins"/>
 		<where>
-			
+			<if test="companyId != null and companyId != ''">
+				AND a.company_id = #{companyId}
+			</if>
+			<if test="companyName != null and companyName != ''">
+				AND a.company_name = #{companyName}
+			</if>
 		</where>		
 		<choose>
 			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
@@ -59,12 +71,18 @@
 			id,
 			dept_name,
 			dept_hdea,
-			dead_mobile
+			dead_mobile,
+			company_id,
+			company_name,
+			create_time
 		) VALUES (
 			#{id},
 			#{deptName},
 			#{deptHdea},
-			#{deadMobile}
+			#{deadMobile},
+			#{companyId},
+			#{companyName},
+			#{createTime}
 		)
 	</insert>
 	
