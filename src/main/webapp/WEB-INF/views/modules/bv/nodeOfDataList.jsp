@@ -61,7 +61,7 @@
 				<td>${nodeOfData.masterId}</td>
 				<td>${nodeOfData.nodeId}</td>
 				<td>${nodeOfData.productType eq 1?'温度':'温湿度'}</td>
-				<td>${nodeOfData.productType eq 1?'充电':'未充电'}</td>
+				<td>${nodeOfData.chargingState eq 1?'充电':'未充电'}</td>
 				
 				<td>${nodeOfData.battery}级</td>
 				<td>${nodeOfData.signalIntensity}级</td>

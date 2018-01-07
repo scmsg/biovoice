@@ -67,6 +67,7 @@
 				ORDER BY ${page.orderBy}
 			</when>
 			<otherwise>
+				ORDER BY a.time_tag DESC
 			</otherwise>
 		</choose>
 	</select>
