@@ -53,7 +53,8 @@
 	<select id="findPageGroubByNodeId" resultType="NodeOfData">
 		SELECT 
 			<include refid="nodeOfDataColumns"/>
-		FROM t_node_of_data a
+		<!-- FROM t_node_of_data a -->
+		FROM (SELECT * FROM t_node_of_data ORDER BY time_tag DESC) AS a
 		<include refid="nodeOfDataJoins"/>
 		<where>
 			<if test="nodeId != null and nodeId != ''">
