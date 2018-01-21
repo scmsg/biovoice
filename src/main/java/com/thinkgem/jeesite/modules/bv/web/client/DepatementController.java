@@ -86,7 +86,9 @@ public class DepatementController extends BaseController {
 		if(StringUtils.isEmpty(depatement.getCompanyName())){
 			depatement.setCompanyName(UserUtils.getUser().getCompany().getName());
 		}
-		depatement.setCreateTime(new Date());
+		if(StringUtils.isEmpty(depatement.getId())){
+			depatement.setCreateTime(new Date());
+		}
 		depatement.setUpdateTime(new Date());
 		depatementService.save(depatement);
 		addMessage(redirectAttributes, "保存部门成功");

@@ -29,7 +29,7 @@
 </head>
 <body>
 	<ul class="nav nav-tabs">
-		<li><a href="${ctx}/bv/client/warehouse/">仓库管理列表</a></li>
+		<li><a href="${ctx}/bv/client/warehouse/list?departmentId=${departmentId}">仓库管理列表</a></li>
 		<li class="active"><a href="${ctx}/bv/client/warehouse/form?id=${warehouse.id}">仓库管理<shiro:hasPermission name="bv:client:warehouse:edit">${not empty warehouse.id?'修改':'添加'}</shiro:hasPermission><shiro:lacksPermission name="bv:client:warehouse:edit">查看</shiro:lacksPermission></a></li>
 	</ul><br/>
 	<form:form id="inputForm" modelAttribute="warehouse" action="${ctx}/bv/client/warehouse/save" method="post" class="form-horizontal">

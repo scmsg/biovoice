@@ -18,7 +18,7 @@
 </head>
 <body>
 	<ul class="nav nav-tabs">
-		<li class="active"><a href="${ctx}/bv/client/warehouse/">仓库管理列表</a></li>
+		<li class="active"><a href="${ctx}/bv/client/warehouse/list?departmentId=${departmentId}">仓库管理列表</a></li>
 		<%-- <shiro:hasPermission name="bv:client:warehouse:edit"><li><a href="${ctx}/bv/client/warehouse/form">仓库管理添加</a></li></shiro:hasPermission> --%>
 	</ul>
 	<form:form id="searchForm" modelAttribute="warehouse" action="${ctx}/bv/client/warehouse/" method="post" class="breadcrumb form-search">

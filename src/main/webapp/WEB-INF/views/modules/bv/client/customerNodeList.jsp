@@ -18,7 +18,7 @@
 </head>
 <body>
 	<ul class="nav nav-tabs">
-		<li class="active"><a href="${ctx}/bv/client/customerNode/">客户节点列表</a></li>
+		<%-- <li class="active"><a href="${ctx}/bv/client/customerNode/">客户节点列表</a></li> --%>
 		<%-- <shiro:hasPermission name="bv:client:customerNode:edit"><li><a href="${ctx}/bv/client/customerNode/form">客户节点添加</a></li></shiro:hasPermission> --%>
 	</ul>
 	<form:form id="searchForm" modelAttribute="customerNode" action="${ctx}/bv/client/customerNode/" method="post" class="breadcrumb form-search">
@@ -50,7 +50,10 @@
 				<td>${customerNode.nodeName}</td>
 				<td>${customerNode.nodeId}</td>
 				<td>${customerNode.placementPosition}</td>
-				<td>${customerNode.verificationTime}</td>
+				<td>
+					<jsp:useBean id="timestamp" class="java.util.Date"/>  
+			    	<fmt:formatDate value="${customerNode.verificationTime}" pattern="yyyy-MM-dd HH:mm:ss" type="both"/>
+				</td>
 				<td>${customerNode.verificationReport}</td>
 				<td>${customerNode.remarks}</td>
 				<shiro:hasPermission name="bv:client:customerNode:edit"><td>

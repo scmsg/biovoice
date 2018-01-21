@@ -4,9 +4,10 @@
 package com.thinkgem.jeesite.modules.bv.entity.client;
 
 import org.hibernate.validator.constraints.Length;
-import java.util.Date;
-import com.fasterxml.jackson.annotation.JsonFormat;
 
+import java.util.Date;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.thinkgem.jeesite.common.persistence.DataEntity;
 
 /**
@@ -17,6 +18,7 @@ import com.thinkgem.jeesite.common.persistence.DataEntity;
 public class Equipment extends DataEntity<Equipment> {
 	
 	private static final long serialVersionUID = 1L;
+	private String usePlaceId;			//使用场所ID
 	private String equipmentName;		// 设备名称
 	private String managerId;		// 负责人
 	private Float highTemperatureAlarm;		// 高温告警值
@@ -52,6 +54,14 @@ public class Equipment extends DataEntity<Equipment> {
 		super(id);
 	}
 
+	public String getUsePlaceId() {
+		return usePlaceId;
+	}
+
+	public void setUsePlaceId(String usePlaceId) {
+		this.usePlaceId = usePlaceId;
+	}
+	
 	@Length(min=0, max=255, message="设备名称长度必须介于 0 和 255 之间")
 	public String getEquipmentName() {
 		return equipmentName;

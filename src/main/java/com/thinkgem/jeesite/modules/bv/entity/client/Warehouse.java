@@ -17,6 +17,7 @@ import com.thinkgem.jeesite.common.persistence.DataEntity;
 public class Warehouse extends DataEntity<Warehouse> {
 	
 	private static final long serialVersionUID = 1L;
+	private String usePlaceId;			//使用场所ID
 	private String warehouseName;		// 仓库名称
 	private String managerId;		// 负责人
 	private String warehouseType;		// 仓库类型
@@ -56,6 +57,14 @@ public class Warehouse extends DataEntity<Warehouse> {
 
 	public Warehouse(String id){
 		super(id);
+	}
+	
+	public String getUsePlaceId() {
+		return usePlaceId;
+	}
+
+	public void setUsePlaceId(String usePlaceId) {
+		this.usePlaceId = usePlaceId;
 	}
 
 	@Length(min=0, max=255, message="仓库名称长度必须介于 0 和 255 之间")

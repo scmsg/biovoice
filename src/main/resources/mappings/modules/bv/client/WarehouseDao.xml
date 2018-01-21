@@ -4,6 +4,7 @@
     
 	<sql id="warehouseColumns">
 		a.id AS "id",
+		a.use_place_Id AS "usePlaceId",
 		a.warehouse_name AS "warehouseName",
 		a.manager_id AS "managerId",
 		a.warehouse_type AS "warehouseType",
@@ -58,6 +59,9 @@
 			<if test="departmentId != null and departmentId != ''">
 				AND a.department_id = #{departmentId}
 			</if>
+			<if test="usePlaceId != null and usePlaceId != ''">
+				AND a.use_place_Id = #{usePlaceId}
+			</if>
 		</where>
 		<choose>
 			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
@@ -77,6 +81,9 @@
 			<if test="departmentId != null and departmentId != ''">
 				AND a.department_id = #{departmentId}
 			</if>
+			<if test="usePlaceId != null and usePlaceId != ''">
+				AND a.use_place_Id = #{usePlaceId}
+			</if>
 		</where>		
 		<choose>
 			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
@@ -90,6 +97,7 @@
 	<insert id="insert">
 		INSERT INTO t_bv_warehouse(
 			id,
+			use_place_Id,
 			warehouse_name,
 			manager_id,
 			warehouse_type,
@@ -124,6 +132,7 @@
 			update_time
 		) VALUES (
 			#{id},
+			#{usePlaceId},
 			#{warehouseName},
 			#{managerId},
 			#{warehouseType},
@@ -161,6 +170,7 @@
 	
 	<update id="update">
 		UPDATE t_bv_warehouse SET 	
+			use_place_Id = #{usePlaceId},
 			warehouse_name = #{warehouseName},
 			manager_id = #{managerId},
 			warehouse_type = #{warehouseType},

@@ -4,6 +4,7 @@
 package com.thinkgem.jeesite.modules.bv.web.client;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -22,8 +23,11 @@ import com.thinkgem.jeesite.common.persistence.Page;
 import com.thinkgem.jeesite.common.utils.JacksonBundle;
 import com.thinkgem.jeesite.common.utils.StringUtils;
 import com.thinkgem.jeesite.common.web.BaseController;
+import com.thinkgem.jeesite.modules.bv.entity.client.Equipment;
 import com.thinkgem.jeesite.modules.bv.entity.client.Trucks;
+import com.thinkgem.jeesite.modules.bv.entity.client.UsePlace;
 import com.thinkgem.jeesite.modules.bv.service.client.TrucksService;
+import com.thinkgem.jeesite.modules.bv.service.client.UsePlaceService;
 
 /**
  * 车辆管理Controller
@@ -37,11 +41,21 @@ public class TrucksController extends BaseController {
 	@Autowired
 	private TrucksService trucksService;
 	
+	@Autowired
+	private UsePlaceService usePlaceService;
+	
 	@ModelAttribute
-	public Trucks get(@RequestParam(required=false) String id) {
+	public Trucks get(@RequestParam(required=false) String id, @RequestParam(required=false) String usePlaceId) {
 		Trucks entity = null;
 		if (StringUtils.isNotBlank(id)){
 			entity = trucksService.get(id);
+		}else if(StringUtils.isNotBlank(usePlaceId)){
+			Trucks trucks = new Trucks();
+			trucks.setUsePlaceId(usePlaceId);
+			List<Trucks> trucksList = trucksService.findList(trucks);
+			if(trucksList != null && trucksList.size() == 1){
+				entity = trucksList.get(0);
+			}
 		}
 		if (entity == null){
 			entity = new Trucks();
@@ -79,11 +93,42 @@ public class TrucksController extends BaseController {
 			addMessage(model, "参数异常，请联系管理员");
 			return form(trucks, model);
 		}
-		trucks.setCreateTime(new Date());
-		trucks.setUpdateTime(new Date());
+		Date nowDate = new Date();
+		trucks.setCreateTime(nowDate);
+		trucks.setUpdateTime(nowDate);
+		
+		if(StringUtils.isEmpty(trucks.getId())){
+			trucks.setCreateTime(nowDate);
+		}
+		trucks.setUpdateTime(nowDate);
+		
+		//保存主表
+		UsePlace usePlace = new UsePlace();
+		if(StringUtils.isEmpty(trucks.getUsePlaceId())){
+			//保存主表
+			usePlace.setCreateTime(nowDate);
+		}else{
+			usePlace.setId(trucks.getUsePlaceId());
+			usePlace = usePlaceService.get(usePlace);
+		}
+		
+		usePlace.setName(trucks.getPlateNumber());
+		usePlace.setManagerId(trucks.getManagerId());
+		usePlace.setWarningPhone(trucks.getDriverContact());
+		usePlace.setAlarmPhone(trucks.getDriverContact());
+		
+		usePlace.setDepartmentId(trucks.getDepartmentId());
+		usePlace.setUsePlaceType(3);
+		usePlace.setUpdateTime(nowDate);
+		
+		usePlaceService.save(usePlace);
+		usePlace.setUsePlaceId(usePlace.getId());
+		usePlaceService.save(usePlace);
+		
+		trucks.setUsePlaceId(usePlace.getId());
 		trucksService.save(trucks);
 		addMessage(redirectAttributes, "保存车辆管理成功");
-		return "redirect:"+Global.getAdminPath()+"/bv/client/trucks/?repage";
+		return "redirect:"+Global.getAdminPath()+"/bv/client/trucks/list?departmentId="+trucks.getDepartmentId();
 	}
 	
 	@RequiresPermissions("bv:client:trucks:edit")

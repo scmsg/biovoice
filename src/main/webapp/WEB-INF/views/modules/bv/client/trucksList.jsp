@@ -18,7 +18,7 @@
 </head>
 <body>
 	<ul class="nav nav-tabs">
-		<li class="active"><a href="${ctx}/bv/client/trucks/">车辆管理列表</a></li>
+		<li class="active"><a href="${ctx}/bv/client/trucks/list?departmentId=${departmentId}">车辆管理列表</a></li>
 		<%-- <shiro:hasPermission name="bv:client:trucks:edit"><li><a href="${ctx}/bv/client/trucks/form">车辆管理添加</a></li></shiro:hasPermission> --%>
 	</ul>
 	<form:form id="searchForm" modelAttribute="trucks" action="${ctx}/bv/client/trucks/" method="post" class="breadcrumb form-search">

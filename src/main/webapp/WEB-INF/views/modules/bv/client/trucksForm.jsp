@@ -27,7 +27,7 @@
 </head>
 <body>
 	<ul class="nav nav-tabs">
-		<li><a href="${ctx}/bv/client/trucks/">车辆管理列表</a></li>
+		<li><a href="${ctx}/bv/client/trucks/list?departmentId=${departmentId}">车辆管理列表</a></li>
 		<li class="active"><a href="${ctx}/bv/client/trucks/form?id=${trucks.id}">车辆管理<shiro:hasPermission name="bv:client:trucks:edit">${not empty trucks.id?'修改':'添加'}</shiro:hasPermission><shiro:lacksPermission name="bv:client:trucks:edit">查看</shiro:lacksPermission></a></li>
 	</ul><br/>
 	<form:form id="inputForm" modelAttribute="trucks" action="${ctx}/bv/client/trucks/save" method="post" class="form-horizontal">

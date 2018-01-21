@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.jeesite.modules.bv.dao.client.UsePlaceDao">
+    
+	<sql id="usePlaceColumns">
+		a.id AS "id",
+		a.name AS "name",
+		a.manager_id AS "managerId",
+		a.warning_phone AS "warningPhone",
+		a.alarm_phone AS "alarmPhone",
+		a.measuer_period AS "measuerPeriod",
+		a.department_id AS "departmentId",
+		a.use_place_id AS "usePlaceId",
+		a.use_place_type AS "usePlaceType",
+		a.create_time AS "createTime",
+		a.update_time AS "updateTime"
+	</sql>
+	
+	<sql id="usePlaceJoins">
+	</sql>
+    
+	<select id="get" resultType="UsePlace">
+		SELECT 
+			<include refid="usePlaceColumns"/>
+		FROM t_bv_use_place a
+		<include refid="usePlaceJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="UsePlace">
+		SELECT 
+			<include refid="usePlaceColumns"/>
+		FROM t_bv_use_place a
+		<include refid="usePlaceJoins"/>
+		<where>
+			<if test="departmentId != null and departmentId != ''">
+				AND a.department_id = #{departmentId}
+			</if>
+			
+			<if test="name != null and name != ''">
+				AND a.name LIKE 
+					<if test="dbName == 'oracle'">'%'||#{name}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{name}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{name},'%')</if>
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="UsePlace">
+		SELECT 
+			<include refid="usePlaceColumns"/>
+		FROM t_bv_use_place a
+		<include refid="usePlaceJoins"/>
+		<where>
+			<if test="departmentId != null and departmentId != ''">
+				AND a.department_id = #{departmentId}
+			</if>
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO t_bv_use_place(
+			id,
+			name,
+			manager_id,
+			warning_phone,
+			alarm_phone,
+			measuer_period,
+			department_id,
+			use_place_id,
+			use_place_type,
+			create_time,
+			update_time
+		) VALUES (
+			#{id},
+			#{name},
+			#{managerId},
+			#{warningPhone},
+			#{alarmPhone},
+			#{measuerPeriod},
+			#{departmentId},
+			#{usePlaceId},
+			#{usePlaceType},
+			#{createTime},
+			#{updateTime}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE t_bv_use_place SET 	
+			name = #{name},
+			manager_id = #{managerId},
+			warning_phone = #{warningPhone},
+			alarm_phone = #{alarmPhone},
+			measuer_period = #{measuerPeriod},
+			department_id = #{departmentId},
+			use_place_id = #{usePlaceId},
+			use_place_type = #{usePlaceType},
+			create_time = #{createTime},
+			update_time = #{updateTime}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM t_bv_use_place
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

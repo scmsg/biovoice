@@ -3,6 +3,7 @@
  */
 package com.thinkgem.jeesite.modules.sys.utils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.shiro.SecurityUtils;
@@ -14,6 +15,14 @@ import org.apache.shiro.subject.Subject;
 import com.thinkgem.jeesite.common.service.BaseService;
 import com.thinkgem.jeesite.common.utils.CacheUtils;
 import com.thinkgem.jeesite.common.utils.SpringContextHolder;
+import com.thinkgem.jeesite.modules.bv.entity.client.Depatement;
+import com.thinkgem.jeesite.modules.bv.entity.client.Equipment;
+import com.thinkgem.jeesite.modules.bv.entity.client.Trucks;
+import com.thinkgem.jeesite.modules.bv.entity.client.Warehouse;
+import com.thinkgem.jeesite.modules.bv.service.client.DepatementService;
+import com.thinkgem.jeesite.modules.bv.service.client.EquipmentService;
+import com.thinkgem.jeesite.modules.bv.service.client.TrucksService;
+import com.thinkgem.jeesite.modules.bv.service.client.WarehouseService;
 import com.thinkgem.jeesite.modules.sys.dao.AreaDao;
 import com.thinkgem.jeesite.modules.sys.dao.MenuDao;
 import com.thinkgem.jeesite.modules.sys.dao.OfficeDao;
@@ -25,6 +34,7 @@ import com.thinkgem.jeesite.modules.sys.entity.Office;
 import com.thinkgem.jeesite.modules.sys.entity.Role;
 import com.thinkgem.jeesite.modules.sys.entity.User;
 import com.thinkgem.jeesite.modules.sys.security.SystemAuthorizingRealm.Principal;
+import com.thinkgem.jeesite.modules.sys.vo.ZtreeNode;
 
 /**
  * 用户工具类
@@ -38,11 +48,27 @@ public class UserUtils {
 	private static MenuDao menuDao = SpringContextHolder.getBean(MenuDao.class);
 	private static AreaDao areaDao = SpringContextHolder.getBean(AreaDao.class);
 	private static OfficeDao officeDao = SpringContextHolder.getBean(OfficeDao.class);
+	
+//	@Autowired
+//	private DepatementService depatementService;
+//	@Autowired
+//	private WarehouseService warehouseService;
+//	@Autowired
+//	private EquipmentService equipmentService;
+//	@Autowired
+//	private TrucksService trucksService;
+	
+	private static DepatementService depatementService = SpringContextHolder.getBean(DepatementService.class);
+	private static WarehouseService warehouseService = SpringContextHolder.getBean(WarehouseService.class);
+	private static EquipmentService equipmentService = SpringContextHolder.getBean(EquipmentService.class);
+	private static TrucksService trucksService = SpringContextHolder.getBean(TrucksService.class);
 
 	public static final String USER_CACHE = "userCache";
 	public static final String USER_CACHE_ID_ = "id_";
 	public static final String USER_CACHE_LOGIN_NAME_ = "ln";
 	public static final String USER_CACHE_LIST_BY_OFFICE_ID_ = "oid_";
+	
+	public static final String USER_CACHE_ZTREE_ = "ztree_";
 	
 	public static final String CACHE_AUTH_INFO = "authInfo";
 	public static final String CACHE_ROLE_LIST = "roleList";
@@ -66,6 +92,9 @@ public class UserUtils {
 			user.setRoleList(roleDao.findList(new Role(user)));
 			CacheUtils.put(USER_CACHE, USER_CACHE_ID_ + user.getId(), user);
 			CacheUtils.put(USER_CACHE, USER_CACHE_LOGIN_NAME_ + user.getLoginName(), user);
+			
+			//校验用户是否只有客户端权限
+			
 		}
 		return user;
 	}
@@ -113,6 +142,7 @@ public class UserUtils {
 		if (user.getOffice() != null && user.getOffice().getId() != null){
 			CacheUtils.remove(USER_CACHE, USER_CACHE_LIST_BY_OFFICE_ID_ + user.getOffice().getId());
 		}
+		CacheUtils.remove(USER_CACHE, USER_CACHE_ZTREE_ + user.getId());
 	}
 	
 	/**
@@ -207,6 +237,104 @@ public class UserUtils {
 			putCache(CACHE_OFFICE_LIST, officeList);
 		}
 		return officeList;
+	}
+	
+	/**
+	 * 普通用户，获取树型菜单
+	 * @return
+	 */
+	@SuppressWarnings("unchecked")
+	public static List<ZtreeNode> getZtreeNodeList(){
+		User user = getUser();
+		List<ZtreeNode> ztreeNodes = (List<ZtreeNode>) CacheUtils.get(USER_CACHE, USER_CACHE_ZTREE_ + user.getId());
+		
+		if(null == ztreeNodes || ztreeNodes.size() == 0){
+			ztreeNodes = getZtreeNodeList(user);
+		}
+		
+		if(ztreeNodes != null && ztreeNodes.size() > 0){
+			CacheUtils.put(USER_CACHE, USER_CACHE_ZTREE_ + user.getId(), ztreeNodes);
+		}
+		return ztreeNodes;
+	}
+	
+	private static List<ZtreeNode> getZtreeNodeList(User user){
+		Office company = user.getCompany();
+		
+		String companyId = company.getId();
+		
+		Depatement depatement = new Depatement();
+		depatement.setCompanyId(companyId);
+		List<Depatement> depatements = depatementService.findList(depatement);
+		
+		List<ZtreeNode> ztreeNodes = new ArrayList<ZtreeNode>();
+		ZtreeNode ztreeNode = null;
+		ztreeNode = new ZtreeNode();
+		ztreeNode.setId(company.getId());
+		ztreeNode.setPId(company.getParentId());
+		ztreeNode.setName(company.getName());
+		ztreeNode.setFile("/bv/client/depatement");
+		ztreeNode.setOpen("true");
+		ztreeNodes.add(ztreeNode);
+		
+		if(depatements != null && depatements.size() > 0){
+			for(Depatement dep : depatements){
+				ztreeNode = new ZtreeNode();
+				ztreeNode.setId(dep.getId());
+				ztreeNode.setPId(company.getId());
+				ztreeNode.setName(dep.getDeptName());
+				//链接跳到所有仓库/设备/车辆的信息列表
+				ztreeNode.setFile("/bv/client/usePlace/list?departmentId="+dep.getId());
+				ztreeNode.setOpen("false");
+				ztreeNodes.add(ztreeNode);
+				
+				//dept == >> Equipment\Warehouse\Trucks
+				Warehouse warehouse = new Warehouse();
+				warehouse.setDepartmentId(dep.getId());
+				List<Warehouse> warehouseList = warehouseService.findList(warehouse);
+				if(warehouseList != null && warehouseList.size() > 0){
+					for(Warehouse w : warehouseList){
+						ztreeNode = new ZtreeNode();
+						ztreeNode.setId(w.getId());
+						ztreeNode.setPId(dep.getId());
+						ztreeNode.setName(w.getWarehouseName());
+						ztreeNode.setFile("/bv/client/customerNode/list?usePlaceId="+w.getId()+"&usePlaceType=1");
+						ztreeNode.setOpen("false");
+						ztreeNodes.add(ztreeNode);
+					}
+				}
+				Equipment equipment = new Equipment();
+				equipment.setDepartmentId(dep.getId());
+				List<Equipment> equipmentlist = equipmentService.findList(equipment);
+				if(equipmentlist != null && equipmentlist.size() > 0){
+					for(Equipment e : equipmentlist){
+						ztreeNode = new ZtreeNode();
+						ztreeNode.setId(e.getId());
+						ztreeNode.setPId(dep.getId());
+						ztreeNode.setName(e.getEquipmentName());
+						ztreeNode.setFile("/bv/client/customerNode/list?usePlaceId="+e.getId()+"&usePlaceType=2");
+						ztreeNode.setOpen("false");
+						ztreeNodes.add(ztreeNode);
+					}
+				}
+
+				Trucks trucks = new Trucks();
+				trucks.setDepartmentId(dep.getId());
+				List<Trucks> trucksList = trucksService.findList(trucks);
+				if(trucksList != null && trucksList.size() > 0){
+					for(Trucks t : trucksList){
+						ztreeNode = new ZtreeNode();
+						ztreeNode.setId(t.getId());
+						ztreeNode.setPId(dep.getId());
+						ztreeNode.setName(t.getPlateNumber());
+						ztreeNode.setFile("/bv/client/customerNode/list?usePlaceId="+t.getId()+"&usePlaceType=3");
+						ztreeNode.setOpen("false");
+						ztreeNodes.add(ztreeNode);
+					}
+				}
+			}
+		}
+		return ztreeNodes;
 	}
 
 	/**

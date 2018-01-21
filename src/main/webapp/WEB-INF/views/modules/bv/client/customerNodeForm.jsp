@@ -27,7 +27,7 @@
 </head>
 <body>
 	<ul class="nav nav-tabs">
-		<li><a href="${ctx}/bv/client/customerNode/">客户节点列表</a></li>
+		<%-- <li><a href="${ctx}/bv/client/customerNode/">客户节点列表</a></li> --%>
 		<li class="active"><a href="${ctx}/bv/client/customerNode/form?id=${customerNode.id}">客户节点<shiro:hasPermission name="bv:client:customerNode:edit">${not empty customerNode.id?'修改':'添加'}</shiro:hasPermission><shiro:lacksPermission name="bv:client:customerNode:edit">查看</shiro:lacksPermission></a></li>
 	</ul><br/>
 	<form:form id="inputForm" modelAttribute="customerNode" action="${ctx}/bv/client/customerNode/save" method="post" class="form-horizontal">

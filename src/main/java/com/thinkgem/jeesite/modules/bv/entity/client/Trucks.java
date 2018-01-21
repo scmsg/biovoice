@@ -4,9 +4,10 @@
 package com.thinkgem.jeesite.modules.bv.entity.client;
 
 import org.hibernate.validator.constraints.Length;
-import java.util.Date;
-import com.fasterxml.jackson.annotation.JsonFormat;
 
+import java.util.Date;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.thinkgem.jeesite.common.persistence.DataEntity;
 
 /**
@@ -17,6 +18,7 @@ import com.thinkgem.jeesite.common.persistence.DataEntity;
 public class Trucks extends DataEntity<Trucks> {
 	
 	private static final long serialVersionUID = 1L;
+	private String usePlaceId;			//使用场所ID
 	private String plateNumber;		// 车牌号码
 	private String driverName;		// 司机
 	private String driverContact;		// 联系方式
@@ -31,6 +33,14 @@ public class Trucks extends DataEntity<Trucks> {
 
 	public Trucks(String id){
 		super(id);
+	}
+	
+	public String getUsePlaceId() {
+		return usePlaceId;
+	}
+
+	public void setUsePlaceId(String usePlaceId) {
+		this.usePlaceId = usePlaceId;
 	}
 
 	@Length(min=0, max=255, message="车牌号码长度必须介于 0 和 255 之间")

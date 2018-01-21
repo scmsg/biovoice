@@ -4,6 +4,7 @@
 package com.thinkgem.jeesite.modules.bv.web.client;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -23,7 +24,9 @@ import com.thinkgem.jeesite.common.utils.JacksonBundle;
 import com.thinkgem.jeesite.common.utils.StringUtils;
 import com.thinkgem.jeesite.common.web.BaseController;
 import com.thinkgem.jeesite.modules.bv.entity.client.Equipment;
+import com.thinkgem.jeesite.modules.bv.entity.client.UsePlace;
 import com.thinkgem.jeesite.modules.bv.service.client.EquipmentService;
+import com.thinkgem.jeesite.modules.bv.service.client.UsePlaceService;
 
 /**
  * 设备管理Controller
@@ -37,11 +40,21 @@ public class EquipmentController extends BaseController {
 	@Autowired
 	private EquipmentService equipmentService;
 	
+	@Autowired
+	private UsePlaceService usePlaceService;
+	
 	@ModelAttribute
-	public Equipment get(@RequestParam(required=false) String id) {
+	public Equipment get(@RequestParam(required=false) String id, @RequestParam(required=false) String usePlaceId) {
 		Equipment entity = null;
 		if (StringUtils.isNotBlank(id)){
 			entity = equipmentService.get(id);
+		}else if(StringUtils.isNotBlank(usePlaceId)){
+			Equipment equipment = new Equipment();
+			equipment.setUsePlaceId(usePlaceId);
+			List<Equipment> equipments = equipmentService.findList(equipment);
+			if(equipments != null && equipments.size() == 1){
+				entity = equipments.get(0);
+			}
 		}
 		if (entity == null){
 			entity = new Equipment();
@@ -79,11 +92,40 @@ public class EquipmentController extends BaseController {
 			addMessage(model, "参数异常，请联系管理员");
 			return form(equipment, model);
 		}
-		equipment.setCreateTime(new Date());
-		equipment.setUpdateTime(new Date());
+		Date nowDate = new Date();
+		if(StringUtils.isEmpty(equipment.getId())){
+			equipment.setCreateTime(nowDate);
+		}
+		equipment.setUpdateTime(nowDate);
+		
+		//保存主表
+		UsePlace usePlace = new UsePlace();
+		if(StringUtils.isEmpty(equipment.getUsePlaceId())){
+			//保存主表
+			usePlace.setCreateTime(nowDate);
+		}else{
+			usePlace.setId(equipment.getUsePlaceId());
+			usePlace = usePlaceService.get(usePlace);
+		}
+		usePlace.setName(equipment.getEquipmentName());
+		usePlace.setManagerId(equipment.getManagerId());
+		usePlace.setWarningPhone(equipment.getWarningPhone1());
+		usePlace.setAlarmPhone(equipment.getAlarmPhone1());
+		usePlace.setMeasuerPeriod(equipment.getMeasuerPeriod());
+		
+		usePlace.setDepartmentId(equipment.getDepartmentId());
+		usePlace.setUsePlaceType(2);
+		
+		usePlace.setUpdateTime(nowDate);
+		
+		usePlaceService.save(usePlace);
+		usePlace.setUsePlaceId(usePlace.getId());
+		usePlaceService.save(usePlace);
+		
+		equipment.setUsePlaceId(usePlace.getId());
 		equipmentService.save(equipment);
 		addMessage(redirectAttributes, "保存设备管理成功");
-		return "redirect:"+Global.getAdminPath()+"/bv/client/equipment/?repage";
+		return "redirect:"+Global.getAdminPath()+"/bv/client/equipment/list?departmentId="+equipment.getDepartmentId();
 	}
 	
 	@RequiresPermissions("bv:client:equipment:edit")

@@ -87,7 +87,9 @@ public class CustomerNodeController extends BaseController {
 			addMessage(model, "参数异常，请联系管理员!!");
 			return form(customerNode, model);
 		}
-		customerNode.setCreateTime(new Date());
+		if(StringUtils.isEmpty(customerNode.getId())){
+			customerNode.setCreateTime(new Date());
+		}
 		customerNode.setUpdateTime(new Date());
 		customerNodeService.save(customerNode);
 		addMessage(redirectAttributes, "保存客户节点成功");
