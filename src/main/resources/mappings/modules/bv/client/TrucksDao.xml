@@ -4,6 +4,7 @@
     
 	<sql id="trucksColumns">
 		a.id AS "id",
+		a.use_place_Id AS "usePlaceId",
 		a.plate_number AS "plateNumber",
 		a.driver_name AS "driverName",
 		a.driver_contact AS "driverContact",
@@ -33,6 +34,9 @@
 			<if test="departmentId != null and departmentId != ''">
 				AND a.department_id = #{departmentId}
 			</if>
+			<if test="usePlaceId != null and usePlaceId != ''">
+				AND a.use_place_Id = #{usePlaceId}
+			</if>
 		</where>
 		<choose>
 			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
@@ -52,6 +56,9 @@
 			<if test="departmentId != null and departmentId != ''">
 				AND a.department_id = #{departmentId}
 			</if>
+			<if test="usePlaceId != null and usePlaceId != ''">
+				AND a.use_place_Id = #{usePlaceId}
+			</if>
 		</where>		
 		<choose>
 			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
@@ -65,6 +72,7 @@
 	<insert id="insert">
 		INSERT INTO t_bv_trucks(
 			id,
+			use_place_Id,
 			plate_number,
 			driver_name,
 			driver_contact,
@@ -74,6 +82,7 @@
 			update_time
 		) VALUES (
 			#{id},
+			#{usePlaceId},
 			#{plateNumber},
 			#{driverName},
 			#{driverContact},
@@ -86,6 +95,7 @@
 	
 	<update id="update">
 		UPDATE t_bv_trucks SET 	
+			use_place_Id = #{usePlaceId},
 			plate_number = #{plateNumber},
 			driver_name = #{driverName},
 			driver_contact = #{driverContact},

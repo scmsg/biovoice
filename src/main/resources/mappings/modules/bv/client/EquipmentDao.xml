@@ -4,6 +4,7 @@
     
 	<sql id="equipmentColumns">
 		a.id AS "id",
+		a.use_place_Id AS "usePlaceId",
 		a.equipment_name AS "equipmentName",
 		a.manager_id AS "managerId",
 		a.high_temperature_alarm AS "highTemperatureAlarm",
@@ -52,6 +53,9 @@
 			<if test="departmentId != null and departmentId != ''">
 				AND a.department_id = #{departmentId}
 			</if>
+			<if test="usePlaceId != null and usePlaceId != ''">
+				AND a.use_place_Id = #{usePlaceId}
+			</if>
 		</where>
 		<choose>
 			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
@@ -71,6 +75,9 @@
 			<if test="departmentId != null and departmentId != ''">
 				AND a.department_id = #{departmentId}
 			</if>
+			<if test="usePlaceId != null and usePlaceId != ''">
+				AND a.use_place_Id = #{usePlaceId}
+			</if>
 		</where>		
 		<choose>
 			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
@@ -84,6 +91,7 @@
 	<insert id="insert">
 		INSERT INTO t_bv_equipment(
 			id,
+			use_place_Id,
 			equipment_name,
 			manager_id,
 			high_temperature_alarm,
@@ -112,6 +120,7 @@
 			update_time
 		) VALUES (
 			#{id},
+			#{usePlaceId},
 			#{equipmentName},
 			#{managerId},
 			#{highTemperatureAlarm},
@@ -143,6 +152,7 @@
 	
 	<update id="update">
 		UPDATE t_bv_equipment SET 	
+			use_place_Id = #{usePlaceId},
 			equipment_name = #{equipmentName},
 			manager_id = #{managerId},
 			high_temperature_alarm = #{highTemperatureAlarm},

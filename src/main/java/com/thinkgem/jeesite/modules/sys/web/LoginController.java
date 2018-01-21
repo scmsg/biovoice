@@ -3,6 +3,7 @@
  */
 package com.thinkgem.jeesite.modules.sys.web;
 
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -27,9 +28,11 @@ import com.thinkgem.jeesite.common.utils.CookieUtils;
 import com.thinkgem.jeesite.common.utils.IdGen;
 import com.thinkgem.jeesite.common.utils.StringUtils;
 import com.thinkgem.jeesite.common.web.BaseController;
+import com.thinkgem.jeesite.modules.sys.entity.User;
 import com.thinkgem.jeesite.modules.sys.security.FormAuthenticationFilter;
 import com.thinkgem.jeesite.modules.sys.security.SystemAuthorizingRealm.Principal;
 import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
+import com.thinkgem.jeesite.modules.sys.vo.ZtreeNode;
 
 /**
  * 登录Controller
@@ -131,7 +134,7 @@ public class LoginController extends BaseController{
 	 */
 	@RequiresPermissions("user")
 	@RequestMapping(value = "${adminPath}")
-	public String index(HttpServletRequest request, HttpServletResponse response) {
+	public String index(HttpServletRequest request, HttpServletResponse response, Model model) {
 		Principal principal = UserUtils.getPrincipal();
 
 		// 登录成功后，验证码计算器清零
@@ -180,7 +183,21 @@ public class LoginController extends BaseController{
 ////			request.getSession().setAttribute("aaa", "aa");
 ////		}
 //		System.out.println("==========================b");
-		return "modules/sys/sysIndex";
+		
+		User user = UserUtils.getUser();
+//		List<String> roleIdList = user.getRoleIdList();
+//		List<Role> roles = user.getRoleList();
+		String roleName = user.getRoleNames();
+		String[] roleNameArray = roleName.split(",");
+		if(roleNameArray != null && roleNameArray.length == 1 && roleNameArray[0].equalsIgnoreCase("普通用户")){
+			List<ZtreeNode> ztreeNodes = UserUtils.getZtreeNodeList();
+			String ztreeNodesString = com.alibaba.fastjson.JSONArray.toJSONString(ztreeNodes);
+			model.addAttribute("ztreeNodesString", ztreeNodesString);
+			return "modules/sys/sysClient";
+		}else{
+			return "modules/sys/sysIndex";
+		}
+		
 	}
 	
 	/**
