@@ -3,24 +3,34 @@
  */
 package com.thinkgem.jeesite.modules.bv.web;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.google.common.collect.Lists;
 import com.thinkgem.jeesite.common.config.Global;
 import com.thinkgem.jeesite.common.persistence.Page;
-import com.thinkgem.jeesite.common.web.BaseController;
 import com.thinkgem.jeesite.common.utils.StringUtils;
+import com.thinkgem.jeesite.common.web.BaseController;
 import com.thinkgem.jeesite.modules.bv.entity.Customer;
 import com.thinkgem.jeesite.modules.bv.service.CustomerService;
+import com.thinkgem.jeesite.modules.sys.entity.Office;
+import com.thinkgem.jeesite.modules.sys.entity.Role;
+import com.thinkgem.jeesite.modules.sys.entity.User;
+import com.thinkgem.jeesite.modules.sys.service.OfficeService;
+import com.thinkgem.jeesite.modules.sys.service.SystemService;
 
 /**
  * 客户信息Controller
@@ -33,6 +43,12 @@ public class CustomerController extends BaseController {
 
 	@Autowired
 	private CustomerService customerService;
+	
+	@Autowired
+	private SystemService systemService;
+	
+	@Autowired
+	private OfficeService officeService;
 	
 	@ModelAttribute
 	public Customer get(@RequestParam(required=false) String id) {
@@ -65,8 +81,72 @@ public class CustomerController extends BaseController {
 	@RequestMapping(value = "save")
 	public String save(Customer customer, Model model, RedirectAttributes redirectAttributes) {
 		if (!beanValidator(model, customer)){
+			addMessage(redirectAttributes, "客户信息验证失败");
 			return form(customer, model);
 		}
+		if(null == customer){
+			addMessage(redirectAttributes, "客户信息为空，请重新输入");
+			return form(customer, model);
+		}
+
+		//新增
+		if(StringUtils.isEmpty(customer.getId())){
+			if(StringUtils.isEmpty(customer.getCompanyName())){
+				addMessage(redirectAttributes, "客户公司为空，请重新输入");
+				return form(customer, model);
+			}
+			if(StringUtils.isEmpty(customer.getAdminAccount())){
+				addMessage(redirectAttributes, "根管理账号为空，请重新输入");
+				return form(customer, model);
+			}
+			if(StringUtils.isEmpty(customer.getAdminAccount())){
+				addMessage(redirectAttributes, "根管理密码，请重新输入");
+				return form(customer, model);
+			}
+			//1.sys_office
+			Office office_old = officeService.get(String.valueOf(17));
+			Office office = new Office();
+			BeanUtils.copyProperties(office_old, office);
+			office.setId(null);
+			office.setName(customer.getCompanyName());
+			
+			//2.sys_user
+			User user = new User();
+			user.setLoginName(customer.getAdminAccount());
+			user.setNo(customer.getAdminAccount());
+			user.setName(customer.getCustomerName());
+			user.setMobile(customer.getMobile());
+			user.setPhone(customer.getMobile());
+			
+			if (!"true".equals(checkLoginName(user.getOldLoginName(), user.getLoginName()))){
+				addMessage(model, "保存用户'" + user.getLoginName() + "'失败，根管理账号/登录名已存在");
+				return form(customer, model);
+			}
+			
+			officeService.save(office);
+			
+			user.setCompany(office);
+			user.setOffice(office);
+			// 角色数据有效性验证，过滤不在授权内的角色
+			List<Role> roleList = Lists.newArrayList();
+			Role role = systemService.getRoleByName("普通用户");
+			if(null == role){
+				role = systemService.getRole("6");
+			}
+			roleList.add(role);
+			user.setRoleList(roleList);
+			
+			// 如果新密码为空，则不更换密码
+			if (StringUtils.isNotBlank(customer.getAdminPassword())) {
+				user.setPassword(SystemService.entryptPassword(customer.getAdminPassword()));
+			}
+			if (!beanValidator(model, user)){
+				return form(customer, model);
+			}
+			systemService.saveUser(user);
+		}
+		
+		//3.新增客户
 		customerService.save(customer);
 		addMessage(redirectAttributes, "保存客户信息成功");
 		return "redirect:"+Global.getAdminPath()+"/bv/customer/?repage";
@@ -78,6 +158,24 @@ public class CustomerController extends BaseController {
 		customerService.delete(customer);
 		addMessage(redirectAttributes, "删除客户信息成功");
 		return "redirect:"+Global.getAdminPath()+"/bv/customer/?repage";
+	}
+	
+	/**
+	 * 验证登录名是否有效
+	 * @param oldLoginName
+	 * @param loginName
+	 * @return
+	 */
+	@ResponseBody
+	@RequiresPermissions("sys:user:edit")
+	@RequestMapping(value = "checkLoginName")
+	public String checkLoginName(String oldLoginName, String loginName) {
+		if (loginName !=null && loginName.equals(oldLoginName)) {
+			return "true";
+		} else if (loginName !=null && systemService.getUserByLoginName(loginName) == null) {
+			return "true";
+		}
+		return "false";
 	}
 
 }

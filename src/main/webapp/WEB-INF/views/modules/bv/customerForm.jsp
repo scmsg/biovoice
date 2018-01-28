@@ -33,12 +33,23 @@
 	<form:form id="inputForm" modelAttribute="customer" action="${ctx}/bv/customer/save" method="post" class="form-horizontal">
 		<form:hidden path="id"/>
 		<sys:message content="${message}"/>		
+		<c:if test="${empty customer.id}">
 		<div class="control-group">
 			<label class="control-label">公司（单位名称）：</label>
 			<div class="controls">
 				<form:input path="companyName" htmlEscape="false" maxlength="255" class="input-xlarge "/>
 			</div>
 		</div>
+		</c:if>
+		<c:if test="${not empty customer.id}">
+		<div class="control-group">
+			<label class="control-label">公司（单位名称）：</label>
+			<div class="controls">
+				${customer.companyName}
+			</div>
+		</div>
+		</c:if>
+
 		<div class="control-group">
 			<label class="control-label">开始时间：</label>
 			<div class="controls">
@@ -103,16 +114,30 @@
 				<form:input path="customerName" htmlEscape="false" maxlength="255" class="input-xlarge "/>
 			</div>
 		</div>
+		
+		<c:if test="${empty customer.id}">
 		<div class="control-group">
 			<label class="control-label">根管理账号：</label>
 			<div class="controls">
 				<form:input path="adminAccount" htmlEscape="false" maxlength="255" class="input-xlarge "/>
 			</div>
 		</div>
+		</c:if>
+		<c:if test="${not empty customer.id}">
+		<div class="control-group">
+			<label class="control-label">根管理账号：</label>
+			<div class="controls">
+				${customer.adminAccount}
+			</div>
+		</div>
+		</c:if>
+		
 		<div class="control-group">
 			<label class="control-label">根管理密码：</label>
 			<div class="controls">
-				<form:input path="adminPassword" htmlEscape="false" maxlength="255" class="input-xlarge "/>
+				<input id="adminPassword" name="adminPassword" type="password" value="" maxlength="50" minlength="3" class="${empty customer.id?'required':''}"/>
+				<c:if test="${empty customer.id}"><span class="help-inline"><font color="red">*</font> </span></c:if>
+				<c:if test="${not empty customer.id}"><span class="help-inline">若不修改密码，请留空。</span></c:if>
 			</div>
 		</div>
 		<div class="control-group">
