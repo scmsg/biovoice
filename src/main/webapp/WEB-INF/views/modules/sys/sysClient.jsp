@@ -97,7 +97,7 @@
 	<div id="main">
 		<div id="header" class="navbar navbar-fixed-top">
 			<div class="navbar-inner">
-				<div class="brand"><span id="productName">${fns:getConfig('productName')}</span></div>
+				<div class="brand"><span id="productName" >${fns:getConfig('productName')}</span></div>
 				<ul id="userControl" class="nav pull-right">
 					<li id="userInfo" class="dropdown">
 						<a class="dropdown-toggle" data-toggle="dropdown" href="#" title="个人信息">您好, ${fns:getUser().name}&nbsp;<span id="notifyNum" class="label label-info hide"></span></a>

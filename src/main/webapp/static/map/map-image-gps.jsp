@@ -17,7 +17,7 @@
 		%>
 
 		// 地图服务地址
-		var strURL = "http://192.168.11.233:8780/maptile/googlemaps/roadmap/"
+		var strURL = "http://192.168.11.233:8780/maptile/googlemaps/roadmap/";
 	
 		function LocalMapType() {}
 		LocalMapType.prototype.tileSize = new google.maps.Size(256, 256);

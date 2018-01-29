@@ -1443,7 +1443,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 					// The returning attributes list is an array, because we
 					// could have different override definitions for the same
 					// attribute name.
-					var overrideAttrs = ( overrideEl.attributes = overrideEl.attributes || new Array() );
+					var overrideAttrs = ( overrideEl.attributes = overrideEl.attributes || [] );
 					for ( var attName in attrs )
 					{
 						// Each item in the attributes array is also an array,

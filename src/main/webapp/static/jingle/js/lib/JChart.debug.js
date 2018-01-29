@@ -224,7 +224,7 @@ window.JingleChart = JChart = {
         for(var i = 0,len=array.length;i<len;i++){
             var result = fn.call(context,array[i],i,array);
             if(result === true){
-                continue;
+                
             }else if(result === false){
                 break;
             }
@@ -238,7 +238,7 @@ window.JingleChart = JChart = {
 		clientTop = html.clientTop || body.clientTop || 0, 
 		clientLeft = html.clientLeft || body.clientLeft || 0, 
 		top = box.top + (self.pageYOffset || html.scrollTop || body.scrollTop ) - clientTop, 
-		left = box.left + (self.pageXOffset || html.scrollLeft || body.scrollLeft) - clientLeft 
+		left = box.left + (self.pageXOffset || html.scrollLeft || body.scrollLeft) - clientLeft; 
 		return { 'top': top, 'left': left }; 
     },
     /**
@@ -302,13 +302,13 @@ window.JingleChart = JChart = {
 
             // Provide some basic currying to the user
             return data ? fn( data ) : fn;
-        };
+        }
         return tmpl;
     })()
 };
 
 
-;(function(_){
+(function (_) {
     function Bar(data,cfg){
         _.Scale.apply(this);
         var barRanges = [];//记录柱状图的占据的位置
@@ -341,7 +341,7 @@ window.JingleChart = JChart = {
             if(this.config.datasetGesture){
                 this.bindDataGestureEvent();
             }
-        }
+        };
         /**
          * 初始化部分元素值
          */
@@ -359,14 +359,14 @@ window.JingleChart = JChart = {
             }else{
                 this.doAnim(this.drawScale,this.drawBars);
             }
-        }
+        };
         this.redraw = function(data){
             this.chartData = data;
             this.clear();
             this.initScale(true);
             this.drawScale();
             this.drawBars(1);
-        }
+        };
 
         this.drawBars = function(animPc){
             if(animPc >= 1)barRanges = [];
@@ -389,7 +389,7 @@ window.JingleChart = JChart = {
 
                 });
             })
-        }
+        };
 
         function tapHandler(x,y,event){
             var p = isInBarRange(x,y);
@@ -675,13 +675,13 @@ window.JingleChart = JChart = {
                 }
                 return size;
             }
-        }
+        };
         return new Canvas();
     }
 
     _.Canvas = Chain;
 })(JChart || window);
-;(function(_){
+(function (_) {
     var Chart = function(){
         //当前动画的状态
         this.isAnimating = false;
@@ -700,7 +700,7 @@ window.JingleChart = JChart = {
             animationSteps : 10,
             //动画函数
             animationEasing : "linear"
-        }
+        };
         this.defaultFont = {
             family : 'Arial',
             size : 16,
@@ -708,7 +708,7 @@ window.JingleChart = JChart = {
             color : '#5b5b5b',
             textAlign : 'center',
             textBaseline : 'middle'
-        }
+        };
         this.events = {};
         /**
          * 初始化参数
@@ -767,7 +767,7 @@ window.JingleChart = JChart = {
          */
         this.load = function(data){
             this.update(data,null,false);
-        }
+        };
         /**
          * 更新图表
          * @param data
@@ -780,7 +780,7 @@ window.JingleChart = JChart = {
             this.dataOffset = 0;
             this.clear();
             this.draw(!animation);
-        }
+        };
         this.mergeFont = function(key){
             if(key instanceof Array){
                 _.each(key,function(v){
@@ -793,7 +793,7 @@ window.JingleChart = JChart = {
                 f.fillStyle = f.color;
                 this.config[key] = f;
             }
-        }
+        };
         /**
          * 动画函数
          * @param drawScale 缩放动画 函数
@@ -823,7 +823,7 @@ window.JingleChart = JChart = {
                     callback && callback.call(_this);
                     _this.trigger('animationComplete');
                 }
-            };
+            }
             function animateFrame(){
                 _this.clear();
                 var animPercent =(config.animation)? _.capValue(easingFunction(percentAnimComplete),1,0) : 1;
@@ -835,8 +835,8 @@ window.JingleChart = JChart = {
                     drawData.call(_this,animPercent);
                     drawScale.call(_this);
                 }
-            };
-        }
+            }
+        };
         /**
          * 简易的事件绑定
          */
@@ -920,7 +920,7 @@ window.JingleChart = JChart = {
                         }, 250)
 
                     }
-                };
+                }
             }
 
             function longTap() {
@@ -944,10 +944,10 @@ window.JingleChart = JChart = {
                 touch = {};
             }
         }
-    }
+    };
     _.Chart = Chart;
 })(JChart);
-;(function(_){
+(function (_) {
     function Line(data,cfg){
       	_.Scale.apply(this);
         var pointRanges = [];//记录线的节点位置 (for click 事件)
@@ -984,7 +984,7 @@ window.JingleChart = JChart = {
             if(this.config.datasetGesture){
                 this.bindDataGestureEvent();
             }
-        }
+        };
         /**
          * 初始化部分元素值
          */
@@ -1002,14 +1002,14 @@ window.JingleChart = JChart = {
             }else{
                 this.doAnim(this.drawScale,this.drawLines);
             }
-        }
+        };
         this.redraw = function(data){
             this.chartData = data;
             this.clear();
             this.initScale(true);
             this.drawScale();
             this.drawLines(1);
-        }
+        };
         this.drawLines = function(animPc){
             if(animPc >= 1)pointRanges = [];
             var ctx = _this.ctx,cfg = _this.config,dataset = _this.chartData.datasets,scale = _this.scaleData;
@@ -1046,7 +1046,7 @@ window.JingleChart = JChart = {
             function xPos(i){
                 return scale.x + (scale.xHop * i);
             }
-        }
+        };
         function tapHandler(x,y){
             var p = isInPointRange(x,y);
             if(p){
@@ -1204,7 +1204,7 @@ window.JingleChart = JChart = {
             this.on('_longTap',function(x,y){tapHandler(x,y,'longTap.pie')});
             //添加一个默认点击事件
             this.on('tap.pie',function(){return true;})
-        }
+        };
 
         function tapHandler(x,y,event){
             var type = _this.config.clickType;
@@ -1257,7 +1257,7 @@ window.JingleChart = JChart = {
             }else{
                 this.pullOut(i);
             }
-        }
+        };
         /**
          * 收起所有弹出的扇形块
          */
@@ -1265,7 +1265,7 @@ window.JingleChart = JChart = {
             currentOutIndex = -1;
             drawPie(1);
             this.trigger('pushIn');
-        }
+        };
         /**
          * 弹出指定的扇形块
          * @param i 扇形索引
@@ -1275,7 +1275,7 @@ window.JingleChart = JChart = {
             currentOutIndex = i;
             drawPie(1);
             this.trigger('pullOut',[_this.data[i],i,angleRanges[i][4]]);
-        }
+        };
         /**
          * 旋转扇形块的中线指向6点钟方向
          * @param i 扇形索引
@@ -1291,11 +1291,11 @@ window.JingleChart = JChart = {
                 startAngle += rotateAngle;
                 _this.trigger('rotate',[_this.data[i],i,angleRanges[i][4]]);
             });
-        }
+        };
         this.setDountText = function(text){
             _this.config.dountText = text;
             drawPie(1);
-        }
+        };
         /**
          * 画图
          */
@@ -1314,14 +1314,14 @@ window.JingleChart = JChart = {
             }else{
                 this.doAnim(null,drawPie);
             }
-        }
+        };
         //计算原点位置及半径
         function calcOrigin(){
             if(_this.config.totalAngle == Math.PI){
                 origin = {
                     x : _this.width/2,
                     y : _this.height - 20
-                }
+                };
                 radius = Math.min(origin.x,origin.y) - 10;
             }else{
                 origin = {x:_this.width/2,y:_this.height/2};
@@ -1334,7 +1334,7 @@ window.JingleChart = JChart = {
     _.Pie = Pie;
 }(JChart));
 
-  ;(function(_){
+(function (_) {
     function Polar(data,cfg){
     	_.Scale.apply(this);
         var _this = this;
@@ -1374,7 +1374,7 @@ window.JingleChart = JChart = {
          */
         this.bindEvents = function(){
             this.on('_tap',tapHandler);
-        }
+        };
         
         this.draw = function(noAnim){
             this.mergeFont(['scaleFont','textFont']);
@@ -1384,7 +1384,7 @@ window.JingleChart = JChart = {
                 this.drawScale();
             }
         	this.doAnim(this.drawScale,this.drawAllSegments);
-        }
+        };
         function tapHandler(x,y){
             var i = isInSegment(x,y);
             if(i>-1){
@@ -1402,10 +1402,10 @@ window.JingleChart = JChart = {
             }
             this.scaleData.yHeight = maxSize - 10;
             this.scaleData.yLabelHeight = lh;
-        }
+        };
         
         this.drawScale = function(){
-        	var cfg = this.config,scale = this.scaleData,x = this.width/2, y = this.height/2
+        	var cfg = this.config,scale = this.scaleData,x = this.width/2, y = this.height/2;
                 size = cfg.scaleFont.size,px = cfg.scaleBackdropPaddingX,py = cfg.scaleBackdropPaddingY;
             this.ctx.save().translate(x,y);
 
@@ -1443,7 +1443,7 @@ window.JingleChart = JChart = {
                 }
             },this);
             this.ctx.restore();
-        }
+        };
 
         this.drawAllSegments = function(animPc){
             var startAngle = -Math.PI/2,angleStep = (Math.PI*2)/this.data.datasets.length,
@@ -1463,7 +1463,7 @@ window.JingleChart = JChart = {
                 this.ctx.sector(this.width/2,this.height/2,r,startAngle, startAngle + rotateAnim*angleStep, _.hex2Rgb(d.color,.6),borderColor,borderWidth);
                 startAngle += rotateAnim*angleStep;
             },this);
-        }
+        };
 
         this.getValueBounds = function(data){
             var upperValue = Number.MIN_VALUE;
@@ -1471,7 +1471,7 @@ window.JingleChart = JChart = {
             for (var i=0; i<data.length; i++){
                 if (data[i].value > upperValue) {upperValue = data[i].value;}
                 if (data[i].value < lowerValue) {lowerValue = data[i].value;}
-            };
+            }
             var yh = this.scaleData.yHeight;
             var lh = this.scaleData.yLabelHeight;
             var maxSteps = Math.floor((yh/(lh*0.66)));
@@ -1482,7 +1482,7 @@ window.JingleChart = JChart = {
                 maxSteps : maxSteps,
                 minSteps : minSteps
             };
-        }
+        };
 
         function isInSegment(x,y){
             var startAngle = -Math.PI/2,
@@ -1504,7 +1504,7 @@ window.JingleChart = JChart = {
     }
     _.Polar = Polar;
   })(JChart);
-;(function (_) {
+(function (_) {
     function Radar(data, cfg) {
         _.Scale.apply(this);
         var pointRanges = [];//记录线的节点位置 (for click 事件)
@@ -1551,7 +1551,7 @@ window.JingleChart = JChart = {
          */
         this.bindEvents = function () {
             this.on('_tap', tapHandler);
-        }
+        };
 
         this.draw = function (noAnim) {
             this.mergeFont(['scaleFont','textFont']);
@@ -1562,7 +1562,7 @@ window.JingleChart = JChart = {
             } else {
                 this.doAnim(this.drawScale, this.drawAllDataPoints);
             }
-        }
+        };
 
         function tapHandler(x, y) {
             var p = isInPointRange(x,y);
@@ -1586,7 +1586,7 @@ window.JingleChart = JChart = {
             maxSize = _.capValue(maxSize, null, 0);
             this.scaleData.yHeight = maxSize;
             this.scaleData.yLabelHeight = labelHeight;
-        }
+        };
 
         this.drawScale = function () {
             var ctx = this.ctx, cfg = this.config, scale = this.scaleData,scaleSize = cfg.scaleFont.size,textSize = cfg.textFont.size,
@@ -1607,7 +1607,7 @@ window.JingleChart = JChart = {
                 var hop = scale.yHop * (i + 1);
                 ctx.beginPath();
                 if (cfg.showGridLine) {
-                    ctx.set({strokeStyle : cfg.gridLineColor,lineWidth : cfg.gridLineWidth})
+                    ctx.set({strokeStyle : cfg.gridLineColor,lineWidth : cfg.gridLineWidth});
                     if (cfg.graphShape == 'diamond') {
                         ctx.moveTo(0, -hop);
                         for (var j = 0; j < dataLen; j++) {
@@ -1654,7 +1654,7 @@ window.JingleChart = JChart = {
                 this.ctx.fillText(this.data.labels[k], opposite, -adjacent,{textAlign:align});
             }
             ctx.restore();
-        }
+        };
 
         this.drawAllDataPoints = function (animPc) {
             if (animPc >= 1)pointRanges = [];
@@ -1704,7 +1704,7 @@ window.JingleChart = JChart = {
                 y = Math.sin(angel)*radius + _this.height/2;
                 return [x,y];
             }
-        }
+        };
 
         function drawText(){
             _.each(pointRanges,function(p){
@@ -1732,7 +1732,7 @@ window.JingleChart = JChart = {
     }
     _.Radar = Radar;
 })(JChart);
-;(function(_){
+(function (_) {
     /**
      * 抽象类-刻度值
      * 用来初始化XY轴各项数据
@@ -1797,7 +1797,7 @@ window.JingleChart = JChart = {
             xLabelWidth : 0,//x轴label宽度
             xLabelHeight : 0,//x轴label宽度
             barWidth : 0//柱形图柱子宽度
-        }
+        };
         /**
          * 计算X轴文本宽度、旋转角度及Y轴高度
          */
@@ -1839,7 +1839,7 @@ window.JingleChart = JChart = {
             this.scaleData.xLabelWidth = xLabelWidth;
             //x轴文本的高度
             this.scaleData.xLabelHeight = xLabelHeight;
-        }
+        };
 
         /**
          * 计算Y轴刻度的边界及刻度步数
@@ -1850,10 +1850,14 @@ window.JingleChart = JChart = {
             var lowerValue = Number.MAX_VALUE;
             _.each(dataset,function(o){
                 _.each(o.data,function(obj){
-                    if(obj > upperValue){upperValue = obj};
-                    if (obj < lowerValue) { lowerValue = obj};
+                    if (obj > upperValue) {
+                        upperValue = obj
+                    }
+                    if (obj < lowerValue) {
+                        lowerValue = obj
+                    }
                 });
-            })
+            });
             var yh = this.scaleData.yHeight;
             var lh = this.scaleData.yLabelHeight;
             var maxSteps = Math.floor((yh/(lh*0.66)));
@@ -1865,7 +1869,7 @@ window.JingleChart = JChart = {
                 maxSteps : maxSteps,
                 minSteps : minSteps
             };
-        }
+        };
 
         /**
          * 计算Y轴刻度的各项数据
@@ -1881,7 +1885,7 @@ window.JingleChart = JChart = {
             }
             this.scaleData.yScaleValue = scale;
             this.scaleData.yHop = Math.floor(this.scaleData.yHeight/scale.step);
-        }
+        };
 
         /**
          * 计算X轴宽度，每个数据项宽度大小及坐标原点
@@ -1910,14 +1914,14 @@ window.JingleChart = JChart = {
             scale.y = this.height - scale.xLabelHeight - P_X;
             scale.xWidth = xAxisLength;
             scale.xHop = valueHop;
-        }
+        };
 
         this.drawScale = function(){
             var ctx = this.ctx,cfg = this.config,scale = this.scaleData,align;
             ctx.set({
                 strokeStyle :  cfg.scaleLineColor,
                 lineWidth : cfg.scaleLineWidth
-            })
+            });
             //画X轴
             ctx.line(scale.x-3, scale.y, scale.x+scale.xWidth, scale.y, true);
             //画Y轴
@@ -1966,17 +1970,17 @@ window.JingleChart = JChart = {
                 ctx.line(scale.x,y,scale.x + scale.xWidth,y, cfg.horizonLine.color || '#E74C3C',cfg.horizonLine.width||1);
             }
 
-        }
+        };
 
         this.initScale = function(showX){
             this.calcDrawingSizes();
             this.calcYAxis();
             showX && this.calcXAxis();
-        }
+        };
         this.drawPoint = function(x,y,d){
             //填充色默认为白色，边框颜色默认与线条颜色一致
             this.ctx.beginPath().circle(x,y,this.config.pointRadius,d.pointColor || '#fff',d.pointBorderColor || d.color,this.config.pointBorderWidth);
-        }
+        };
 
 		/**
          * 计算坐标轴的刻度
@@ -2014,18 +2018,18 @@ window.JingleChart = JChart = {
                     stepValue *=2;
                     step = Math.round(range/stepValue);
                 }
-            };
-            var labels = this.populateLabels(step, min, stepValue);;
+            }
+            var labels = this.populateLabels(step, min, stepValue);
             return {
                 step : step,
                 stepValue : stepValue,
                 start : min,
                 labels : labels
-            }
+            };
             function calculateOrderOfMagnitude(val){
                 return Math.floor(Math.log(val) / Math.LN10);
             }
-        }
+        };
 
         /**
          * 构造刻度值
@@ -2068,7 +2072,7 @@ window.JingleChart = JChart = {
                 d.data = d.data.slice(min,max)
             });
             return newdata;
-        }
+        };
         this.bindDataGestureEvent = function(){
             var _this = this,
             	touchDistanceX,//手指滑动偏移量
@@ -2090,7 +2094,7 @@ window.JingleChart = JChart = {
                 startPosition = {
                     x : e.pageX,
                     y : e.pageY
-                }
+                };
                 touchDistanceX = 0;
                 gestureStarted = true;
             }

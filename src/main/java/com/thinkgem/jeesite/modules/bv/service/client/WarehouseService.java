@@ -5,6 +5,7 @@ package com.thinkgem.jeesite.modules.bv.service.client;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,7 +22,8 @@ import com.thinkgem.jeesite.modules.bv.dao.client.WarehouseDao;
 @Service
 @Transactional(readOnly = true)
 public class WarehouseService extends CrudService<WarehouseDao, Warehouse> {
-
+	@Autowired
+	private WarehouseDao warehouseDao;
 	public Warehouse get(String id) {
 		return super.get(id);
 	}
@@ -42,6 +44,10 @@ public class WarehouseService extends CrudService<WarehouseDao, Warehouse> {
 	@Transactional(readOnly = false)
 	public void delete(Warehouse warehouse) {
 		super.delete(warehouse);
+	}
+	@Transactional(readOnly = false)
+	public void deleteUsePlaceAndWarhouse(Warehouse warehouse) {
+		warehouseDao.deleteUsePlaceAndWarhouse(warehouse);
 	}
 	
 }

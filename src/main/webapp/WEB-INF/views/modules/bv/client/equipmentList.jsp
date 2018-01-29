@@ -17,10 +17,10 @@
 	</script>
 </head>
 <body>
-	<ul class="nav nav-tabs">
+<%--	<ul class="nav nav-tabs">
 		<li class="active"><a href="${ctx}/bv/client/equipment/list?departmentId=${departmentId}">设备管理列表</a></li>
-		<%-- <shiro:hasPermission name="bv:client:equipment:edit"><li><a href="${ctx}/bv/client/equipment/form">设备管理添加</a></li></shiro:hasPermission> --%>
-	</ul>
+		<shiro:hasPermission name="bv:client:equipment:edit"><li><a href="${ctx}/bv/client/equipment/form">设备管理添加</a></li></shiro:hasPermission>
+	</ul>--%>
 	<form:form id="searchForm" modelAttribute="equipment" action="${ctx}/bv/client/equipment/" method="post" class="breadcrumb form-search">
 		<input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
 		<input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>

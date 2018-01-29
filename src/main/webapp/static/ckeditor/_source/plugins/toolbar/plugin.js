@@ -113,7 +113,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 							if ( !next && toolbarGroupCycling )
 								next = item.toolbar.items[ 0 ];
 						}
-						while ( next && !next.focus )
+						while ( next && !next.focus );
 
 						// If available, just focus it, otherwise focus the
 						// first one.
@@ -137,7 +137,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 							if ( !next && toolbarGroupCycling )
 								next = item.toolbar.items[ item.toolbar.items.length - 1 ];
 						}
-						while ( next && !next.focus )
+						while ( next && !next.focus );
 
 						// If available, just focus it, otherwise focus the
 						// last one.

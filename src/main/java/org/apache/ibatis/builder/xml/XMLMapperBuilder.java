@@ -231,7 +231,7 @@ public class XMLMapperBuilder extends BaseBuilder {
 		}
 	}
 
-	private void cacheElement(XNode context) throws Exception {
+	private void cacheElement(XNode context) {
 		if (context != null) {
 			String type = context.getStringAttribute("type", "PERPETUAL");
 			Class<? extends Cache> typeClass = typeAliasRegistry
@@ -248,7 +248,7 @@ public class XMLMapperBuilder extends BaseBuilder {
 		}
 	}
 
-	private void parameterMapElement(List<XNode> list) throws Exception {
+	private void parameterMapElement(List<XNode> list) {
 		for (XNode parameterMapNode : list) {
 			String id = parameterMapNode.getStringAttribute("id");
 			String type = parameterMapNode.getStringAttribute("type");
@@ -380,15 +380,14 @@ public class XMLMapperBuilder extends BaseBuilder {
 						jdbcTypeEnum, typeHandlerClass, discriminatorMap);
 	}
 
-	private void sqlElement(List<XNode> list) throws Exception {
+	private void sqlElement(List<XNode> list) {
 		if (configuration.getDatabaseId() != null) {
 			sqlElement(list, configuration.getDatabaseId());
 		}
 		sqlElement(list, null);
 	}
 
-	private void sqlElement(List<XNode> list, String requiredDatabaseId)
-			throws Exception {
+	private void sqlElement(List<XNode> list, String requiredDatabaseId) {
 		for (XNode context : list) {
 			String databaseId = context.getStringAttribute("databaseId");
 			String id = context.getStringAttribute("id");
@@ -401,9 +400,7 @@ public class XMLMapperBuilder extends BaseBuilder {
 	private boolean databaseIdMatchesCurrent(String id, String databaseId,
 			String requiredDatabaseId) {
 		if (requiredDatabaseId != null) {
-			if (!requiredDatabaseId.equals(databaseId)) {
-				return false;
-			}
+            return requiredDatabaseId.equals(databaseId);
 		} else {
 			if (databaseId != null) {
 				return false;
@@ -412,9 +409,7 @@ public class XMLMapperBuilder extends BaseBuilder {
 			// databaseId
 			if (this.sqlFragments.containsKey(id)) {
 				XNode context = this.sqlFragments.get(id);
-				if (context.getStringAttribute("databaseId") != null) {
-					return false;
-				}
+                return context.getStringAttribute("databaseId") == null;
 			}
 		}
 		return true;

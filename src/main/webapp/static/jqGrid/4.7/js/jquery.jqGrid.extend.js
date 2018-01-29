@@ -384,9 +384,8 @@ var DataGrid = function(options, $this){
 			collapseTreeNode();
 			return false;
 		});
-	};
-	
-	// 初始化jqGrid
+    }
+    // 初始化jqGrid
 	dataGrid.jqGrid(options);
 	
 	// 如果设置了多级表头
@@ -473,7 +472,7 @@ var DataGrid = function(options, $this){
 			if (gridHeight != 0){
 				dataGrid.jqGrid('setGridHeight', gridHeight);
 			}
-		}
+		};
 		setGridHeight();
 
 		// 设置表格宽度，最小宽度500像素
@@ -529,45 +528,39 @@ var DataGrid = function(options, $this){
 	 */
 	function getParam(paramName){
 		return dataGrid.jqGrid('getGridParam', paramName);
-	};
-
-	/**
+    }
+    /**
 	 * 设置参数
 	 */
 	function setParam(params){
 		dataGrid.jqGrid('setGridParam', params);
 		return self;
-	};
-	
-	/**
+    }
+    /**
 	 * 获取所有数据ID
 	 */
 	function getDataIDs(){
 		return dataGrid.jqGrid("getDataIDs");
-	};
-	
-	/**
+    }
+    /**
 	 * 获取参数
 	 */
 	function getRowData(id){
 		return dataGrid.jqGrid("getRowData", id);
-	};
-
-	/**
+    }
+    /**
 	 * 获取选择行ID
 	 */
 	function getSelectRow(){
 		return getParam("selrow");
-	};
-	
-	/**
+    }
+    /**
 	 * 获取选择行数组ID
 	 */
 	function getSelectRows(){
 		return getParam("selarrrow");
-	};
-
-	/**
+    }
+    /**
 	 * 设置选择行
 	 */
 	function setSelectRow(id, isCancel){
@@ -579,9 +572,8 @@ var DataGrid = function(options, $this){
 			dataGrid.jqGrid("setSelection", id);
 		}
 		return self;
-	};
-	
-	/**
+    }
+    /**
 	 * 刷新表格（带分页）
 	 */
 	function refresh(pageNo, pageSize){
@@ -606,9 +598,8 @@ var DataGrid = function(options, $this){
 		setParam(params);
 		reloadGrid();
 		return self;
-	};
-	
-	/**
+    }
+    /**
 	 * 只刷新表格
 	 */
 	function reloadGrid(){
@@ -621,17 +612,15 @@ var DataGrid = function(options, $this){
 	function delRowData(id){
 		dataGrid.jqGrid("delRowData", id);
 		return self;
-	};
-	
-	/**
+    }
+    /**
 	 * 删除树节点
 	 */
 	function delTreeNode(id){
 		dataGrid.jqGrid("delTreeNode", id);
 		return self;
-	};
-
-	/**
+    }
+    /**
 	 * 展开树节点
 	 * @param level 一次展开的层次
 	 */
@@ -665,9 +654,8 @@ var DataGrid = function(options, $this){
 			closeLoading();
 		}, 10);
 		return self;
-	};
-	
-	/**
+    }
+    /**
 	 * 折叠树节点
 	 */
 	function collapseTreeNode(){
@@ -677,9 +665,8 @@ var DataGrid = function(options, $this){
 			closeLoading();
 		}, 10);
 		return self;
-	};
-	
-	/**
+    }
+    /**
 	 * 刷新树表格
 	 */
 	function refreshTree(expandLevel, parentCode){
@@ -693,9 +680,8 @@ var DataGrid = function(options, $this){
 		}
 		reloadGrid();
 		return self;
-	};
-	
-	// public method
+    }
+    // public method
 	var self = {
 		
 		/**
@@ -908,8 +894,8 @@ $.extend($.jgrid,{
 					if (!data[i][isLeaf] && data[i][level] == lvl){
 						ids.push(data[i]._id_);
 					}
-				};
-			});
+                }
+            });
 			return ids;
 		},
 		// 树机构删除子节点

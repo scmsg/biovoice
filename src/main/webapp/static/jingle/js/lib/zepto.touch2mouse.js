@@ -74,7 +74,7 @@
         $.fn.on = function(event, selector, data, callback, one){
             var args = Array.prototype.slice.call(arguments,0);
             return _on.apply(this,touch2mouse(this,args));
-        }
+        };
         var _off = $.fn.off;
         $.fn.off = function(event, selector, callback){
             var args = [event];

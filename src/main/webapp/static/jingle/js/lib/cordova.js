@@ -867,7 +867,7 @@ function androidExec(success, fail, service, action, args) {
             androidExec.setJsToNativeBridgeMode(jsToNativeModes.PROMPT);
             androidExec(success, fail, service, action, args);
             androidExec.setJsToNativeBridgeMode(jsToNativeModes.JS_OBJECT);
-            return;
+            
         } else {
             androidExec.processMessages(messages);
         }
@@ -6909,7 +6909,7 @@ require('cordova/channel').onNativeReady.fire();
         } catch(err){
             finishPluginLoading();
         }
-    } 
+    }; 
 
 
     // Try to XHR the cordova_plugins.json file asynchronously.

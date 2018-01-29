@@ -109,8 +109,8 @@ public class Configuration {
 	protected LocalCacheScope localCacheScope = LocalCacheScope.SESSION;
 	protected JdbcType jdbcTypeForNull = JdbcType.OTHER;
 	protected Set<String> lazyLoadTriggerMethods = new HashSet<String>(
-			Arrays.asList(new String[] { "equals", "clone", "hashCode",
-					"toString" }));
+			Arrays.asList("equals", "clone", "hashCode",
+                    "toString"));
 	protected Integer defaultStatementTimeout;
 	protected ExecutorType defaultExecutorType = ExecutorType.SIMPLE;
 	protected AutoMappingBehavior autoMappingBehavior = AutoMappingBehavior.PARTIAL;

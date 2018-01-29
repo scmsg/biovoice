@@ -15,14 +15,14 @@ import com.thinkgem.jeesite.modules.oa.entity.TestAudit;
 @MyBatisDao
 public interface TestAuditDao extends CrudDao<TestAudit> {
 
-	public TestAudit getByProcInsId(String procInsId);
+	TestAudit getByProcInsId(String procInsId);
 	
-	public int updateInsId(TestAudit testAudit);
+	int updateInsId(TestAudit testAudit);
 	
-	public int updateHrText(TestAudit testAudit);
+	int updateHrText(TestAudit testAudit);
 	
-	public int updateLeadText(TestAudit testAudit);
+	int updateLeadText(TestAudit testAudit);
 	
-	public int updateMainLeadText(TestAudit testAudit);
+	int updateMainLeadText(TestAudit testAudit);
 	
 }

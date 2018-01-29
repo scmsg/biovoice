@@ -95,12 +95,12 @@ public class ActUtils {
 						chinesName.add("");
 					}
 					if (m.getName().equals("getAct")){
-						Object act = m.invoke(entity, new Object[]{});
+						Object act = m.invoke(entity);
 						Method actMet = act.getClass().getMethod("getTaskId");
-						map.put("taskId", ObjectUtils.toString(m.invoke(act, new Object[]{}), ""));
+						map.put("taskId", ObjectUtils.toString(m.invoke(act), ""));
 					}else{
 						field.add(StringUtils.uncapitalize(m.getName().substring(3)));
-						value.add(ObjectUtils.toString(m.invoke(entity, new Object[]{}), ""));
+						value.add(ObjectUtils.toString(m.invoke(entity), ""));
 					}
 				}
 			}

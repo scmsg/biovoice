@@ -9,8 +9,10 @@ $(document).ready(function() {
 	try{
 		// 链接去掉虚框
 		$("a").bind("focus",function() {
-			if(this.blur) {this.blur()};
-		});
+            if (this.blur) {
+                this.blur()
+            }
+        });
 		//所有下拉框使用select2
 		$("select").select2();
 	}catch(e){
@@ -43,7 +45,7 @@ function getQueryString(name, url) {
     }else{	
     	url = url.substring(url.indexOf("?"));
     }
-    r = url.substr(1).match(reg)
+    r = url.substr(1).match(reg);
     if (r != null) return unescape(r[2]); return null;
 }
 

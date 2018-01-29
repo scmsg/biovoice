@@ -21,7 +21,7 @@ public class JsonpCallbackFilter implements Filter {
 
 	private static Logger log = LoggerFactory.getLogger(JsonpCallbackFilter.class);
 
-	public void init(FilterConfig fConfig) throws ServletException {}
+	public void init(FilterConfig fConfig) {}
 
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
 		

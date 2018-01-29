@@ -64,7 +64,7 @@ public class ImportExcel {
 	 * @throws IOException 
 	 */
 	public ImportExcel(String fileName, int headerNum) 
-			throws InvalidFormatException, IOException {
+			throws IOException {
 		this(new File(fileName), headerNum);
 	}
 	
@@ -76,7 +76,7 @@ public class ImportExcel {
 	 * @throws IOException 
 	 */
 	public ImportExcel(File file, int headerNum) 
-			throws InvalidFormatException, IOException {
+			throws IOException {
 		this(file, headerNum, 0);
 	}
 
@@ -89,7 +89,7 @@ public class ImportExcel {
 	 * @throws IOException 
 	 */
 	public ImportExcel(String fileName, int headerNum, int sheetIndex) 
-			throws InvalidFormatException, IOException {
+			throws IOException {
 		this(new File(fileName), headerNum, sheetIndex);
 	}
 	
@@ -102,7 +102,7 @@ public class ImportExcel {
 	 * @throws IOException 
 	 */
 	public ImportExcel(File file, int headerNum, int sheetIndex) 
-			throws InvalidFormatException, IOException {
+			throws IOException {
 		this(file.getName(), new FileInputStream(file), headerNum, sheetIndex);
 	}
 	
@@ -115,7 +115,7 @@ public class ImportExcel {
 	 * @throws IOException 
 	 */
 	public ImportExcel(MultipartFile multipartFile, int headerNum, int sheetIndex) 
-			throws InvalidFormatException, IOException {
+			throws IOException {
 		this(multipartFile.getOriginalFilename(), multipartFile.getInputStream(), headerNum, sheetIndex);
 	}
 
@@ -128,7 +128,7 @@ public class ImportExcel {
 	 * @throws IOException 
 	 */
 	public ImportExcel(String fileName, InputStream is, int headerNum, int sheetIndex) 
-			throws InvalidFormatException, IOException {
+			throws IOException {
 		if (StringUtils.isBlank(fileName)){
 			throw new RuntimeException("导入文档为空!");
 		}else if(fileName.toLowerCase().endsWith("xls")){    
@@ -268,13 +268,13 @@ public class ImportExcel {
 			public int compare(Object[] o1, Object[] o2) {
 				return new Integer(((ExcelField)o1[0]).sort()).compareTo(
 						new Integer(((ExcelField)o2[0]).sort()));
-			};
-		});
+			}
+        });
 		//log.debug("Import column count:"+annotationList.size());
 		// Get excel data
 		List<E> dataList = Lists.newArrayList();
 		for (int i = this.getDataRowNum(); i < this.getLastDataRowNum(); i++) {
-			E e = (E)cls.newInstance();
+			E e = cls.newInstance();
 			int column = 0;
 			Row row = this.getRow(i);
 			StringBuilder sb = new StringBuilder();

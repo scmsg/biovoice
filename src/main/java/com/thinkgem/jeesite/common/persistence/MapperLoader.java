@@ -48,7 +48,7 @@ public class MapperLoader implements DisposableBean, InitializingBean, Applicati
 	}
 
 	@Override
-	public void afterPropertiesSet() throws Exception {
+	public void afterPropertiesSet() {
 		try {
 			service = Executors.newScheduledThreadPool(1);
 			
@@ -203,7 +203,7 @@ public class MapperLoader implements DisposableBean, InitializingBean, Applicati
 	}
 
 	@Override
-	public void destroy() throws Exception {
+	public void destroy() {
 		if (service != null) {
 			service.shutdownNow();
 		}

@@ -5,6 +5,7 @@ package com.thinkgem.jeesite.modules.bv.service;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,7 +22,8 @@ import com.thinkgem.jeesite.modules.bv.dao.CustomerDao;
 @Service
 @Transactional(readOnly = true)
 public class CustomerService extends CrudService<CustomerDao, Customer> {
-
+	@Autowired
+	private CustomerDao customerDao;
 	public Customer get(String id) {
 		return super.get(id);
 	}
@@ -43,5 +45,11 @@ public class CustomerService extends CrudService<CustomerDao, Customer> {
 	public void delete(Customer customer) {
 		super.delete(customer);
 	}
-	
+
+	@Transactional(readOnly = false)
+	public List<String> findCompanyList() {
+		return  customerDao.findCompanyList();
+	}
+
+
 }

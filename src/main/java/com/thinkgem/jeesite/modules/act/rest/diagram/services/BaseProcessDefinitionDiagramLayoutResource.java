@@ -64,8 +64,8 @@ public class BaseProcessDefinitionDiagramLayoutResource {
 
 	public ObjectNode getDiagramNode(String processInstanceId, String processDefinitionId) {
 
-		List<String> highLightedFlows = Collections.<String> emptyList();
-		List<String> highLightedActivities = Collections.<String> emptyList();
+		List<String> highLightedFlows = Collections.emptyList();
+		List<String> highLightedActivities = Collections.emptyList();
 
 		Map<String, ObjectNode> subProcessInstanceMap = new HashMap<String, ObjectNode>();
 

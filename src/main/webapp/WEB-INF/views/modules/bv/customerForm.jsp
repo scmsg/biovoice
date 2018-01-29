@@ -114,7 +114,7 @@
 				<form:input path="customerName" htmlEscape="false" maxlength="255" class="input-xlarge "/>
 			</div>
 		</div>
-		
+
 		<c:if test="${empty customer.id}">
 		<div class="control-group">
 			<label class="control-label">根管理账号：</label>
@@ -131,7 +131,7 @@
 			</div>
 		</div>
 		</c:if>
-		
+
 		<div class="control-group">
 			<label class="control-label">根管理密码：</label>
 			<div class="controls">

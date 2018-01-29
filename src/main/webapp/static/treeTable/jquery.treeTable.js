@@ -71,7 +71,7 @@
 
                     //关闭所有孩子的tr
                     shut(id);
-					return;
+					
                 } else if (className == css['AN'] + ' ' + css['HLS'] || className == css['AN'] + ' ' + css['HS']) {
                     var id = $target.parents('tr')[0].id;
                     $target.attr('class', css['AN'] + " " + (className.indexOf(css['HS']) != -1 ? css['HO'] : css['HLO']));
@@ -79,7 +79,7 @@
                     opts.beforeExpand($treeTable, id);
                     //展开所有直属节点，根据图标展开子孙节点
                     open(id);
-					return;
+					
                 }
             }
         });
@@ -105,7 +105,7 @@
                     }
                     
                     $target.attr('class', css['AN'] + ' ' + className);
-                    return;
+                    
                 }
             } 
         }
@@ -228,8 +228,7 @@
             
             var $td = $cur.children("td").eq(opts.column);
             $td.prepend('<span arrow="true" class="' + className + '"></span>').prepend($preSpan);
-        };
-        
+        }
         $treeTable.addChilds = function(trsHtml) {
             var $trs = $(trsHtml);
             if (!$trs.length) { return false; }

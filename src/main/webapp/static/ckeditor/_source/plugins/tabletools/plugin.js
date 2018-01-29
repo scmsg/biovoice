@@ -633,7 +633,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				{
 					tailTr.remove();
 					count++;
-					continue;
+					
 				}
 			}
 

@@ -30,7 +30,7 @@ CKEDITOR.plugins.print =
 	exec : function( editor )
 	{
 		if ( CKEDITOR.env.opera )
-			return;
+			
 		else if ( CKEDITOR.env.gecko )
 			editor.window.$.print();
 		else

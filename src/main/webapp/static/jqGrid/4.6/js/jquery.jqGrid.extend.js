@@ -356,9 +356,8 @@ var DataGrid = function(options){
 			collapseTreeNode();
 			return false;
 		});
-	};
-	
-	// 初始化jqGrid
+    }
+    // 初始化jqGrid
 	dataGrid.jqGrid(options);
 	
 	// 如果设置了多级表头
@@ -442,7 +441,7 @@ var DataGrid = function(options){
 //			var bodyHeight = jqGridParent.parents('.portlet-body').height();
 //			var gridHeight = bodyHeight - outerHeight;
 //			dataGrid.jqGrid('setGridHeight', gridHeight);
-		}
+		};
 		setGridHeight();
 
 		// 设置表格宽度，最小宽度500像素
@@ -495,38 +494,33 @@ var DataGrid = function(options){
 	 */
 	function getParam(paramName){
 		return dataGrid.jqGrid('getGridParam', paramName);
-	};
-
-	/**
+    }
+    /**
 	 * 设置参数
 	 */
 	function setParam(params){
 		dataGrid.jqGrid('setGridParam', params);
 		return self;
-	};
-	
-	/**
+    }
+    /**
 	 * 获取参数
 	 */
 	function getRowData(id){
 		return dataGrid.jqGrid("getRowData", id);
-	};
-
-	/**
+    }
+    /**
 	 * 获取选择行ID
 	 */
 	function getSelectRow(){
 		return getParam("selrow");
-	};
-	
-	/**
+    }
+    /**
 	 * 获取选择行数组ID
 	 */
 	function getSelectRows(){
 		return getParam("selarrrow");
-	};
-
-	/**
+    }
+    /**
 	 * 设置选择行
 	 */
 	function setSelectRow(id){
@@ -535,9 +529,8 @@ var DataGrid = function(options){
 		}
 		dataGrid.jqGrid("setSelection", id);
 		return self;
-	};
-	
-	/**
+    }
+    /**
 	 * 刷新表格
 	 */
 	function refresh(pageNo, pageSize){
@@ -558,17 +551,15 @@ var DataGrid = function(options){
 		setParam(params);
 		dataGrid.trigger('reloadGrid');
 		return self;
-	};
-	
-	/**
+    }
+    /**
 	 * 删除树节点
 	 */
 	function delTreeNode(id){
 		dataGrid.jqGrid("delTreeNode", id);
 		return self;
-	};
-
-	/**
+    }
+    /**
 	 * 展开树节点
 	 * @param level 一次展开的层次
 	 */
@@ -602,9 +593,8 @@ var DataGrid = function(options){
 			closeTip();
 		}, 10);
 		return self;
-	};
-	
-	/**
+    }
+    /**
 	 * 折叠树节点
 	 */
 	function collapseTreeNode(){
@@ -614,9 +604,8 @@ var DataGrid = function(options){
 			closeTip();
 		}, 10);
 		return self;
-	};
-	
-	/**
+    }
+    /**
 	 * 刷新树表格
 	 */
 	function refreshTree(expandLevel, parentCode){
@@ -630,9 +619,8 @@ var DataGrid = function(options){
 		}
 		dataGrid.trigger('reloadGrid');
 		return self;
-	};
-	
-	// public method
+    }
+    // public method
 	var self = {
 		
 		/**
@@ -1210,8 +1198,8 @@ $.extend($.jgrid,{
 	});
 })(jQuery);
 
-;(function($){
-	/**
+(function ($) {
+    /**
 	 * jqGrid Chinese Translation
 	 * 咖啡兔 yanhonglei@gmail.com
 	 * http://www.kafeitu.me 

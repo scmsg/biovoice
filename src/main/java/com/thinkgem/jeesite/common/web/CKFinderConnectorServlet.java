@@ -40,8 +40,8 @@ public class CKFinderConnectorServlet extends ConnectorServlet {
 	}
 	
 	private void prepareGetResponse(final HttpServletRequest request,
-			final HttpServletResponse response, final boolean post) throws ServletException {
-		Principal principal = (Principal) UserUtils.getPrincipal();
+			final HttpServletResponse response, final boolean post) {
+		Principal principal = UserUtils.getPrincipal();
 		if (principal == null){
 			return;
 		}

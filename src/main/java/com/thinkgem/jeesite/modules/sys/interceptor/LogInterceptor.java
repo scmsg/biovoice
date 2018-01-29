@@ -28,7 +28,7 @@ public class LogInterceptor extends BaseService implements HandlerInterceptor {
 	
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, 
-			Object handler) throws Exception {
+			Object handler) {
 		if (logger.isDebugEnabled()){
 			long beginTime = System.currentTimeMillis();//1、开始时间  
 	        startTimeThreadLocal.set(beginTime);		//线程绑定变量（该数据只有当前请求的线程可见）  
@@ -40,7 +40,7 @@ public class LogInterceptor extends BaseService implements HandlerInterceptor {
 
 	@Override
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, 
-			ModelAndView modelAndView) throws Exception {
+			ModelAndView modelAndView) {
 		if (modelAndView != null){
 			logger.info("ViewName: " + modelAndView.getViewName());
 		}
@@ -48,7 +48,7 @@ public class LogInterceptor extends BaseService implements HandlerInterceptor {
 
 	@Override
 	public void afterCompletion(HttpServletRequest request, HttpServletResponse response, 
-			Object handler, Exception ex) throws Exception {
+			Object handler, Exception ex) {
 
 		// 保存日志
 		LogUtils.saveLog(request, handler, ex, null);

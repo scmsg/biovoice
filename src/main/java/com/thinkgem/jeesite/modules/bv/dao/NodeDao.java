@@ -23,4 +23,6 @@ public interface NodeDao extends CrudDao<Node> {
 	List<Node> findBetweenStartAndEnd(NodeDto dto);
 	
 	void updateAllocated(Node node);
+
+	List<String> findPageNodeId();
 }

@@ -416,7 +416,7 @@ public class SystemService extends BaseService implements InitializingBean {
 	 * 是需要同步Activiti数据，如果从未同步过，则同步数据。
 	 */
 	private static boolean isSynActivitiIndetity = true;
-	public void afterPropertiesSet() throws Exception {
+	public void afterPropertiesSet() {
 		if (!Global.isSynActivitiIndetity()){
 			return;
 		}

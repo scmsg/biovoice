@@ -14,7 +14,7 @@
   $.eb.ie6 = function () {
     return navigator.userAgent.toLowerCase().indexOf('msie 6.0') > -1;
     // alert(navigator.userAgent.toLowerCase().indexOf('msie 6.0'));
-  }
+  };
  
 
   $.eb.color = function () {
@@ -113,15 +113,18 @@
 
         $(this).width(w);
       });
-    }
+    };
 
     if ($.eb.ie6()) {
       el = el || $('html');
 
 	  // 去除超链接虚框
-	  $("a").bind("focus",function() { 
-	  	if(this.blur) {this.blur();}; 
-	  });
+	  $("a").bind("focus",function() {
+          
+if (this.blur) {
+              this.blur();
+          }
+      });
    
       //-------------
       // GRID
@@ -253,7 +256,7 @@
         }
 
         self.one('propertychange', {cls:cls}, btnPropertyChange);
-      }
+      };
       $.each(['btn'], function (k,cls) {
         $('.'+cls, el).one('propertychange', {cls:cls}, btnPropertyChange);
       });

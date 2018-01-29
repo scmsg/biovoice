@@ -128,7 +128,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 		editor.forceNextSelectionCheck();
 
-		return;
+
 	}
 
 	function getFullySelected( range, elements, enterMode )

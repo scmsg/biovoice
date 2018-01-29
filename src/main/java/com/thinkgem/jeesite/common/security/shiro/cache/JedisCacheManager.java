@@ -175,7 +175,7 @@ public class JedisCacheManager implements CacheManager {
 				jedis = JedisUtils.getResource();
 				Set<byte[]> set = jedis.hkeys(JedisUtils.getBytesKey(cacheKeyName));
 				for(byte[] key : set){
-					Object obj = (K)JedisUtils.getObjectKey(key);
+					Object obj = JedisUtils.getObjectKey(key);
 					if (obj != null){
 						keys.add((K) obj);
 					}
@@ -193,8 +193,8 @@ public class JedisCacheManager implements CacheManager {
 		@SuppressWarnings("unchecked")
 		@Override
 		public Collection<V> values() {
-			Collection<V> vals = Collections.emptyList();;
-			Jedis jedis = null;
+			Collection<V> vals = Collections.emptyList();
+            Jedis jedis = null;
 			try {
 				jedis = JedisUtils.getResource();
 				Collection<byte[]> col = jedis.hvals(JedisUtils.getBytesKey(cacheKeyName));

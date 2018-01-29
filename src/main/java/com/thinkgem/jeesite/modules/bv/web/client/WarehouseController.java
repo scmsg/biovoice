@@ -122,15 +122,24 @@ public class WarehouseController extends BaseController {
 		warehouse.setUsePlaceId(usePlace.getId());
 		warehouseService.save(warehouse);
 		addMessage(redirectAttributes, "保存仓库管理成功");
-		return "redirect:"+Global.getAdminPath()+"/bv/client/warehouse/list?departmentId="+warehouse.getDepartmentId();
+		//return "redirect:"+Global.getAdminPath()+"/bv/client/warehouse/list?departmentId="+warehouse.getDepartmentId();
+		return "redirect:"+Global.getAdminPath()+"/bv/client/usePlace/list?departmentId="+warehouse.getDepartmentId();
 	}
 	
 	@RequiresPermissions("bv:client:warehouse:edit")
 	@RequestMapping(value = "delete")
 	public String delete(Warehouse warehouse, RedirectAttributes redirectAttributes) {
-		warehouseService.delete(warehouse);
+	//	warehouseService.delete(warehouse);
+		UsePlace usePlace = new UsePlace();
+		usePlace.setId(warehouse.getUsePlaceId());
+	//	usePlace = usePlaceService.get(usePlace);
+		usePlaceService.delete(usePlace);
+		warehouseService.deleteUsePlaceAndWarhouse(warehouse);
+
 		addMessage(redirectAttributes, "删除仓库管理成功");
-		return "redirect:"+Global.getAdminPath()+"/bv/client/warehouse/?repage";
+		//return "redirect:"+Global.getAdminPath()+"/bv/client/warehouse/?repage";
+
+		return "redirect:"+Global.getAdminPath()+"/bv/client/usePlace/list?departmentId="+warehouse.getDepartmentId();
 	}
 
 }

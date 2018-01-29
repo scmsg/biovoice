@@ -144,8 +144,8 @@ public class ExportExcel {
 			public int compare(Object[] o1, Object[] o2) {
 				return new Integer(((ExcelField)o1[0]).sort()).compareTo(
 						new Integer(((ExcelField)o2[0]).sort()));
-			};
-		});
+			}
+        });
 		// Initialize
 		List<String> headerList = Lists.newArrayList();
 		for (Object[] os : annotationList){
@@ -434,7 +434,7 @@ public class ExportExcel {
 	 * 输出到文件
 	 * @param fileName 输出文件名
 	 */
-	public ExportExcel writeFile(String name) throws FileNotFoundException, IOException{
+	public ExportExcel writeFile(String name) throws IOException{
 		FileOutputStream os = new FileOutputStream(name);
 		this.write(os);
 		return this;

@@ -65,5 +65,8 @@ public class NodeService extends CrudService<NodeDao, Node> {
 	public void delete(Node node) {
 		super.delete(node);
 	}
+	public List<String> findPageNodeId() {
+		return nodeDao.findPageNodeId();
+	}
 	
 }

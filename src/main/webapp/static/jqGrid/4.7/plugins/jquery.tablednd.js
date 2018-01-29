@@ -376,7 +376,7 @@ jQuery.tableDnD = {
         .unbind('mousemove', jQuery.tableDnD.mousemove)
         .unbind('mouseup', jQuery.tableDnD.mouseup);
     }
-}
+};
 
 jQuery.fn.extend(
 	{

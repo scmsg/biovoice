@@ -56,8 +56,8 @@ public class DateConverter implements Converter {
 		Date result = null;
 
 		if (value instanceof String) {
-			result = DateUtils.parseDate((String) value, new String[] { DATE_PATTERN, DATETIME_PATTERN,
-					DATETIME_PATTERN_NO_SECOND, MONTH_PATTERN });
+			result = DateUtils.parseDate((String) value, DATE_PATTERN, DATETIME_PATTERN,
+                    DATETIME_PATTERN_NO_SECOND, MONTH_PATTERN);
 
 			// all patterns failed, try a milliseconds constructor
 			if (result == null && StringUtils.isNotEmpty((String) value)) {

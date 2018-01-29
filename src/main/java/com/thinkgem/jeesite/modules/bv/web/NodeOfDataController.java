@@ -3,6 +3,8 @@
  */
 package com.thinkgem.jeesite.modules.bv.web;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -65,15 +67,29 @@ public class NodeOfDataController extends BaseController {
 	
 	@RequiresPermissions("bv:nodeOfData:view")
 	@RequestMapping(value = "charts")
-	public String charts(NodeOfData nodeOfData, HttpServletRequest request, HttpServletResponse response, Model model) {
+	public String charts(String startTime,String endTime,  NodeOfData nodeOfData, HttpServletRequest request, HttpServletResponse response, Model model) {
 		logger.info("nodeOfDataCharts nodeOfData: "+JacksonBundle.nonNullMapper().toJson(nodeOfData));
 		if(null == nodeOfData || null == nodeOfData.getNodeId() || nodeOfData.getNodeId() == 0){
 			logger.info("请输入你要查看的节点ID，请检查~~");
 			addMessage(model, "请输入你要查看的节点ID，请检查");
+			logger.info("开始时间"+startTime);
+			logger.info("开始时间"+endTime);
+			//return "modules/bv/bvMap";
 			return "modules/bv/nodeOfDataCharts";
 		}
-		
-		Page<NodeOfData> page = nodeOfDataService.findPage(new Page<NodeOfData>(request, response), nodeOfData); 
+		long stime=0;
+		long etime=0;
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		try {
+			if(null != startTime)  stime = simpleDateFormat.parse(startTime).getTime()/1000;
+			if(null != endTime)  etime = simpleDateFormat.parse(endTime).getTime()/1000;
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		logger.info("开始时间"+stime);
+		logger.info("结束时间"+etime);
+		Page<NodeOfData> page = nodeOfDataService.findByStartTimeToEndTime(stime,etime,new Page<NodeOfData>(request, response), nodeOfData);
+		logger.info("已取出数据");
 		model.addAttribute("page", page);
 		model.addAttribute("nodeOfData", nodeOfData);
 		
@@ -100,7 +116,8 @@ public class NodeOfDataController extends BaseController {
 			model.addAttribute("yAxis", "测量温度值");//测量温度值
 			
 			model.addAttribute("nodeId", nodeOfData.getNodeId());
-			
+			model.addAttribute("start",startTime);
+			model.addAttribute("end",endTime);
 			JSONArray datasArray = new JSONArray(datas);
 			model.addAttribute("datas", datasArray);
 		}else{

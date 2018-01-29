@@ -12,13 +12,13 @@
             evtName: ("ontouchstart" in window)?"touchend":"click"
         }
 
-    }
+    };
     _playbox.prototype = {
         init: function(box_ele){
             this.box = "string" === typeof(box_ele)?document.getElementById(box_ele):box_ele;
             this.player = this.box.querySelectorAll("audio")[0];
             this.src = this.player.src;
-            this.init = function(){return this;}
+            this.init = function(){return this;};
             this.autoPlayEvt(true);
             return this;
         },
@@ -49,11 +49,11 @@
                 document.body.removeEventListener(this.autoPlayFix.evtName, this, false);
             }
         }
-    }
+    };
     //
     return new _playbox();
 })();
 
 playbox.play_fn = function(){
     this.box.className = this.on?"btn_music":"btn_music on";
-}
+};

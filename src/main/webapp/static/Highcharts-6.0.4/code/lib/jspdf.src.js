@@ -7104,7 +7104,7 @@ Q\n";
     		l = cns.length;
     		while (i < l) {
     			cn = cns[i];
-    			if ((typeof cn === "undefined" ? "undefined" : babelHelpers.typeof(cn)) === "object") {
+    			if ((typeof cn === "undefined" ? "undefined" : babelHelperstypeof(cn)) === "object") {
 
     				//execute all watcher functions to e.g. reset floating
     				renderer.executeWatchFunctions(cn);

@@ -45,7 +45,7 @@ public class ActTaskController extends BaseController {
 	 * @return
 	 */
 	@RequestMapping(value = {"todo", ""})
-	public String todoList(Act act, HttpServletResponse response, Model model) throws Exception {
+	public String todoList(Act act, HttpServletResponse response, Model model) {
 		List<Act> list = actTaskService.todoList(act);
 		model.addAttribute("list", list);
 		if (UserUtils.getPrincipal().isMobileLogin()){
@@ -61,7 +61,7 @@ public class ActTaskController extends BaseController {
 	 * @return
 	 */
 	@RequestMapping(value = "historic")
-	public String historicList(Act act, HttpServletRequest request, HttpServletResponse response, Model model) throws Exception {
+	public String historicList(Act act, HttpServletRequest request, HttpServletResponse response, Model model) {
 		Page<Act> page = new Page<Act>(request, response);
 		page = actTaskService.historicList(page, act);
 		model.addAttribute("page", page);
@@ -134,7 +134,7 @@ public class ActTaskController extends BaseController {
 	 */
 	@RequestMapping(value = "start")
 	@ResponseBody
-	public String start(Act act, String table, String id, Model model) throws Exception {
+	public String start(Act act, String table, String id, Model model) {
 		actTaskService.startProcess(act.getProcDefKey(), act.getBusinessId(), act.getBusinessTable(), act.getTitle());
 		return "true";//adminPath + "/act/task";
 	}

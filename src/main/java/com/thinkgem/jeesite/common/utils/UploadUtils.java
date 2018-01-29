@@ -247,7 +247,7 @@ public class UploadUtils {
 		if (item.getSize() > maxSize) { // 检查文件大小
 			// TODO
 			error = "上传文件大小超过限制";
-		} else if (!Arrays.<String> asList(extMap.get(dirName).split(",")).contains(fileExt)) {// 检查扩展名
+		} else if (!Arrays.asList(extMap.get(dirName).split(",")).contains(fileExt)) {// 检查扩展名
 			error = "上传文件扩展名是不允许的扩展名。\n只允许" + extMap.get(dirName) + "格式。";
 		} else {
 			String newFileName;

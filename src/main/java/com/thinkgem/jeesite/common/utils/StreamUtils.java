@@ -140,7 +140,7 @@ public class StreamUtils {
 	 * @return
 	 * @throws Exception
 	 */
-	public static InputStream byteTOInputStream(byte[] in) throws Exception {
+	public static InputStream byteTOInputStream(byte[] in) {
 
 		ByteArrayInputStream is = new ByteArrayInputStream(in);
 		return is;

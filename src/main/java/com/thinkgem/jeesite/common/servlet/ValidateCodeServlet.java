@@ -47,7 +47,7 @@ public class ValidateCodeServlet extends HttpServlet {
 	}
 
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+			throws IOException {
 		String validateCode = request.getParameter(VALIDATE_CODE); // AJAX验证，成功返回true
 		if (StringUtils.isNotBlank(validateCode)){
 			response.getOutputStream().print(validate(request, validateCode)?"true":"false");
@@ -57,7 +57,7 @@ public class ValidateCodeServlet extends HttpServlet {
 	}
 
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+			throws IOException {
 		createImage(request,response);
 	}
 	

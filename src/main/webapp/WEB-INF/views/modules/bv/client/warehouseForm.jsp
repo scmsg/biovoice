@@ -29,8 +29,8 @@
 </head>
 <body>
 	<ul class="nav nav-tabs">
-		<li><a href="${ctx}/bv/client/warehouse/list?departmentId=${departmentId}">仓库管理列表</a></li>
-		<li class="active"><a href="${ctx}/bv/client/warehouse/form?id=${warehouse.id}">仓库管理<shiro:hasPermission name="bv:client:warehouse:edit">${not empty warehouse.id?'修改':'添加'}</shiro:hasPermission><shiro:lacksPermission name="bv:client:warehouse:edit">查看</shiro:lacksPermission></a></li>
+		<%--<li><a href="${ctx}/bv/client/warehouse/list?departmentId=${departmentId}">仓库管理列表</a></li>--%>
+		<li class="active"><a href="${ctx}/bv/client/warehouse/form?id=${warehouse.id}"><shiro:hasPermission name="bv:client:warehouse:edit">${not empty warehouse.id?'修改':'新增'}仓库</shiro:hasPermission><shiro:lacksPermission name="bv:client:warehouse:edit">查看</shiro:lacksPermission></a></li>
 	</ul><br/>
 	<form:form id="inputForm" modelAttribute="warehouse" action="${ctx}/bv/client/warehouse/save" method="post" class="form-horizontal">
 		<form:hidden path="id"/>
@@ -38,8 +38,8 @@
 		<sys:message content="${message}"/>		
 		<div class="tab-container">
 			<ul class="tab-head">
-				<li id="1" class="select"><a href="#">参数设置</a></li>
-				<li id="2" class="select"><a href="#">设施信息</a></li>
+				<li id="1" class="select"><a href="#">仓库参数</a></li>
+				<li id="2" class="select"><a href="#">仓库信息</a></li>
 				<li id="3" class="select"><a href="#">验证信息</a></li>
 			</ul>
 			<div id="tab-panel" class="tab-panel">

@@ -53,6 +53,13 @@ public class GateController extends BaseController {
 		model.addAttribute("page", page);
 		return "modules/bv/gateList";
 	}
+	@RequiresPermissions("bv:gate:view")
+	@RequestMapping(value = {"gateMap"})
+	public String gateMap(Gate gate, HttpServletRequest request, HttpServletResponse response, Model model) {
+		Page<Gate> page = gateService.findPage(new Page<Gate>(request, response), gate);
+		model.addAttribute("page", page);
+		return "modules/bv/gateList";
+	}
 
 	@RequiresPermissions("bv:gate:view")
 	@RequestMapping(value = "form")

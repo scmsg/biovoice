@@ -210,5 +210,10 @@
 		DELETE FROM t_bv_warehouse
 		WHERE id = #{id}
 	</update>
+	<update id="deleteUsePlaceAndWarhouse">
+		DELETE FROM t_bv_warehouse
+		WHERE id = #{id}
+	</update>
+
 	
 </mapper>

@@ -69,7 +69,7 @@ J.Element = (function($){
         'progress' : '[data-progress]',
         'count' : '[data-count]',
         'checkbox' : '[data-checkbox]'
-    }
+    };
     /**
      * 初始化容器内组件
      * @param {String} 父元素的css选择器
@@ -81,7 +81,7 @@ J.Element = (function($){
             $(document).on('articleshow','article',function(){
                 J.Element.scroll(this);
             });
-        };
+        }
         var $el = $(selector || 'body');
         if($el.length == 0)return;
 
@@ -92,7 +92,7 @@ J.Element = (function($){
         $.map(_getMatchElements($el,SELECTOR.count),_init_badge);
         $.map(_getMatchElements($el,SELECTOR.checkbox),_init_checkbox);
         $el = null;
-    }
+    };
 
     /**
      * 初始化按钮组(绑定事件)
@@ -103,19 +103,19 @@ J.Element = (function($){
             if($this.hasClass('active'))return;
             $this.addClass('active').siblings('.active').removeClass('active').parent().trigger('change',[$this]);
         });
-    }
+    };
     /**
      * 自身与子集相结合
      */
     var _getMatchElements = function($el,selector){
         return $el.find(selector).add($el.filter(selector));
-    }
+    };
     /**
      * 初始化iscroll组件或容器内iscroll组件
      */
     var initScroll = function(selector){
         $.map(_getMatchElements($(selector),SELECTOR.scroll),function(el){J.Scroll(el);});
-    }
+    };
     /**
      * 构造icon组件
      */
@@ -126,7 +126,7 @@ J.Element = (function($){
         }else{
             $el.prepend('<i class="icon '+icon+'"></i>');
         }
-    }
+    };
     /**
      * 构造toggle切换组件
      */
@@ -146,7 +146,7 @@ J.Element = (function($){
             $t.toggleClass('active').trigger('toggle',[v]);//定义toggle事件
             $t.find('input').val(v);
         })
-    }
+    };
     /**
      * 构造range滑块组件
      */
@@ -171,7 +171,7 @@ J.Element = (function($){
             $range.val(value);
             $input.val(value);
         })
-    }
+    };
     /**
      * 构造progress组件
      */
@@ -187,7 +187,7 @@ J.Element = (function($){
         if(progress == '100%'){
             $bar.css('border-radius','10px');
         }
-    }
+    };
     /**
      * 构造badge组件
      */
@@ -202,7 +202,7 @@ J.Element = (function($){
         if(count == 0){
             $count.hide();
         }
-    }
+    };
 
     var _init_checkbox = function(el){
         var $el = $(el);
@@ -218,7 +218,7 @@ J.Element = (function($){
             $el.trigger('change');
         });
 
-    }
+    };
 
     return {
         init : init,
@@ -253,7 +253,7 @@ J.Menu = (function($){
             }
         });
         $asideContainer.on('tap','.aside-close',hideMenu);
-    }
+    };
     /**
      * 打开侧边菜单
      * @param selector css选择器或element实例
@@ -282,7 +282,7 @@ J.Menu = (function($){
         }
         $('#section_container_mask').show();
         J.hasMenuOpen = true;
-    }
+    };
     /**
      * 关闭侧边菜单
      * @param duration {int} 动画持续时间
@@ -310,7 +310,7 @@ J.Menu = (function($){
         }
 
         $('#section_container_mask').hide();
-    }
+    };
     return {
         init : init,
         show : showMenu,
@@ -323,7 +323,7 @@ J.Menu = (function($){
 J.Page = (function($){
     var _formatHash = function(hash){
         return hash.indexOf('#') == 0 ? hash.substr(1) : hash;
-    }
+    };
     /**
      * 加载section模板
      * @param {string} hash信息
@@ -368,14 +368,14 @@ J.Page = (function($){
             callback();
             $h = null;
         });
-    }
+    };
     var loadSectionRemote = function(url,section){
         var param = J.Util.parseHash(window.location.hash).param;
         loadContent(url,param,function(html){
             $(section).html(html);
             J.Element.init(section);
         });
-    }
+    };
     /**
      * 加载文档片段
      * @param url
@@ -389,7 +389,7 @@ J.Page = (function($){
                     callback && callback(html);
                 }
             });
-    }
+    };
     return {
         load : loadSectionTpl,
         loadSection : loadSectionRemote,
@@ -417,7 +417,7 @@ J.Router = (function($){
         });
         $(document).on('tap','a[data-target]',_targetHandler);
         _initIndex();
-    }
+    };
 
     //处理app页面初始化
     var _initIndex = function(){
@@ -431,7 +431,7 @@ J.Router = (function($){
         }else{
             $section.trigger('pageinit').trigger('pageshow').data('init',true).find('article.active').trigger('articleshow');
         }
-    }
+    };
 
     /**
      * 处理浏览器的后退事件
@@ -446,13 +446,13 @@ J.Router = (function($){
                 J.hasPopupOpen && J.Popup.close();//关闭当前页面的弹出窗口
                 back();
             }else{//其他认为是非法后退或者前进
-                return;
+                
             }
         }else{
-            return;
+            
         }
 
-    }
+    };
     var _targetHandler = function(){
         var _this = $(this),
             target = _this.attr('data-target'),
@@ -474,7 +474,7 @@ J.Router = (function($){
                 window.history.go(-1);
                 break;
         }
-    }
+    };
 
     /**
      * 跳转到新页面
@@ -504,7 +504,7 @@ J.Router = (function($){
            }
             _add2History(hash,sameSection);
         });
-    }
+    };
     /**
      * 后退
      */
@@ -512,10 +512,10 @@ J.Router = (function($){
         if(J.settings.appType == 'single'){
             _changePage(_history.shift().tag,_history[0].tag,true)
         }
-    }
+    };
     var _changePage = function(current,target,isBack){
         J.Transition.run(current,target,isBack);
-    }
+    };
     /**
      * 缓存访问记录
      */
@@ -528,7 +528,7 @@ J.Router = (function($){
             window.history.pushState(hashObj,'',hash);
         }
         _history.unshift(hashObj);
-    }
+    };
 
     /**
      * 激活href对应的article
@@ -542,11 +542,11 @@ J.Router = (function($){
         var activeArticle = article.addClass('active').siblings('.active').removeClass('active');
         article.trigger('articleshow');
         activeArticle.trigger('articlehide');
-    }
+    };
 
     var _toggleMenu = function(hash){
         J.hasMenuOpen?J.Menu.hide():J.Menu.show(hash);
-    }
+    };
 
     return {
         init : init,
@@ -569,7 +569,7 @@ J.Service = (function($){
         }else{
             _doGet(options);
         }
-    }
+    };
 
     var _doPost = function(options){
         if(J.offline){//离线模式，将数据存到本地，连线时进行提交
@@ -578,7 +578,7 @@ J.Service = (function($){
         }else{//在线模式，直接提交
             $.ajax(options);
         }
-    }
+    };
     var _doGet = function(options){
         var key = options.url +JSON.stringify(options.data);
         if(J.offline){//离线模式，直接从本地读取
@@ -593,10 +593,10 @@ J.Service = (function($){
             options.success = function(result){
                 _saveData2local(key,result);
                 callback(result,key);
-            }
+            };
             $.ajax(options);
         }
-    }
+    };
 
     /**
      * 获取本地已缓存的数据
@@ -604,7 +604,7 @@ J.Service = (function($){
      */
     var _getCache = function(key){
          return JSON.parse(window.localStorage.getItem(GET_KEY_PREFIX+key));
-    }
+    };
     /**
      * 缓存数据到本地
      * @private
@@ -613,9 +613,9 @@ J.Service = (function($){
         var data = {
             data : result,
             cacheTime : new Date()
-        }
+        };
         window.localStorage.setItem(GET_KEY_PREFIX+key,JSON.stringify(data));
-    }
+    };
 
     /**
      * 将post的数据保存至本地
@@ -629,9 +629,9 @@ J.Service = (function($){
         data[url] = {
             data : result,
             createdTime : new Date()
-        }
+        };
         window.localStorage.setItem(UNPOST_KEY,JSON.stringify(data));
-    }
+    };
     /**
      *  获取尚未同步的post数据
      * @param url  没有就返回所有未同步的数据
@@ -639,7 +639,7 @@ J.Service = (function($){
     var getUnPostData = function(url){
         var data = JSON.parse(window.localStorage.getItem(UNPOST_KEY));
         return (data && url ) ? data[url] : data;
-    }
+    };
     /**
      * 移除未同步的数据
      * @param url 没有就移除所有未同步的数据
@@ -652,7 +652,7 @@ J.Service = (function($){
         }else{
             window.localStorage.removeItem(UNPOST_KEY);
         }
-    }
+    };
 
     /**
      * 同步本地缓存的post数据
@@ -672,7 +672,7 @@ J.Service = (function($){
                 error(url);
             }
         })
-    }
+    };
     /**
      * 同步所有的数据
      * @param callback
@@ -683,11 +683,11 @@ J.Service = (function($){
             syncPostData(url,success,error);
         }
         removeUnPostData();
-    }
+    };
 
     //copy from zepto
     function parseArguments(url, data, success, dataType) {
-        var hasData = !$.isFunction(data)
+        var hasData = !$.isFunction(data);
         return {
             url:      url,
             data:     hasData  ? data : undefined,
@@ -698,19 +698,19 @@ J.Service = (function($){
 
     var get = function(url, data, success, dataType){
         return ajax(parseArguments.apply(null, arguments))
-    }
+    };
 
     var post = function(url, data, success, dataType){
-        var options = parseArguments.apply(null, arguments)
-        options.type = 'POST'
+        var options = parseArguments.apply(null, arguments);
+        options.type = 'POST';
         return ajax(options)
-    }
+    };
 
     var getJSON = function(url, data, success){
         var options = parseArguments.apply(null, arguments);
-        options.dataType = 'json'
+        options.dataType = 'json';
         return ajax(options)
-    }
+    };
     var clear = function(){
         var storage = window.localStorage;
         var keys = [];
@@ -722,7 +722,7 @@ J.Service = (function($){
             storage.removeItem(keys[i]);
         }
         storage.removeItem(UNPOST_KEY);
-    }
+    };
     return {
         ajax : ajax,
         get : get,
@@ -750,7 +750,7 @@ J.Template = (function($){
     var background = function(el,title,icon){
         var markup = '<div class="back-mask"><div class="icon '+icon+'"></div><div>'+title+'</div></div>';
         $(el).html(markup);
-    }
+    };
 
     /**
      * 无记录背景模板
@@ -758,14 +758,14 @@ J.Template = (function($){
      */
     var no_result = function(el){
         background(el,'没有找到相关数据','drawer');
-    }
+    };
     /**
      * 加载等待背景模板
      * @param el
      */
     var loading = function(el){
         background(el,'加载中...','cloud-download');
-    }
+    };
 
     /**
      * 借助artTemplate模板来渲染页面
@@ -788,7 +788,7 @@ J.Template = (function($){
             }
             J.Element.init(html);
         }
-    }
+    };
     return {
         render : render,
         background : background,
@@ -808,14 +808,14 @@ J.Toast = (function($){
             success : '<a href="#"><i class="icon checkmark-circle"></i>{value}</a>',
             error : '<a href="#"><i class="icon cancel-circle"></i>{value}</a></div>',
             info : '<a href="#"><i class="icon info-2"></i>{value}</a>'
-        }
+        };
 
     var _init = function(){
         //全局只有一个实例
         $('body').append('<div id="jingle_toast"></div>');
         _toast = $('#jingle_toast');
         _subscribeCloseTag();
-    }
+    };
 
     /**
      * 关闭消息提示
@@ -825,7 +825,7 @@ J.Toast = (function($){
             _toast.hide();
            _toast.empty();
         });
-    }
+    };
     /**
      * 显示消息提示
      * @param type 类型  toast|success|error|info  空格 + class name 可以实现自定义样式
@@ -841,12 +841,12 @@ J.Toast = (function($){
         if(duration !== 0){//为0 不自动关闭
             timer = setTimeout(hide,duration || J.settings.toastDuration);
         }
-    }
+    };
     var _subscribeCloseTag = function(){
         _toast.on('tap','[data-target="close"]',function(){
             hide();
         })
-    }
+    };
     _init();
     return {
         show : show,
@@ -876,7 +876,7 @@ J.Transition = (function($){
         var c_class = transitionName[0]||'empty' ,t_class = transitionName[1]||'empty';
         $current.bind('webkitAnimationEnd.jingle', _finishTransition).addClass('anim '+ c_class);
         $target.addClass('anim animating '+ t_class);
-    }
+    };
     var _finishTransition = function() {
         $current.off('webkitAnimationEnd.jingle');
         $target.off('webkitAnimationEnd.jingle');
@@ -894,7 +894,7 @@ J.Transition = (function($){
         $current.find('article.active').trigger('articlehide');
         $target.find('article.active').trigger('articleshow');
         $current = $target = null;//释放
-    }
+    };
 
     /**
      * 执行转场动画，动画类型取决于目标page上动画配置(返回时取决于当前page)
@@ -913,7 +913,7 @@ J.Transition = (function($){
         //后退时取相反的动画效果组
         transitionName  = isBack ? animationClass[type][1] : animationClass[type][0];
         _doTransition();
-    }
+    };
 
     /**
      * 添加自定义转场动画效果
@@ -929,7 +929,7 @@ J.Transition = (function($){
             return;
         }
         animationClass[name] = [[currentOut,targetIn],[backCurrentOut,backCurrentIn]];
-    }
+    };
     return {
         run : run,
         add : addAnimation
@@ -960,7 +960,7 @@ J.Util = (function($){
             query : query,
             param : param
         }
-    }
+    };
 
     /**
      * 格式化date
@@ -977,14 +977,14 @@ J.Util = (function($){
             "s+" : date.getSeconds(), //second
             "q+" : Math.floor((date.getMonth()+3)/3),  //quarter
             "S" : date.getMilliseconds() //millisecond
-        }
+        };
         if(/(y+)/.test(format))
             format=format.replace(RegExp.$1,(date.getFullYear()+"").substr(4 - RegExp.$1.length));
         for(var k in o)
             if(new RegExp("("+ k +")").test(format))
                 format = format.replace(RegExp.$1,RegExp.$1.length==1 ? o[k] : ("00"+ o[k]).substr((""+ o[k]).length));
         return format;
-    }
+    };
 
     return {
         parseHash : parseHash,
@@ -1014,7 +1014,7 @@ J.Welcome = (function($){
                 });
             }
         })
-    }
+    };
     /**
      * 关闭欢迎界面
      */
@@ -1023,7 +1023,7 @@ J.Welcome = (function($){
             $(this).remove();
             window.localStorage.setItem('hasShowWelcome',true);
         })
-    }
+    };
 
     return {
         show : showWelcome,
@@ -1047,20 +1047,20 @@ J.Welcome = (function($){
             t == 'number'?(d=a):(t=='string'?(e=a):(t=='function')?(c=a):null);
         }
         $(el).animate(animName,d|| J.settings.transitionTime,e||J.settings.transitionTimingFunc,c);
-    }
+    };
     /**
      * 显示loading框
      * @param text
      */
     J.showMask = function(text){
         J.Popup.loading(text);
-    }
+    };
     /**
      * 关闭loading框
      */
     J.hideMask = function(){
         J.Popup.close(true);
-    }
+    };
     /**
      *  显示消息
      * @param text
@@ -1070,32 +1070,32 @@ J.Welcome = (function($){
     J.showToast = function(text,type,duration){
         type = type || 'toast';
         J.Toast.show(type,text,duration);
-    }
+    };
     /**
      * 关闭消息提示
      */
     J.hideToast = function(){
         J.Toast.hide();
-    }
+    };
     J.alert = function(title,content){
         J.Popup.alert(title,content);
-    }
+    };
     J.confirm = function(title,content,okCall,cancelCall){
         J.Popup.confirm(title,content,okCall,cancelCall);
-    }
+    };
     /**
      * 弹出窗口
      * @param options
      */
     J.popup = function(options){
         J.Popup.show(options);
-    }
+    };
     /**
      * 关闭窗口
      */
     J.closePopup = function(){
         J.Popup.close();
-    }
+    };
     /**
      * 带箭头的弹出框
      * @param html [可选]
@@ -1105,7 +1105,7 @@ J.Welcome = (function($){
      */
     J.popover = function(html,pos,arrowDirection,onShow){
         J.Popup.popover(html,pos,arrowDirection,onShow);
-    }
+    };
     /**
      * 自动渲染模板并填充到页面
      * @param containerSelector 欲填充的容器
@@ -1170,7 +1170,7 @@ J.Popup = (function($){
         _mask = $('#jingle_popup_mask');
         _popup = $('#jingle_popup');
         _subscribeEvents();
-    }
+    };
 
     var show = function(options){
         var settings = {
@@ -1189,7 +1189,7 @@ J.Popup = (function($){
             timingFunc : 'linear',
             duration : 200,//动画执行时间
             onShow : undefined //@event 在popup内容加载完毕，动画开始前触发
-        }
+        };
         $.extend(settings,options);
         clickMask2close = settings.clickMask2Close;
         _mask.css('opacity',settings.opacity);
@@ -1203,7 +1203,7 @@ J.Popup = (function($){
             transition = ANIM['defaultAnim'];
         }else if(pos_type == 'string'){
             if(POSITION[settings.pos]){ //已经默认的样式
-                _popup.css(POSITION[settings.pos])
+                _popup.css(POSITION[settings.pos]);
                 var trans_key = settings.pos.indexOf('top')>-1?'top':(settings.pos.indexOf('bottom')>-1?'bottom':'defaultAnim');
                 transition = ANIM[trans_key];
             }else{// pos 为 class
@@ -1251,7 +1251,7 @@ J.Popup = (function($){
             J.anim(_popup,transition[0],settings.duration,settings.timingFunc);
         }
         J.hasPopupOpen = true;
-    }
+    };
 
     /**
      * 关闭弹出框
@@ -1269,13 +1269,13 @@ J.Popup = (function($){
             J.hasPopupOpen = false;
         }
 
-    }
+    };
     var _subscribeEvents = function(){
         _mask.on('tap',function(){
             clickMask2close &&  hide();
         });
         _popup.on('tap','[data-target="closePopup"]',function(){hide();});
-    }
+    };
 
     /**
      * alert组件
@@ -1290,7 +1290,7 @@ J.Popup = (function($){
             clickMask2Close : false,
             showCloseBtn : false
         });
-    }
+    };
 
     /**
      * confirm 组件
@@ -1315,7 +1315,7 @@ J.Popup = (function($){
             hide();
             cancelCall.call(this);
         });
-    }
+    };
 
     /**
      * 带箭头的弹出框
@@ -1332,7 +1332,7 @@ J.Popup = (function($){
             arrowDirection : arrow_direction,
             onShow : onShow
         });
-    }
+    };
 
     /**
      * loading组件
@@ -1347,7 +1347,7 @@ J.Popup = (function($){
             animation : true,
             clickMask2Close : false
         });
-    }
+    };
 
     /**
      * actionsheet组件
@@ -1376,7 +1376,7 @@ J.Popup = (function($){
                 });
             }
         });
-    }
+    };
 
     _init();
 
@@ -1434,15 +1434,15 @@ J.Cache = (function($){
         var data = {
             data : value,
             cacheTime : new Date()
-        }
+        };
         window.localStorage.setItem(GET_KEY_PREFIX+key,JSON.stringify(data));
-    }
+    };
     /**
      * 获取本地已缓存的数据
      */
     var get = function(key){
         return JSON.parse(window.localStorage.getItem(GET_KEY_PREFIX+key));
-    }
+    };
 
     /**
      * 缓存本地待提交到服务端的数据(离线操作)
@@ -1455,9 +1455,9 @@ J.Cache = (function($){
         data[url] = {
             data : result,
             createdTime : new Date()
-        }
+        };
         window.localStorage.setItem(UNPOST_KEY,JSON.stringify(data));
-    }
+    };
 
     /**
      *  获取本地尚未提交到服务端的缓存数据
@@ -1466,7 +1466,7 @@ J.Cache = (function($){
     var getPost = function(url){
         var data = JSON.parse(window.localStorage.getItem(UNPOST_KEY));
         return (data && url ) ? data[url] : data;
-    }
+    };
     /**
      * 移除未提交的待提交到服务端的缓存数据
      * @param url 没有就移除所有未提交的数据
@@ -1479,7 +1479,7 @@ J.Cache = (function($){
         }else{
             window.localStorage.removeItem(UNPOST_KEY);
         }
-    }
+    };
     /**
      * 同步本地未提交的数据到服务端
      * * @param url 没有就同步所有未提交的数据
@@ -1514,7 +1514,7 @@ J.Cache = (function($){
                 }
             })
         }
-    }
+    };
 
     /**
      * 清空本地缓存
@@ -1527,7 +1527,7 @@ J.Cache = (function($){
             }
         }
         storage.removeItem(UNPOST_KEY);
-    }
+    };
 
 
     return {
@@ -1541,7 +1541,7 @@ J.Cache = (function($){
     }
 
 })(J.$);
-;(function($){
+(function ($) {
     /**
      * 日历组件
      * @param selector selector
@@ -1571,20 +1571,20 @@ J.Cache = (function($){
             currentDate = new Date(currentYear,currentMonth,_this.settings.date.getDate());
             _render();
             _subscribeEvents();
-        }
+        };
 
         /**
          * 获取月份第一天是星期几[0-6]
          */
         var _fisrtDayOfMonth = function(date){
             return ( new Date(date.getFullYear(), date.getMonth(), 1) ).getDay();
-        }
+        };
         /**
          * 获取月份总天数[1-31]
          */
         var _daysInMonth = function(date){
             return ( new Date(date.getFullYear(),date.getMonth()+1,0) ).getDate();
-        }
+        };
 
         /**
          * 渲染日历
@@ -1597,13 +1597,13 @@ J.Cache = (function($){
             html += _renderHead();
             html += '<div class="jingle-calendar-body">';
             html += _renderBody(currentDate);
-            html += '</div></div>'
+            html += '</div></div>';
             $el.html(html);
             var $span = $el.find('span');
             $yearText = $span.eq(0);
             $monthText = $span.eq(1);
             $calendarBody = $el.find('.jingle-calendar-body');
-        }
+        };
 
         var _renderNav = function(year,month){
             var html = '<div class="jingle-calendar-nav">';
@@ -1611,16 +1611,16 @@ J.Cache = (function($){
             html += '<div ><i class="icon previous" data-month='+month+'></i> <span>'+_this.settings.months[month]+'</span><i class="icon next" data-month='+month+'></i></div>';
             html += '</div>';
             return html;
-        }
+        };
 
         var _renderHead = function(){
             var html = '<table><thead><tr>';
             for(var i = 0; i < 7; i++){
                 html += '<th>'+_this.settings.days[i]+'</th>';
             }
-            html += '</tr></thead></table>'
+            html += '</tr></thead></table>';
             return html;
-        }
+        };
 
         var _renderBody = function(date){
             var firstDay = _fisrtDayOfMonth(date),
@@ -1642,7 +1642,7 @@ J.Cache = (function($){
             }
             html += '</tbody></table>';
             return html;
-        }
+        };
         var _renderDay = function(date,month){
             var otherMonth = (date.getMonth() !== month);
             var dateStr = _this.format(date);
@@ -1652,7 +1652,7 @@ J.Cache = (function($){
                 dayStr = _this.settings.onRenderDay.call(null,dayStr,dateStr);
             }
             return otherMonth ? '<td>&nbsp;</td>' : '<td data-selected="selected" class="'+classname+ '" data-date= '+dateStr+'>'+dayStr+'</td>';
-        }
+        };
 
         var _subscribeEvents = function(){
             var $target,$ctarget;
@@ -1695,7 +1695,7 @@ J.Cache = (function($){
                 currentDate.setMonth(currentDate.getMonth()-1);
                 _this.refresh(currentDate);
             })
-        }
+        };
 
         /**
          * 刷新日历为指定日期
@@ -1716,9 +1716,9 @@ J.Cache = (function($){
                 $calendarBody.html(newbody);
             });
 
-        }
+        };
         _init();
-    }
+    };
     /**
      * 字符串转化为日期对象，只支持yyyy-MM-dd 和 yyyy/MM/dd
      * @param date
@@ -1727,7 +1727,7 @@ J.Cache = (function($){
     calendar.prototype.parse = function(date){
         var dateRE = /^(\d{4})(?:\-|\/)(\d{1,2})(?:\-|\/)(\d{1,2})$/;
         return dateRE.test(date) ? new Date(parseInt(RegExp.$1, 10), parseInt(RegExp.$2, 10) - 1, parseInt(RegExp.$3, 10)) : null;
-    }
+    };
     /**
      * 格式化日期  yyyy-MM-dd
      * @return {String}
@@ -1737,13 +1737,10 @@ J.Cache = (function($){
         m = (m<10)?('0'+m):m;
         d = (d<10)?('0'+d):d;
         return y + '-' + m + '-' + d;
-    }
+    };
     J.Calendar = calendar;
 })(J.$);
-/**
- *  哥屋恩动组件(iscroll)
- */
-;(function($){
+(function ($) {
     var scrollCache = {},index = 1;
     J.Scroll = function(selector,opts){
         var scroll,scrollId,$el = $(selector),
@@ -1765,7 +1762,7 @@ J.Cache = (function($){
         //滚动组件使用频繁，缓存起来节省开销
         if(scrollId && scrollCache[scrollId]){
             scroll = scrollCache[scrollId];
-            $.extend(scroll.scroller.options,opts)
+            $.extend(scroll.scroller.options,opts);
             scroll.scroller.refresh();
             return scroll;
         }else{
@@ -1780,15 +1777,12 @@ J.Cache = (function($){
                     delete scrollCache[scrollId];
                 }
             };
-        };
+        }
     }
 })(J.$);
 
 
-/**
- * 幻灯片组件
- */
-;(function($){
+(function ($) {
     function slider(selector,showDots){
         var afterSlide = function(){},
             beforeSlide = function(){return true},
@@ -1802,7 +1796,7 @@ J.Cache = (function($){
             slideNum,
             slideWidth,
             deltaX,
-            autoPlay
+            autoPlay;
             interval = 0;
         var _this = this;
 
@@ -1845,7 +1839,7 @@ J.Cache = (function($){
                 }
                 _autoPlay();
             },interval);
-        }
+        };
 
         var _initDots = function(){
             dots = wrapper.find('.dots');
@@ -1870,7 +1864,7 @@ J.Cache = (function($){
                     _slide(parseInt(index), speed);
                 })
             }
-        }
+        };
 
         /**
          * 滑动到指定卡片
@@ -1971,10 +1965,7 @@ J.Cache = (function($){
     }
     J.Slider = slider;
 })(J.$);
-/**
- * 上拉/下拉组件
- */
-;(function($){
+(function ($) {
     var refreshCache = {},index = 1;
     function Refresh(selector,type,callback){
         var iscroll, scroller,refreshEl,iconEl,labelEl,topOffset,isPullDown,
@@ -2028,7 +2019,7 @@ J.Cache = (function($){
             topOffset = refreshEl.height();
             iconEl = refreshEl.find('.refresh-icon');
             labelEl = refreshEl.find('.refresh-label');
-        }
+        };
 
         /**
          * 构造iscroll组件，并绑定滑动事件
@@ -2074,7 +2065,7 @@ J.Cache = (function($){
                         labelEl.html(opts.pullText);
                     }
                 });
-        }
+        };
 
         //run
         _init(options);

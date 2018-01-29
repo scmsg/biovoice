@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.thinkgem.jeesite.modules.bv.dao.NodeOfDataDao">
-    
+
 	<sql id="nodeOfDataColumns">
 		a.id AS "id",
 		a.master_id AS "masterId",
@@ -18,28 +18,28 @@
 		a.temperature AS "temperature",
 		a.humidity AS "humidity"
 	</sql>
-	
+
 	<sql id="nodeOfDataJoins">
 	</sql>
-    
+
 	<select id="get" resultType="NodeOfData">
-		SELECT 
-			<include refid="nodeOfDataColumns"/>
+		SELECT
+		<include refid="nodeOfDataColumns"/>
 		FROM t_node_of_data a
 		<include refid="nodeOfDataJoins"/>
 		WHERE a.id = #{id}
 	</select>
-	
+
 	<select id="findList" resultType="NodeOfData">
-		SELECT 
-			<include refid="nodeOfDataColumns"/>
+		SELECT
+		<include refid="nodeOfDataColumns"/>
 		FROM t_node_of_data a
 		<include refid="nodeOfDataJoins"/>
 		<where>
 			<if test="nodeId != null and nodeId != ''">
 				AND a.node_id  = #{nodeId}
 			</if>
-			
+
 		</where>
 		<choose>
 			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
@@ -49,9 +49,9 @@
 			</otherwise>
 		</choose>
 	</select>
-	
+
 	<select id="findPageGroubByNodeId" resultType="NodeOfData">
-		SELECT 
+		SELECT
 			<include refid="nodeOfDataColumns"/>
 		<!-- FROM t_node_of_data a -->
 		FROM (SELECT * FROM t_node_of_data ORDER BY time_tag DESC) AS a
@@ -60,7 +60,7 @@
 			<if test="nodeId != null and nodeId != ''">
 				AND a.node_id  = #{nodeId}
 			</if>
-			
+
 		</where>
 		GROUP BY  a.node_id,  a.master_id
 		<choose>
@@ -72,9 +72,23 @@
 			</otherwise>
 		</choose>
 	</select>
-	
+
+	<select id="findByStartTimeToEndTime" resultType="NodeOfData">
+		SELECT
+		<include refid="nodeOfDataColumns" />
+		FROM t_node_of_data a
+		<include refid="nodeOfDataJoins" />
+		WHERE a.node_id = ${nodeOfDataDto.nodeId}
+		<if test="stime!=null and stime!=''">
+			AND  a.time_tag <![CDATA[>=]]> #{stime}
+		</if>
+		<if test="etime!=null and etime!=''">
+			AND a.time_tag <![CDATA[<=]]> #{etime}
+		</if>
+	</select>
+
 	<select id="findAllList" resultType="NodeOfData">
-		SELECT 
+		SELECT
 			<include refid="nodeOfDataColumns"/>
 		FROM t_node_of_data a
 		<include refid="nodeOfDataJoins"/>
@@ -82,8 +96,8 @@
 			<if test="nodeId != null and nodeId != ''">
 				AND a.node_id  = #{nodeId}
 			</if>
-			
-		</where>		
+
+		</where>
 		<choose>
 			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
 				ORDER BY ${page.orderBy}
@@ -92,62 +106,62 @@
 			</otherwise>
 		</choose>
 	</select>
-	
+
 	<insert id="insert">
 		INSERT INTO t_node_of_data(
-			id,
-			master_id,
-			node_id,
-			product_type,
-			charging_state,
-			battery,
-			signal_intensity,
-			measure_interval,
-			view_data_flag,
-			start_record_flag,
-			light_on,
-			time_tag,
-			temperature,
-			humidity
+		id,
+		master_id,
+		node_id,
+		product_type,
+		charging_state,
+		battery,
+		signal_intensity,
+		measure_interval,
+		view_data_flag,
+		start_record_flag,
+		light_on,
+		time_tag,
+		temperature,
+		humidity
 		) VALUES (
-			#{id},
-			#{masterId},
-			#{nodeId},
-			#{productType},
-			#{chargingState},
-			#{battery},
-			#{signalIntensity},
-			#{measureInterval},
-			#{viewDataFlag},
-			#{startRecordFlag},
-			#{lightOn},
-			#{timeTag},
-			#{temperature},
-			#{humidity}
+		#{id},
+		#{masterId},
+		#{nodeId},
+		#{productType},
+		#{chargingState},
+		#{battery},
+		#{signalIntensity},
+		#{measureInterval},
+		#{viewDataFlag},
+		#{startRecordFlag},
+		#{lightOn},
+		#{timeTag},
+		#{temperature},
+		#{humidity}
 		)
 	</insert>
-	
+
 	<update id="update">
-		UPDATE t_node_of_data SET 	
-			master_id = #{masterId},
-			node_id = #{nodeId},
-			product_type = #{productType},
+		UPDATE t_node_of_data SET
+		master_id = #{masterId},
+		node_id = #{nodeId},
+		product_type = #{productType},
 			charging_state = #{chargingState},
-			battery = #{battery},
+		battery = #{battery},
 			signal_intensity = #{signalIntensity},
-			measure_interval = #{measureInterval},
-			view_data_flag = #{viewDataFlag},
+		measure_interval = #{measureInterval},
+		view_data_flag = #{viewDataFlag},
 			start_record_flag = #{startRecordFlag},
-			light_on = #{lightOn},
-			time_tag = #{timeTag},
-			temperature = #{temperature},
-			humidity = #{humidity}
+		light_on = #{lightOn},
+		time_tag = #{timeTag},
+		temperature = #{temperature},
+		humidity = #{humidity}
 		WHERE id = #{id}
 	</update>
-	
+
 	<update id="delete">
 		DELETE FROM t_node_of_data
 		WHERE id = #{id}
 	</update>
-	
+
 </mapper>

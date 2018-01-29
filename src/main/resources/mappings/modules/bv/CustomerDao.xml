@@ -75,6 +75,11 @@
 			</otherwise>
 		</choose>
 	</select>
+
+	<select id="findCompanyList" resultType="String">
+		SELECT company_name
+		FROM t_bv_customer
+	</select>
 	
 	<insert id="insert">
 		INSERT INTO t_bv_customer(

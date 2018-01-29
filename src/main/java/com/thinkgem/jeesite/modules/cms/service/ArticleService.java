@@ -97,8 +97,8 @@ public class ArticleService extends CrudService<ArticleDao, Article> {
             article.setViewConfig(StringEscapeUtils.unescapeHtml4(article.getViewConfig()));
         }
         
-        ArticleData articleData = new ArticleData();;
-		if (StringUtils.isBlank(article.getId())){
+        ArticleData articleData = new ArticleData();
+        if (StringUtils.isBlank(article.getId())){
 			article.preInsert();
 			articleData = article.getArticleData();
 			articleData.setId(article.getId());

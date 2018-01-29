@@ -7,4 +7,4 @@
 	document.body.appendChild( copyP ) ;
 
 	window.top.SetActiveTopic( window.location.pathname ) ;
-}
+};

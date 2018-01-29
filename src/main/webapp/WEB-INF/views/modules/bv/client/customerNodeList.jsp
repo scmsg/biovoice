@@ -6,20 +6,20 @@
 	<meta name="decorator" content="default"/>
 	<script type="text/javascript">
 		$(document).ready(function() {
-			
 		});
 		function page(n,s){
 			$("#pageNo").val(n);
 			$("#pageSize").val(s);
 			$("#searchForm").submit();
         	return false;
+             /*   ?usePlaceId=${usePlaceId}&usePlaceType=${usePlaceType}*/
         }
 	</script>
 </head>
 <body>
 	<ul class="nav nav-tabs">
-		<%-- <li class="active"><a href="${ctx}/bv/client/customerNode/">客户节点列表</a></li> --%>
-		<%-- <shiro:hasPermission name="bv:client:customerNode:edit"><li><a href="${ctx}/bv/client/customerNode/form">客户节点添加</a></li></shiro:hasPermission> --%>
+		<li class="active"><a href="${ctx}/bv/client/customerNode/">客户节点列表</a></li>
+		<shiro:hasPermission name="bv:client:customerNode:edit"><li><a href="${ctx}/bv/client/customerNode/form?usePlaceId=${usePlaceId}&usePlaceType=${usePlaceType}">客户节点添加</a></li></shiro:hasPermission>
 	</ul>
 	<form:form id="searchForm" modelAttribute="customerNode" action="${ctx}/bv/client/customerNode/" method="post" class="breadcrumb form-search">
 		<input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>

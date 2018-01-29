@@ -27,7 +27,7 @@
 </head>
 <body>
 	<ul class="nav nav-tabs">
-		<%-- <li><a href="${ctx}/bv/client/usePlace/">使用场所列表</a></li> --%>
+		<li><a href="${ctx}/bv/client/usePlace/">使用场所列表</a></li>
 		<li class="active"><a href="${ctx}/bv/client/usePlace/form?id=${usePlace.id}">使用场所<shiro:hasPermission name="bv:client:usePlace:edit">${not empty usePlace.id?'修改':'添加'}</shiro:hasPermission><shiro:lacksPermission name="bv:client:usePlace:edit">查看</shiro:lacksPermission></a></li>
 	</ul><br/>
 	<form:form id="inputForm" modelAttribute="usePlace" action="${ctx}/bv/client/usePlace/save" method="post" class="form-horizontal">

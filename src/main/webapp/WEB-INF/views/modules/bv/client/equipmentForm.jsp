@@ -29,8 +29,8 @@
 </head>
 <body>
 	<ul class="nav nav-tabs">
-		<li><a href="${ctx}/bv/client/equipment/list?departmentId=${departmentId}">设备管理列表</a></li>
-		<li class="active"><a href="${ctx}/bv/client/equipment/form?id=${equipment.id}">设备管理<shiro:hasPermission name="bv:client:equipment:edit">${not empty equipment.id?'修改':'添加'}</shiro:hasPermission><shiro:lacksPermission name="bv:client:equipment:edit">查看</shiro:lacksPermission></a></li>
+<%--		<li><a href="${ctx}/bv/client/equipment/list?departmentId=${departmentId}">设备管理列表</a></li>--%>
+		<li class="active"><a href="${ctx}/bv/client/equipment/form?id=${equipment.id}"><shiro:hasPermission name="bv:client:equipment:edit">${not empty equipment.id?'修改':'新增'}设备</shiro:hasPermission><shiro:lacksPermission name="bv:client:equipment:edit">查看</shiro:lacksPermission></a></li>
 	</ul><br/>
 	<form:form id="inputForm" modelAttribute="equipment" action="${ctx}/bv/client/equipment/save" method="post" class="form-horizontal">
 		<form:hidden path="id"/>
@@ -39,8 +39,8 @@
 		
 		<div class="tab-container">
 			<ul class="tab-head">
-				<li id="1" class="select"><a href="#">参数设置</a></li>
-				<li id="2" class="select"><a href="#">设施信息</a></li>
+				<li id="1" class="select"><a href="#">设备参数</a></li>
+				<li id="2" class="select"><a href="#">设备信息</a></li>
 				<li id="3" class="select"><a href="#">验证信息</a></li>
 			</ul>
 			<div id="tab-panel" class="tab-panel">

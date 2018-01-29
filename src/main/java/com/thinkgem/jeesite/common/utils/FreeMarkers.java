@@ -49,7 +49,7 @@ public class FreeMarkers {
 		return cfg;
 	}
 	
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) {
 //		// renderString
 //		Map<String, String> model = com.google.common.collect.Maps.newHashMap();
 //		model.put("userName", "calvin");

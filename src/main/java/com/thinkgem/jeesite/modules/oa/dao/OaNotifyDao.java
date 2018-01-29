@@ -20,6 +20,6 @@ public interface OaNotifyDao extends CrudDao<OaNotify> {
 	 * @param oaNotify
 	 * @return
 	 */
-	public Long findCount(OaNotify oaNotify);
+    Long findCount(OaNotify oaNotify);
 	
 }

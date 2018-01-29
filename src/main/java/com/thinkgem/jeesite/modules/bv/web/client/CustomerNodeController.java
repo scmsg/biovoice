@@ -66,7 +66,8 @@ public class CustomerNodeController extends BaseController {
 
 	@RequiresPermissions("bv:client:customerNode:view")
 	@RequestMapping(value = "form")
-	public String form(CustomerNode customerNode, Model model) {
+	public String form(CustomerNode customerNode,Model model) {
+		//,String usePlaceId,String usePlaceType
 		model.addAttribute("customerNode", customerNode);
 		model.addAttribute("usePlaceId", customerNode.getUsePlaceId());
 		model.addAttribute("usePlaceType", customerNode.getUsePlaceType());
@@ -82,7 +83,7 @@ public class CustomerNodeController extends BaseController {
 		if(StringUtils.isEmpty(customerNode.getUsePlaceId())){
 			addMessage(model, "参数异常，请联系管理员!");
 			return form(customerNode, model);
-		}
+			}
 		if(StringUtils.isEmpty(customerNode.getUsePlaceType())){
 			addMessage(model, "参数异常，请联系管理员!!");
 			return form(customerNode, model);
@@ -93,7 +94,9 @@ public class CustomerNodeController extends BaseController {
 		customerNode.setUpdateTime(new Date());
 		customerNodeService.save(customerNode);
 		addMessage(redirectAttributes, "保存客户节点成功");
-		return "redirect:"+Global.getAdminPath()+"/bv/client/customerNode/?repage";
+		//return "redirect:"+Global.getAdminPath()+"/bv/client/customerNode/?repage";
+		//return "redirect:"+Global.getAdminPath()+"/bv/client/customerNode/list?usePlaceId="+usePlaceId+"&usePlaceType="+usePlaceType+";
+		return "redirect:"+Global.getAdminPath()+"/bv/client/customerNode/list?usePlaceId="+customerNode.getUsePlaceId()+"&usePlaceType="+customerNode.getUsePlaceType();
 	}
 	
 	@RequiresPermissions("bv:client:customerNode:edit")
@@ -101,7 +104,9 @@ public class CustomerNodeController extends BaseController {
 	public String delete(CustomerNode customerNode, RedirectAttributes redirectAttributes) {
 		customerNodeService.delete(customerNode);
 		addMessage(redirectAttributes, "删除客户节点成功");
-		return "redirect:"+Global.getAdminPath()+"/bv/client/customerNode/?repage";
+		//return "redirect:"+Global.getAdminPath()+"/bv/client/customerNode/?repage";
+		return "redirect:"+Global.getAdminPath()+"/bv/client/customerNode/list?usePlaceId="+customerNode.getUsePlaceId()+"&usePlaceType="+customerNode.getUsePlaceType();
+
 	}
 
 }

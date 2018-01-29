@@ -17,12 +17,12 @@ import com.thinkgem.jeesite.modules.sys.entity.Menu;
 @MyBatisDao
 public interface MenuDao extends CrudDao<Menu> {
 
-	public List<Menu> findByParentIdsLike(Menu menu);
+	List<Menu> findByParentIdsLike(Menu menu);
 
-	public List<Menu> findByUserId(Menu menu);
+	List<Menu> findByUserId(Menu menu);
 	
-	public int updateParentIds(Menu menu);
+	int updateParentIds(Menu menu);
 	
-	public int updateSort(Menu menu);
+	int updateSort(Menu menu);
 	
 }

@@ -3,9 +3,12 @@
  */
 package com.thinkgem.jeesite.modules.bv.web;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.Logger;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.thinkgem.jeesite.common.config.Global;
 import com.thinkgem.jeesite.common.persistence.Page;
 import com.thinkgem.jeesite.common.web.BaseController;
@@ -33,7 +38,7 @@ public class NodeController extends BaseController {
 
 	@Autowired
 	private NodeService nodeService;
-	
+	static Logger log = Logger.getLogger(NodeController.class);
 	@ModelAttribute
 	public Node get(@RequestParam(required=false) String id) {
 		Node entity = null;
@@ -52,6 +57,22 @@ public class NodeController extends BaseController {
 		Page<Node> page = nodeService.findPage(new Page<Node>(request, response), node); 
 		model.addAttribute("page", page);
 		return "modules/bv/nodeList";
+	}
+	@RequiresPermissions("bv:node:view")
+	@RequestMapping(value = "ajax")
+	public void ajax(Node node, HttpServletRequest request, HttpServletResponse response, Model model) {
+		List<String> str = nodeService.findPageNodeId(); 
+		String json = JSONArray.toJSONString(str);
+		try {
+			
+			log.debug("#########################################################################################################");
+			log.debug(json);
+			log.debug("###############################################################################################################");
+			response.getWriter().write(json);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@RequiresPermissions("bv:node:view")

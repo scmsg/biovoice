@@ -11868,7 +11868,7 @@ jQuery(selector).each(function() {
 		jQuery(this).jqGrid("setSelection",rowChecked[a]);
 	}
 });
-};
+}
 /*jshint eqeqeq:false */
 /*global jQuery */
 (function($) {

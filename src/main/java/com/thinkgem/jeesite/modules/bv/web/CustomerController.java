@@ -8,6 +8,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.alibaba.fastjson.JSONArray;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +32,9 @@ import com.thinkgem.jeesite.modules.sys.entity.Role;
 import com.thinkgem.jeesite.modules.sys.entity.User;
 import com.thinkgem.jeesite.modules.sys.service.OfficeService;
 import com.thinkgem.jeesite.modules.sys.service.SystemService;
+
+import java.io.IOException;
+import java.util.List;
 
 /**
  * 客户信息Controller
@@ -68,6 +72,18 @@ public class CustomerController extends BaseController {
 		Page<Customer> page = customerService.findPage(new Page<Customer>(request, response), customer); 
 		model.addAttribute("page", page);
 		return "modules/bv/customerList";
+	}
+
+	@RequiresPermissions("bv:customer:view")
+	@RequestMapping(value = {"companyList"})
+	public void companyList(Customer customer, HttpServletRequest request, HttpServletResponse response, Model model) {
+		List<String> strs = customerService.findCompanyList();
+		String json = JSONArray.toJSONString(strs);
+		try {
+			response.getWriter().write(json);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@RequiresPermissions("bv:customer:view")

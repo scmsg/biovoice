@@ -176,9 +176,7 @@ public class IdcardUtils extends StringUtils {
 		}
 		String[] cardval = validateIdCard10(card);
 		if (cardval != null) {
-			if (cardval[2].equals("true")) {
-				return true;
-			}
+            return cardval[2].equals("true");
 		}
 		return false;
 	}
@@ -242,16 +240,13 @@ public class IdcardUtils extends StringUtils {
 			Calendar cal = Calendar.getInstance();
 			if (birthDate != null)
 				cal.setTime(birthDate);
-			if (!valiDate(cal.get(Calendar.YEAR),
-					Integer.valueOf(birthCode.substring(2, 4)),
-					Integer.valueOf(birthCode.substring(4, 6)))) {
-				return false;
-			}
+            return valiDate(cal.get(Calendar.YEAR),
+                    Integer.valueOf(birthCode.substring(2, 4)),
+                    Integer.valueOf(birthCode.substring(4, 6)));
 		} else {
 			return false;
 		}
-		return true;
-	}
+    }
 
 	/**
 	 * 验证10位身份编码是否合法
@@ -319,8 +314,7 @@ public class IdcardUtils extends StringUtils {
 			sum = sum + Integer.valueOf(c + "") * iflag;
 			iflag--;
 		}
-		return (sum % 10 == 0 ? 0 : (10 - sum % 10)) == Integer.valueOf(end) ? true
-				: false;
+		return (sum % 10 == 0 ? 0 : (10 - sum % 10)) == Integer.valueOf(end);
 	}
 
 	/**
@@ -364,7 +358,7 @@ public class IdcardUtils extends StringUtils {
 		} else {
 			sum = sum + Integer.valueOf(end);
 		}
-		return (sum % 11 == 0) ? true : false;
+		return sum % 11 == 0;
 	}
 
 	/**
@@ -586,7 +580,7 @@ public class IdcardUtils extends StringUtils {
 	 * @return 提取的数字。
 	 */
 	public static boolean isNum(String val) {
-		return val == null || "".equals(val) ? false : val.matches("^[0-9]*$");
+		return val != null && !"".equals(val) && val.matches("^[0-9]*$");
 	}
 
 	/**

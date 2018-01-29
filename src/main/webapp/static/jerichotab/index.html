@@ -76,7 +76,7 @@
                         loadOnce: true
                     });
                 }
-            }
+            };
         $().ready(function() {
             d1 = new Date().getTime();
             jericho.showLoader();
@@ -89,7 +89,7 @@
             jericho.buildTree();
             jericho.buildTabpanel();
             jericho.removeLoader();
-        })
+        });
         $(window).resize(function() {
             var w = $(document).width();
             $('.divRight').css({ width: w - 250 });

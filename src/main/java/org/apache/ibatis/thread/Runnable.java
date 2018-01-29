@@ -185,10 +185,7 @@ public class Runnable implements java.lang.Runnable {
 	 * @return 需要刷新返回true，否则返回false
 	 */
 	public boolean check(File file, Long beforeTime) {
-		if (file.lastModified() > beforeTime) {
-			return true;
-		}
-		return false;
-	}
+        return file.lastModified() > beforeTime;
+    }
 
 }

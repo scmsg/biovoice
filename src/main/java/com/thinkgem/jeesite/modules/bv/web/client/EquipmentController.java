@@ -125,7 +125,8 @@ public class EquipmentController extends BaseController {
 		equipment.setUsePlaceId(usePlace.getId());
 		equipmentService.save(equipment);
 		addMessage(redirectAttributes, "保存设备管理成功");
-		return "redirect:"+Global.getAdminPath()+"/bv/client/equipment/list?departmentId="+equipment.getDepartmentId();
+		//return "redirect:"+Global.getAdminPath()+"/bv/client/equipment/list?departmentId="+equipment.getDepartmentId();
+		return "redirect:"+Global.getAdminPath()+"/bv/client/usePlace/list?departmentId="+equipment.getDepartmentId();
 	}
 	
 	@RequiresPermissions("bv:client:equipment:edit")
@@ -133,7 +134,8 @@ public class EquipmentController extends BaseController {
 	public String delete(Equipment equipment, RedirectAttributes redirectAttributes) {
 		equipmentService.delete(equipment);
 		addMessage(redirectAttributes, "删除设备管理成功");
-		return "redirect:"+Global.getAdminPath()+"/bv/client/equipment/?repage";
+		//return "redirect:"+Global.getAdminPath()+"/bv/client/equipment/?repage";
+		return "redirect:"+Global.getAdminPath()+"/bv/client/usePlace/list?departmentId="+equipment.getDepartmentId();
 	}
 
 }

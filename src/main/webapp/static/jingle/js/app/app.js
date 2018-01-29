@@ -49,13 +49,13 @@ var App = (function(){
     };
     var page = function(id,factory){
         return ((id && factory)?_addPage:_getPage).call(this,id,factory);
-    }
+    };
     var _addPage = function(id,factory){
         pages[id] = new factory();
     };
     var _getPage = function(id){
         return pages[id];
-    }
+    };
     //动态计算chart canvas的高度，宽度，以适配终端界面
     var calcChartOffset = function(){
         return {
@@ -63,7 +63,7 @@ var App = (function(){
             width : $(document).width()
         }
 
-    }
+    };
     return {
         run : run,
         page : page,
@@ -549,4 +549,4 @@ App.page('form',function(){
 })*/
 $(function(){
     App.run();
-})
+});

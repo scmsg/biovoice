@@ -51,13 +51,13 @@
 				<td>${depatement.companyName}</td>
 				<shiro:hasPermission name="bv:client:depatement:edit"><td>
     				<a href="${ctx}/bv/client/depatement/form?id=${depatement.id}">修改</a>
-					<%-- <a href="${ctx}/bv/client/depatement/delete?id=${depatement.id}" onclick="return confirmx('确认要删除该部门吗？', this.href)">删除</a> --%>
-					<a href="${ctx}/bv/client/warehouse/list?departmentId=${depatement.id}">查看仓库</a>
+					<a href="${ctx}/bv/client/depatement/delete?id=${depatement.id}" onclick="return confirmx('确认要删除该部门吗？', this.href)">删除</a>
+<%--				<a href="${ctx}/bv/client/warehouse/list?departmentId=${depatement.id}">查看仓库</a>
 					<a href="${ctx}/bv/client/warehouse/form?departmentId=${depatement.id}">增加仓库</a>
 					<a href="${ctx}/bv/client/equipment/list?departmentId=${depatement.id}">查看设备</a>
 					<a href="${ctx}/bv/client/equipment/form?departmentId=${depatement.id}">增加设备</a>
 					<a href="${ctx}/bv/client/trucks/list?departmentId=${depatement.id}">查看车辆</a>
-					<a href="${ctx}/bv/client/trucks/form?departmentId=${depatement.id}">增加车辆</a>
+					<a href="${ctx}/bv/client/trucks/form?departmentId=${depatement.id}">增加车辆</a>--%>
 				</td></shiro:hasPermission>
 			</tr>
 		</c:forEach>

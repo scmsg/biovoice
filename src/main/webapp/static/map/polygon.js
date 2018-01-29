@@ -17,19 +17,19 @@ function PolygonCreator(map) {
 	
 	this.getDot = function () {
 		return (this.latLng+"").replace(/[()]/g,"");
-	}
+	};
 
 	this.getData = function () {
 		return this.pen.getData() != null ? (this.pen.getData()+"").replace(/\)\(/g,";").replace(/[()]/g,"") : '';
-	}
+	};
 
 	this.showData = function () {
 		return this.pen.getData();
-	}
+	};
 	
 	this.showColor = function () {
 		return this.pen.getColor();
-	}
+	};
 
 	//destroy the pen
 	this.destroy = function () {
@@ -38,14 +38,14 @@ function PolygonCreator(map) {
 			this.pen.polygon.remove();
 		}
 		google.maps.event.removeListener(this.event);
-	}
+	};
 
 	this.drawPolygon = function (latLngList) {
 		$.each(latLngList, function (index, value) {
 			thisOjb.pen.draw(value);
 		});
 		this.pen.drawPloygon(this.pen.listOfDots);
-	}
+	};
 
 	this.getPolygon = function () {
 		return this.pen.polygon.getPolygonObj();
@@ -57,7 +57,7 @@ function PolygonCreator(map) {
  */
 function Pen(map) {
 	this.map = map;
-	this.listOfDots = new Array();
+	this.listOfDots = [];
 	this.polyline = null;
 	this.polygon = null;
 	this.currentDot = null;
@@ -82,12 +82,12 @@ function Pen(map) {
 				}
 			}
 		}
-	}
+	};
 	//draw ploygon
 	this.drawPloygon = function (listOfDots, color, des, id) {
 		this.polygon = new Polygon(listOfDots, this.map, this, color, des, id);
 		this.deleteMis();
-	}
+	};
 	//delete all dots and polylines
 	this.deleteMis = function () {
 		//delete dots
@@ -100,7 +100,7 @@ function Pen(map) {
 			this.polyline.remove();
 			this.polyline = null;
 		}
-	}
+	};
 	//cancel
 	this.cancel = function () {
 		if (null != this.polygon) {
@@ -108,15 +108,15 @@ function Pen(map) {
 		}
 		this.polygon = null;
 		this.deleteMis();
-	}
+	};
 	//setter
 	this.setCurrentDot = function (dot) {
 		this.currentDot = dot;
-	}
+	};
 	//getter
 	this.getListOfDots = function () {
 		return this.listOfDots;
-	}
+	};
 	//get plots data
 	this.getData = function () {
 		if (this.polygon != null) {
@@ -130,7 +130,7 @@ function Pen(map) {
 		} else {
 			return null;
 		}
-	}
+	};
 	//get color
 	this.getColor = function () {
 		if (this.polygon != null) {
@@ -166,17 +166,17 @@ function Dot(latLng, map, pen) {
 			parent.setCurrentDot(thisDot);
 			parent.draw(thisMarker.getPosition());
 		});
-	}
+	};
 	this.addListener();
 
 	//getter
 	this.getLatLng = function () {
 		return this.latLng;
-	}
+	};
 
 	this.getMarkerObj = function () {
 		return this.markerObj;
-	}
+	};
 
 	this.remove = function () {
 		this.markerObj.setMap(null);
@@ -190,7 +190,7 @@ function Dot(latLng, map, pen) {
 function Line(listOfDots, map) {
 	this.listOfDots = listOfDots;
 	this.map = map;
-	this.coords = new Array();
+	this.coords = [];
 	this.polylineObj = null;
 
 	if (this.listOfDots.length > 1) {
@@ -220,7 +220,7 @@ function Line(listOfDots, map) {
 function Polygon(listOfDots, map, pen, color) {
 	this.listOfDots = listOfDots;
 	this.map = map;
-	this.coords = new Array();
+	this.coords = [];
 	this.parent = pen;
 	this.des = 'Hello';
 
@@ -242,28 +242,28 @@ function Polygon(listOfDots, map, pen, color) {
 	this.remove = function () {
 		this.info.remove();
 		this.polygonObj.setMap(null);
-	}
+	};
 
 	//getter
 	this.getContent = function () {
 		return this.des;
-	}
+	};
 
 	this.getPolygonObj = function () {
 		return this.polygonObj;
-	}
+	};
 
 	this.getListOfDots = function () {
 		return this.listOfDots;
-	}
+	};
 
 	this.getPlots = function () {
 		return this.polygonObj.getPaths();
-	}
+	};
 
 	this.getColor = function () {
 		return this.getPolygonObj().fillColor;
-	}
+	};
 
 	//setter
 	this.setColor = function (color) {
@@ -272,7 +272,7 @@ function Polygon(listOfDots, map, pen, color) {
 			strokeColor : color,
 			strokeWeight : 2
 		});
-	}
+	};
 
 	this.info = new Info(this, this.map);
 
@@ -306,7 +306,7 @@ function Info(polygon, map) {
 	//change color action
 	this.changeColor = function () {
 		thisOjb.parent.setColor($(thisOjb.color).val());
-	}
+	};
 
 	//get content
 	this.getContent = function () {
@@ -320,7 +320,7 @@ function Info(polygon, map) {
 		$(content).append(this.color);
 		$(content).append(this.button);
 		return content;
-	}
+	};
 
 	thisObj = this;
 	this.infoWidObj = new google.maps.InfoWindow({
@@ -330,7 +330,7 @@ function Info(polygon, map) {
 	this.show = function (latLng) {
 		this.infoWidObj.setPosition(latLng);
 		this.infoWidObj.open(this.map);
-	}
+	};
 
 	this.remove = function () {
 		this.infoWidObj.close();

@@ -95,7 +95,7 @@ function Supcan(AF, url, options){
 	 */
 	$this.func = function(name, param){
 		return $this.AF.func(name, param);
-	}
+	};
 	
 	/**
 	 * 硕正控件自动高度
@@ -106,7 +106,7 @@ function Supcan(AF, url, options){
 			height += $(this).height();
 		});
 		$(supcanDiv).height($(window).height() + $(supcanDiv).height() - height - 10);
-	}
+	};
 	
 	/**
 	 * 初始化方法
@@ -132,7 +132,7 @@ function Supcan(AF, url, options){
 		}else{
 			$($this.AF).parent().height($this.options.height);
 		}
-	}
+	};
 	
 	/**
 	 * 加载数据
@@ -153,7 +153,7 @@ function Supcan(AF, url, options){
 				callback($this.data);
 			}
 		}, "text");
-    }
+    };
 	
 	/**
 	 * 加载数据
@@ -169,12 +169,14 @@ function Supcan(AF, url, options){
 				$(page).html(data.html);
 				// 链接去掉虚框
 				$(page).find("a").bind("focus",function() {
-					if(this.blur) {this.blur()};
-				});
+                    if (this.blur) {
+                        this.blur()
+                    }
+                });
 			}
 		});
 		
-    }
+    };
 
 	/**
 	 * 获取单元格数据
@@ -198,7 +200,7 @@ function Supcan(AF, url, options){
 			}
 		}
 		return "";
-	}
+	};
 	
 	/**
 	 * 切换到以树显示，并让勾选列和第一列(树的排序列)合并显示
@@ -207,14 +209,14 @@ function Supcan(AF, url, options){
 		$this.func("SetProp", "curSelMode \r\n row"+(flag?"":"s"));
 		$this.func("SetColProp", "checked \r\n TreeCombine \r\n "+(flag?"auto,node":"")); // 合并单元格
 		$this.func("SetProp", "isTree \r\n "+(flag?"true":"false"));
-	}
+	};
 	
 	/**
 	 * 使硕正控件变为灰色
 	 */
 	$this.setGrayWindow = function(trueOrFalse){
 		$this.func("GrayWindow", trueOrFalse ? "1" : "0");
-	}
+	};
 
 	return $this;
 }

@@ -28,7 +28,7 @@ public class CKFinderConfig extends Configuration {
 	
 	@Override
     protected Configuration createConfigurationInstance() {
-		Principal principal = (Principal) UserUtils.getPrincipal();
+		Principal principal = UserUtils.getPrincipal();
 		if (principal == null){
 			return new CKFinderConfig(this.servletConf);
 		}

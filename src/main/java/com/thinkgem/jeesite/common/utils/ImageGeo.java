@@ -18,7 +18,7 @@ public class ImageGeo {
 			File jpegFile = new File(filename);
 			Metadata metadata = JpegMetadataReader.readMetadata(jpegFile);
 
-			GpsDirectory gpsdir = (GpsDirectory) metadata
+			GpsDirectory gpsdir = metadata
 					.getDirectory(GpsDirectory.class);
 			Rational latpart[] = gpsdir
 					.getRationalArray(GpsDirectory.TAG_GPS_LATITUDE);

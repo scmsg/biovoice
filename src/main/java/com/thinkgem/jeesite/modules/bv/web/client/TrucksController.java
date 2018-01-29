@@ -121,14 +121,15 @@ public class TrucksController extends BaseController {
 		usePlace.setUsePlaceType(3);
 		usePlace.setUpdateTime(nowDate);
 		
-		usePlaceService.save(usePlace);
+		//usePlaceService.save(usePlace);
 		usePlace.setUsePlaceId(usePlace.getId());
 		usePlaceService.save(usePlace);
 		
 		trucks.setUsePlaceId(usePlace.getId());
 		trucksService.save(trucks);
 		addMessage(redirectAttributes, "保存车辆管理成功");
-		return "redirect:"+Global.getAdminPath()+"/bv/client/trucks/list?departmentId="+trucks.getDepartmentId();
+		//return "redirect:"+Global.getAdminPath()+"/bv/client/trucks/list?departmentId="+trucks.getDepartmentId();
+		return "redirect:"+Global.getAdminPath()+"/bv/client/usePlace/list?departmentId="+trucks.getDepartmentId();
 	}
 	
 	@RequiresPermissions("bv:client:trucks:edit")
@@ -136,7 +137,8 @@ public class TrucksController extends BaseController {
 	public String delete(Trucks trucks, RedirectAttributes redirectAttributes) {
 		trucksService.delete(trucks);
 		addMessage(redirectAttributes, "删除车辆管理成功");
-		return "redirect:"+Global.getAdminPath()+"/bv/client/trucks/?repage";
+		//return "redirect:"+Global.getAdminPath()+"/bv/client/trucks/?repage";
+		return "redirect:"+Global.getAdminPath()+"/bv/client/usePlace/list?departmentId="+trucks.getDepartmentId();
 	}
 
 }

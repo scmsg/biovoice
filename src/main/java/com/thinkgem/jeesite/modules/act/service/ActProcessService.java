@@ -105,7 +105,7 @@ public class ActProcessService extends BaseService {
 	 * @param processInstanceId 流程实例ID
 	 * @param resourceType 资源类型(xml|image)
 	 */
-	public InputStream resourceRead(String procDefId, String proInsId, String resType) throws Exception {
+	public InputStream resourceRead(String procDefId, String proInsId, String resType) {
 		
 		if (StringUtils.isBlank(procDefId)){
 			ProcessInstance processInstance = runtimeService.createProcessInstanceQuery().processInstanceId(proInsId).singleResult();

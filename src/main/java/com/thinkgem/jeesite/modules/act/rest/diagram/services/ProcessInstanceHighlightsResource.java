@@ -148,7 +148,7 @@ public class ProcessInstanceHighlightsResource {
 		//Code logic:
 		//Check the first activity if it is a startEvent, if not check out the startEvent's highlight outgoing flow.
 		HistoricActivityInstance firstHistActInst = hisActInstList.getFirst();
-		String firstActType = (String) firstHistActInst.getActivityType();
+		String firstActType = firstHistActInst.getActivityType();
 		if (firstActType != null && firstActType.toLowerCase().indexOf("startevent") < 0) {
 			PvmTransition startTrans = getStartTransaction(startEventActList, firstHistActInst);
 			if (startTrans != null) {

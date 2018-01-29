@@ -5,6 +5,7 @@ package com.thinkgem.jeesite.modules.bv.service;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -36,8 +37,13 @@ public class NodeOfDataService extends CrudService<NodeOfDataDao, NodeOfData> {
 		return super.findList(nodeOfData);
 	}
 	
-	public Page<NodeOfData> findPage(Page<NodeOfData> page, NodeOfData nodeOfData) {
-		return super.findPage(page, nodeOfData);
+	public Page<NodeOfData> findByStartTimeToEndTime(Long stime,Long etime,Page<NodeOfData> page, NodeOfData nodeOfData) {
+		NodeOfDataDto nodeOfDataDto = new NodeOfDataDto();
+		BeanUtils.copyProperties(nodeOfData, nodeOfDataDto);
+		nodeOfDataDto.setPage(page);
+		logger.info("nodeofdataservice 开始调用了");
+		page.setList(nodeOfDataDao.findByStartTimeToEndTime(stime,etime,nodeOfDataDto));
+		return page;
 	}
 	
 	public Page<NodeOfData> findPageGroubByNodeId(Page<NodeOfData> page, NodeOfData nodeOfData) {

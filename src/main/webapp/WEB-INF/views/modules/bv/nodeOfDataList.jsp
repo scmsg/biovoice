@@ -40,16 +40,16 @@
 			<tr>
 				<th>设备ID(单机版网关ID)</th>
 				<th>节点ID</th>
-				<th>7~4Bit=（保留 ）3~0Bit=产品类型</th>
-				<th>充电标识</th>
+				<th>产品类型</th>
+				<th>是否 充电</th>
 				
 				<th>设备电池电量</th>
-				<th>信号dbm表</th>
+				<th>信号强度</th>
 				<th>测量分钟间隔</th>
 				<th>查看数据标识</th>
 				
 				<th>测量时间</th>
-				<th>测量温度值</th>
+				<th>温度值</th>
 				
 				
 				<%-- <shiro:hasPermission name="bv:nodeOfData:edit"><th>操作</th></shiro:hasPermission> --%>

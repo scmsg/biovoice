@@ -11747,7 +11747,7 @@ jQuery(selector).each(function() {
 		jQuery(this).jqGrid("setSelection",rowChecked[a]);
 	}
 });
-};
+}
 /**
  * jqGrid extension - Tree Grid
  * Tony Tomov tony@trirand.com

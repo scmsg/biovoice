@@ -14,7 +14,7 @@
   $.eb.ie6 = function () {
     return navigator.userAgent.toLowerCase().indexOf('msie 6.0') > -1;
     // alert(navigator.userAgent.toLowerCase().indexOf('msie 6.0'));
-  }
+  };
  
 
   $.eb.color = function () {
@@ -113,7 +113,7 @@
 
         $(this).width(w);
       });
-    }
+    };
 
     if ($.eb.ie6()) {
       el = el || $('html');
@@ -248,7 +248,7 @@
         }
 
         self.one('propertychange', {cls:cls}, btnPropertyChange);
-      }
+      };
       $.each(['btn'], function (k,cls) {
         $('.'+cls, el).one('propertychange', {cls:cls}, btnPropertyChange);
       });

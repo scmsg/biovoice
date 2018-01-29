@@ -22,13 +22,13 @@ public interface OaNotifyRecordDao extends CrudDao<OaNotifyRecord> {
 	 * @param oaNotifyRecordList
 	 * @return
 	 */
-	public int insertAll(List<OaNotifyRecord> oaNotifyRecordList);
+    int insertAll(List<OaNotifyRecord> oaNotifyRecordList);
 	
 	/**
 	 * 根据通知ID删除通知记录
 	 * @param oaNotifyId 通知ID
 	 * @return
 	 */
-	public int deleteByOaNotifyId(String oaNotifyId);
+    int deleteByOaNotifyId(String oaNotifyId);
 	
 }

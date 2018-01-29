@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.jeesite.modules.bv.dao.TLbsPackDao">
+    
+	<sql id="tLbsPackColumns">
+		a.id AS "id",
+		a.master_id AS "masterId",
+		a.time_tag AS "timeTag",
+		a.longitude AS "longitude",
+		a.latitude AS "latitude"
+	</sql>
+	
+	<sql id="tLbsPackJoins">
+	</sql>
+    
+	<select id="get" resultType="TLbsPack">
+		SELECT 
+			<include refid="tLbsPackColumns"/>
+		FROM t_lbs_pack a
+		<include refid="tLbsPackJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="TLbsPack">
+		SELECT 
+			<include refid="tLbsPackColumns"/>
+		FROM (select * from t_lbs_pack order by time_tag desc) a
+		<include refid="tLbsPackJoins"/>
+		<where>
+			
+		</where>
+		GROUP BY master_id
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="TLbsPack">
+		SELECT 
+			<include refid="tLbsPackColumns"/>
+		FROM t_lbs_pack a
+		<include refid="tLbsPackJoins"/>
+		<where>
+			
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO t_lbs_pack(
+			id,
+			master_id,
+			time_tag,
+			longitude,
+			latitude
+		) VALUES (
+			#{id},
+			#{masterId},
+			#{timeTag},
+			#{longitude},
+			#{latitude}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE t_lbs_pack SET 	
+			master_id = #{masterId},
+			time_tag = #{timeTag},
+			longitude = #{longitude},
+			latitude = #{latitude}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM t_lbs_pack
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

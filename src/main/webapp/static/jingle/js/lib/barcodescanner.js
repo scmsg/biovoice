@@ -1,7 +1,7 @@
 (function(){
-	function BarcodeScanner() {};
-
-	BarcodeScanner.prototype.scan = function(mode,win,err){
+    function BarcodeScanner() {
+    }
+    BarcodeScanner.prototype.scan = function(mode,win,err){
 		cordova.exec(win, err, "BarcodeScanner", "scan", [mode]);
 	};
 

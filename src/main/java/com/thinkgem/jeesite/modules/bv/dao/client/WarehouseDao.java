@@ -14,5 +14,5 @@ import com.thinkgem.jeesite.modules.bv.entity.client.Warehouse;
  */
 @MyBatisDao
 public interface WarehouseDao extends CrudDao<Warehouse> {
-	
+   void deleteUsePlaceAndWarhouse(Warehouse warehouse);
 }

@@ -837,7 +837,7 @@ public class ActTaskService extends BaseService {
 	 * @return
 	 */
 	private Map<String, Object> packageSingleActivitiInfo(ActivityImpl activity, ProcessInstance processInstance,
-			boolean currentActiviti) throws Exception {
+			boolean currentActiviti) {
 		Map<String, Object> vars = new HashMap<String, Object>();
 		Map<String, Object> activityInfo = new HashMap<String, Object>();
 		activityInfo.put("currentActiviti", currentActiviti);

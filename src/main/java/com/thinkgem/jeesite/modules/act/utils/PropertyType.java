@@ -23,7 +23,7 @@ public enum PropertyType {
 
 	private Class<?> clazz;
 
-	private PropertyType(Class<?> clazz) {
+	PropertyType(Class<?> clazz) {
 		this.clazz = clazz;
 	}
 

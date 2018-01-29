@@ -98,8 +98,7 @@ public class LeaveService extends BaseService {
 		leave.setProcessInstanceId(processInstance.getId());
 		leaveDao.updateProcessInstanceId(leave);
 		
-		logger.debug("start process of {key={}, bkey={}, pid={}, variables={}}", new Object[] { 
-				ActUtils.PD_LEAVE[0], businessKey, processInstance.getId(), variables });
+		logger.debug("start process of {key={}, bkey={}, pid={}, variables={}}", ActUtils.PD_LEAVE[0], businessKey, processInstance.getId(), variables);
 		
 	}
 

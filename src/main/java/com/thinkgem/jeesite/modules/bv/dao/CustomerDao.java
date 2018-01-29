@@ -7,6 +7,8 @@ import com.thinkgem.jeesite.common.persistence.CrudDao;
 import com.thinkgem.jeesite.common.persistence.annotation.MyBatisDao;
 import com.thinkgem.jeesite.modules.bv.entity.Customer;
 
+import java.util.List;
+
 /**
  * 客户信息DAO接口
  * @author jinxi
@@ -14,5 +16,5 @@ import com.thinkgem.jeesite.modules.bv.entity.Customer;
  */
 @MyBatisDao
 public interface CustomerDao extends CrudDao<Customer> {
-	
+    List<String> findCompanyList();
 }

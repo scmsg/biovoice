@@ -72,7 +72,7 @@ public class SendMailUtil {
 		}
 	}
 
-	public static int getSmtpPort(String email) throws Exception {
+	public static int getSmtpPort(String email) {
 		Pattern pattern = Pattern.compile("\\w+@(\\w+)(\\.\\w+){1,2}");
 		Matcher matcher = pattern.matcher(email);
 		String key = "unSupportEmail";

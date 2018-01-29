@@ -164,8 +164,8 @@ public class ActProcessController extends BaseController {
 	@RequestMapping(value = "export/diagrams")
 	@ResponseBody
 	public List<String> exportDiagrams(@Value("#{APP_PROP['activiti.export.diagram.path']}") String exportDir) throws IOException {
-		List<String> files = actProcessService.exportDiagrams(exportDir);;
-		return files;
+		List<String> files = actProcessService.exportDiagrams(exportDir);
+        return files;
 	}
 
 	/**

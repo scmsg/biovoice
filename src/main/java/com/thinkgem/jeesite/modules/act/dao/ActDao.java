@@ -15,6 +15,6 @@ import com.thinkgem.jeesite.modules.act.entity.Act;
 @MyBatisDao
 public interface ActDao extends CrudDao<Act> {
 
-	public int updateProcInsIdByBusinessId(Act act);
+	int updateProcInsIdByBusinessId(Act act);
 	
 }

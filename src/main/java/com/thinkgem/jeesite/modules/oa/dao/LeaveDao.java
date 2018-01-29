@@ -20,13 +20,13 @@ public interface LeaveDao extends CrudDao<Leave> {
 	 * @param leave
 	 * @return
 	 */
-	public int updateProcessInstanceId(Leave leave);
+    int updateProcessInstanceId(Leave leave);
 	
 	/**
 	 * 更新实际开始结束时间
 	 * @param leave
 	 * @return
 	 */
-	public int updateRealityTime(Leave leave);
+    int updateRealityTime(Leave leave);
 	
 }

@@ -143,5 +143,10 @@
 		DELETE FROM t_bv_node
 		WHERE id = #{id}
 	</update>
-	
+	<select id="findPageNodeId" resultType="String">
+		SELECT 
+			node_id
+		FROM t_bv_node a
+		WHERE a.is_allocated = 0 ORDER BY a.node_id limit 0,50
+	</select>
 </mapper>
