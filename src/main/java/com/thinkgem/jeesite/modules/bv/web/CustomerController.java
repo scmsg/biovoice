@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.alibaba.fastjson.JSONArray;
+import com.thinkgem.jeesite.modules.sys.entity.Area;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -146,12 +147,11 @@ public class CustomerController extends BaseController {
 				return form(customer, model);
 			}
 			//1.sys_office
-			Office office_old = officeService.get(String.valueOf(1));
+			Office office_old = officeService.get(String.valueOf(17));
 			Office office = new Office();
-			//BeanUtils.copyProperties(office_old, office);
-			//office.setId(null);
+			BeanUtils.copyProperties(office_old, office);
+			office.setId(null);
 			office.setName(customer.getCompanyName());
-			office.setParent(office_old);
 
 			
 			//2.sys_user
@@ -190,6 +190,7 @@ public class CustomerController extends BaseController {
 		}
 		
 		//3.新增客户
+		customer.setId(null);
 		customerService.save(customer);
 		addMessage(redirectAttributes, "保存客户信息成功");
 		return "redirect:"+Global.getAdminPath()+"/bv/customer/?repage";
