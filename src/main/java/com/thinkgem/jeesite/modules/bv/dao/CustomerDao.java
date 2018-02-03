@@ -17,4 +17,5 @@ import java.util.List;
 @MyBatisDao
 public interface CustomerDao extends CrudDao<Customer> {
     List<String> findCompanyList();
+    String checkCompanyName(String name);
 }

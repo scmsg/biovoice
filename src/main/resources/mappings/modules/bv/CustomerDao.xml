@@ -76,6 +76,11 @@
 		</choose>
 	</select>
 
+	<select id="checkCompanyName" resultType="String">
+		SELECT company_name
+		FROM t_bv_customer WHERE company_name = #{name}
+	</select>
+
 	<select id="findCompanyList" resultType="String">
 		SELECT company_name
 		FROM t_bv_customer

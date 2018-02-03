@@ -50,6 +50,13 @@ public class CustomerService extends CrudService<CustomerDao, Customer> {
 	public List<String> findCompanyList() {
 		return  customerDao.findCompanyList();
 	}
-
-
+	@Transactional(readOnly = false)
+	public String checkCompanyName(String name) {
+		return customerDao.checkCompanyName(name);
+/*		if(str != "" && str != null) {
+			return true;
+		}else {
+			return  false;
+		}*/
+	}
 }

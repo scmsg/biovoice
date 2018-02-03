@@ -35,7 +35,7 @@ import com.thinkgem.jeesite.modules.bv.service.client.CustomerNodeService;
 public class CustomerNodeController extends BaseController {
 
 	@Autowired
-	private CustomerNodeService customerNodeService;
+	private CustomerNodeService  customerNodeService;
 	
 	@ModelAttribute
 	public CustomerNode get(@RequestParam(required=false) String id) {

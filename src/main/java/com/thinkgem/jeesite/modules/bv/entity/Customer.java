@@ -10,6 +10,7 @@ import org.hibernate.validator.constraints.Length;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.thinkgem.jeesite.common.persistence.DataEntity;
+import org.springframework.beans.factory.annotation.Required;
 
 /**
  * 客户信息Entity
@@ -53,7 +54,8 @@ public class Customer extends DataEntity<Customer> {
 		super(id);
 	}
 
-	@Length(min=0, max=255, message="公司（单位名称）长度必须介于 0 和 255 之间")
+	@Length(min=3, max=20, message="公司（单位名称）长度必须介于 0 和 255 之间")
+	@Required()
 	public String getCompanyName() {
 		return companyName;
 	}

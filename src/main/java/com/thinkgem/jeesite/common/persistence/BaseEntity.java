@@ -58,7 +58,7 @@ public abstract class BaseEntity<T> implements Serializable {
 	public BaseEntity() {
 		
 	}
-	
+
 	public BaseEntity(String id) {
 		this();
 		this.id = id;

@@ -34,7 +34,7 @@ public abstract class DataEntity<T> extends BaseEntity<T> {
 		super();
 		this.delFlag = DEL_FLAG_NORMAL;
 	}
-	
+
 	public DataEntity(String id) {
 		super(id);
 	}

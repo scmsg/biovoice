@@ -120,7 +120,7 @@
 	
 	<insert id="insert">
 		INSERT INTO sys_role(
-			id, 
+			id,
 			office_id, 
 			name, 
 			enname, 
@@ -135,7 +135,7 @@
 			is_sys,
 			useable
 		) VALUES (
-			#{id}, 
+			#{id},
 			#{office.id}, 
 			#{name}, 
 			#{enname}, 

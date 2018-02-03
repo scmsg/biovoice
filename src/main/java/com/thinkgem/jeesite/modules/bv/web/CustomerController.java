@@ -36,6 +36,9 @@ import com.thinkgem.jeesite.modules.sys.service.SystemService;
 import java.io.IOException;
 import java.util.List;
 
+import java.io.IOException;
+import java.util.List;
+
 /**
  * 客户信息Controller
  * @author jinxi
@@ -85,6 +88,26 @@ public class CustomerController extends BaseController {
 			e.printStackTrace();
 		}
 	}
+	@RequiresPermissions("bv:customer:view")
+	@RequestMapping(value = {"checkCompanyName"})
+	public void checkCompanyName(String companyName,HttpServletRequest request, HttpServletResponse response) {
+		String str =  customerService.checkCompanyName(companyName);
+		if(str !=""&& str !=null) {
+			try {
+				response.getWriter().write("true");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		else {
+			try {
+				response.getWriter().write("flase");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+
+	}
 
 	@RequiresPermissions("bv:customer:view")
 	@RequestMapping(value = "form")
@@ -104,11 +127,14 @@ public class CustomerController extends BaseController {
 			addMessage(redirectAttributes, "客户信息为空，请重新输入");
 			return form(customer, model);
 		}
-
 		//新增
 		if(StringUtils.isEmpty(customer.getId())){
 			if(StringUtils.isEmpty(customer.getCompanyName())){
 				addMessage(redirectAttributes, "客户公司为空，请重新输入");
+				return form(customer, model);
+			}
+			if(customerService.checkCompanyName(customer.getCompanyName())!=""&& customerService.checkCompanyName(customer.getCompanyName())!=null){
+				addMessage(redirectAttributes, "公司已存在，请重新输入");
 				return form(customer, model);
 			}
 			if(StringUtils.isEmpty(customer.getAdminAccount())){
@@ -120,11 +146,13 @@ public class CustomerController extends BaseController {
 				return form(customer, model);
 			}
 			//1.sys_office
-			Office office_old = officeService.get(String.valueOf(17));
+			Office office_old = officeService.get(String.valueOf(1));
 			Office office = new Office();
-			BeanUtils.copyProperties(office_old, office);
-			office.setId(null);
+			//BeanUtils.copyProperties(office_old, office);
+			//office.setId(null);
 			office.setName(customer.getCompanyName());
+			office.setParent(office_old);
+
 			
 			//2.sys_user
 			User user = new User();
@@ -140,7 +168,6 @@ public class CustomerController extends BaseController {
 			}
 			
 			officeService.save(office);
-			
 			user.setCompany(office);
 			user.setOffice(office);
 			// 角色数据有效性验证，过滤不在授权内的角色
@@ -166,7 +193,7 @@ public class CustomerController extends BaseController {
 		customerService.save(customer);
 		addMessage(redirectAttributes, "保存客户信息成功");
 		return "redirect:"+Global.getAdminPath()+"/bv/customer/?repage";
-	}
+	 }
 	
 	@RequiresPermissions("bv:customer:edit")
 	@RequestMapping(value = "delete")

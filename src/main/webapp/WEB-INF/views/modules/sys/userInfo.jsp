@@ -28,30 +28,37 @@
 	<ul class="nav nav-tabs">
 		<li class="active"><a href="${ctx}/sys/user/info">个人信息</a></li>
 		<li><a href="${ctx}/sys/user/modifyPwd">修改密码</a></li>
+		<li><a href="${ctx}/sys/user/modifyPwd">新增用户</a></li>
+		<li><a href="${ctx}/sys/user/modifyPwd">用户组</a></li>
 	</ul><br/>
 	<form:form id="inputForm" modelAttribute="user" action="${ctx}/sys/user/info" method="post" class="form-horizontal"><%--
 		<form:hidden path="email" htmlEscape="false" maxlength="255" class="input-xlarge"/>
 		<sys:ckfinder input="email" type="files" uploadPath="/mytask" selectMultiple="false"/> --%>
 		<sys:message content="${message}"/>
-		<div class="control-group">
+		<script language="javascript">
+		<c:if test="${not empty message}">
+		alert("${message}")
+		</c:if>
+        </script>
+<%--		<div class="control-group">
 			<label class="control-label">头像:</label>
 			<div class="controls">
 				<form:hidden id="nameImage" path="photo" htmlEscape="false" maxlength="255" class="input-xlarge"/>
 				<sys:ckfinder input="nameImage" type="images" uploadPath="/photo" selectMultiple="false" maxWidth="100" maxHeight="100"/>
 			</div>
-		</div>
+		</div>--%>
 		<div class="control-group">
-			<label class="control-label">归属公司:</label>
+			<label class="control-label">公司名称:</label>
 			<div class="controls">
 				<label class="lbl">${user.company.name}</label>
 			</div>
 		</div>
-		<div class="control-group">
+<%--	<div class="control-group">
 			<label class="control-label">归属部门:</label>
 			<div class="controls">
 				<label class="lbl">${user.office.name}</label>
 			</div>
-		</div>
+		</div>--%>
 		<div class="control-group">
 			<label class="control-label">姓名:</label>
 			<div class="controls">
@@ -82,12 +89,12 @@
 				<form:textarea path="remarks" htmlEscape="false" rows="3" maxlength="200" class="input-xlarge"/>
 			</div>
 		</div>
-		<div class="control-group">
+		<%--<div class="control-group">
 			<label class="control-label">用户类型:</label>
 			<div class="controls">
-				<label class="lbl">${fns:getDictLabel(user.userType, 'sys_user_type', '无')}</label>
+			<label class="lbl">${fns:getDictLabel(user.userType, 'sys_user_type', '无')}</label>
 			</div>
-		</div>
+		</div>--%>
 		<div class="control-group">
 			<label class="control-label">用户角色:</label>
 			<div class="controls">

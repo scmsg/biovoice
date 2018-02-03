@@ -8,6 +8,13 @@
 		$(document).ready(function() {
 			//$("#name").focus();
 			$("#inputForm").validate({
+				rulers:{
+                    inputForm:{
+                        required:true,
+						ninlength:6
+					}
+
+				},
 				submitHandler: function(form){
 					loading('正在提交，请稍等...');
 					form.submit();
@@ -23,6 +30,23 @@
 				}
 			});
 		});
+/*function checkCompanyName(obj) {
+    alert("测试成功");
+    if($(obj).val()!=""&& $(obj).val()!=null){
+    $.post("${ctx}/bv/customer/checkCompanyName", "companyName="+$(obj).val(), function(data) {
+        alert("成功回调");
+        if (data==="true") {
+            $("#usernameInfo").html("用户名已经被占用，请重名选择一个!!!");
+            $("#usernameInfo").css("color", "red");
+        } else {
+            $("#usernameInfo").html("用户可以使用...");
+            $("#usernameInfo").css("color", "green");
+        }
+    }, "text");
+	}else {
+        $("#usernameInfo").html("");
+    }
+}*/
 	</script>
 </head>
 <body>
@@ -30,14 +54,14 @@
 		<li><a href="${ctx}/bv/customer/">客户信息列表</a></li>
 		<li class="active"><a href="${ctx}/bv/customer/form?id=${customer.id}">客户信息<shiro:hasPermission name="bv:customer:edit">${not empty customer.id?'修改':'添加'}</shiro:hasPermission><shiro:lacksPermission name="bv:customer:edit">查看</shiro:lacksPermission></a></li>
 	</ul><br/>
-	<form:form id="inputForm" modelAttribute="customer" action="${ctx}/bv/customer/save" method="post" class="form-horizontal">
+	<form:form name="inputForm" id="inputForm" modelAttribute="customer" action="${ctx}/bv/customer/save" method="post" class="form-horizontal">
 		<form:hidden path="id"/>
 		<sys:message content="${message}"/>		
 		<c:if test="${empty customer.id}">
 		<div class="control-group">
 			<label class="control-label">公司（单位名称）：</label>
 			<div class="controls">
-				<form:input path="companyName" htmlEscape="false" maxlength="255" class="input-xlarge "/>
+				<form:input path="companyName"  htmlEscape="false" maxlength="255" class="input-xlarge " onblur="checkCompanyName(this)" /><span  id="usernameInfo" style="font-size: 15px"></span>
 			</div>
 		</div>
 		</c:if>
@@ -66,6 +90,8 @@
 					onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:false});"/>
 			</div>
 		</div>
+		<c:if test="${not empty customer.id}">
+
 		<div class="control-group">
 			<label class="control-label">节点（活跃数）：</label>
 			<div class="controls">
@@ -84,6 +110,7 @@
 				<form:input path="gateActive" htmlEscape="false" maxlength="20" class="input-xlarge  digits"/>
 			</div>
 		</div>
+		</c:if>
 		<div class="control-group">
 			<label class="control-label">网关（购买数)：</label>
 			<div class="controls">

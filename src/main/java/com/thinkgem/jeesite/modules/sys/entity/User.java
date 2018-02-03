@@ -58,7 +58,7 @@ public class User extends DataEntity<User> {
 		super();
 		this.loginFlag = Global.YES;
 	}
-	
+
 	public User(String id){
 		super(id);
 	}

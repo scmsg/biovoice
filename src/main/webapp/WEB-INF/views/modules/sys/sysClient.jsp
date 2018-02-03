@@ -37,7 +37,7 @@
 	
 	var ztreeNodes = ${ztreeNodesString};
 	console.log(ztreeNodes);
-  <!--
+  //<!--
 	var zTree;
 	var demoIframe;
 
@@ -99,13 +99,15 @@
 			<div class="navbar-inner">
 				<div class="brand"><span id="productName" >${fns:getConfig('productName')}</span></div>
 				<ul id="userControl" class="nav pull-right">
+					<li><a href="${ctx}/sys/user/info"target="testIframe"><i class="icon-user"></i>&nbsp; 用户管理</a></li>
 					<li id="userInfo" class="dropdown">
-						<a class="dropdown-toggle" data-toggle="dropdown" href="#" title="个人信息">您好, ${fns:getUser().name}&nbsp;<span id="notifyNum" class="label label-info hide"></span></a>
-						<ul class="dropdown-menu">
-							<li><a href="${ctx}/sys/user/info" target="mainFrame"><i class="icon-user"></i>&nbsp; 个人信息</a></li>
-							<li><a href="${ctx}/sys/user/modifyPwd" target="mainFrame"><i class="icon-lock"></i>&nbsp;  修改密码</a></li>
-							<li><a href="${ctx}/oa/oaNotify/self" target="mainFrame"><i class="icon-bell"></i>&nbsp;  我的通知 <span id="notifyNum2" class="label label-info hide"></span></a></li>
-						</ul>
+					<a class="dropdown-toggle" data-toggle="dropdown" href="#" title="个人信息">您好, ${fns:getUser().name}&nbsp;<span id="notifyNum" class="label label-info hide"></span></a>
+						<%--<ul class="dropdown-menu">
+						<li><a href="${ctx}/sys/user/info"target="testIframe"><i class="icon-user"></i>&nbsp; 用户管理</a></li>
+						<li><a href="${ctx}/sys/user/info" target="testIframe"><i class="icon-user"></i>&nbsp; 个人信息</a></li>
+						<li><a href="${ctx}/sys/user/modifyPwd" target="testIframe"><i class="icon-lock"></i>&nbsp;  修改密码</a></li>
+						<li><a href="${ctx}/oa/oaNotify/self" target="testIframe"><i class="icon-bell"></i>&nbsp;  我的通知 <span id="notifyNum2" class="label label-info hide"></span></a></li>
+						</ul>--%>
 					</li>
 					<li><a href="${ctx}/logout" title="退出登录">退出</a></li>
 					<li>&nbsp;</li>
@@ -115,10 +117,10 @@
 	</div>
 	<TABLE border=0 height=600px align=left>
 		<TR>
-			<TD width=260px align=left valign=top style="BORDER-RIGHT: #999999 1px dashed">
+			<TD width=18% align=left valign=top style="BORDER-RIGHT: #999999 1px dashed">
 				<ul id="tree" class="ztree" style="width:260px; overflow:auto;"></ul>
 			</TD>
-			<TD width=770px align=left valign=top><IFRAME ID="testIframe" Name="testIframe" FRAMEBORDER=0 SCROLLING=AUTO width=100%  height=600px SRC="${ctx}/bv/client/depatement"></IFRAME></TD>
+			<TD width=100% align=left valign=top><IFRAME ID="testIframe" Name="testIframe" FRAMEBORDER=0 SCROLLING=AUTO width=100%  height=600px SRC="${ctx}/bv/client/depatement"></IFRAME></TD>
 		</TR>
 	</TABLE>
 

@@ -226,7 +226,7 @@
 	<!-- 插入用户 -->
 	<insert id="insert">
 		INSERT INTO sys_user(
-			id, 
+			id,
 			company_id, 
 			office_id, 
 			login_name, 
@@ -246,7 +246,7 @@
 			photo, 
 			del_flag
 		) VALUES (
-			#{id}, 
+			#{id},
 			#{company.id}, 
 			#{office.id}, 
 			#{loginName}, 

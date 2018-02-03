@@ -282,7 +282,7 @@ public class UserController extends BaseController {
 			}
 			currentUser.setEmail(user.getEmail());
 			currentUser.setPhone(user.getPhone());
-			currentUser.setMobile(user.getMobile());
+  			currentUser.setMobile(user.getMobile());
 			currentUser.setRemarks(user.getRemarks());
 			currentUser.setPhoto(user.getPhoto());
 			systemService.updateUserInfo(currentUser);

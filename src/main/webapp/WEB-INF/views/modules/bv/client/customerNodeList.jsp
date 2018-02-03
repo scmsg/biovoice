@@ -12,14 +12,15 @@
 			$("#pageSize").val(s);
 			$("#searchForm").submit();
         	return false;
-             /*   ?usePlaceId=${usePlaceId}&usePlaceType=${usePlaceType}*/
         }
 	</script>
 </head>
 <body>
 	<ul class="nav nav-tabs">
-		<li class="active"><a href="${ctx}/bv/client/customerNode/">客户节点列表</a></li>
-		<shiro:hasPermission name="bv:client:customerNode:edit"><li><a href="${ctx}/bv/client/customerNode/form?usePlaceId=${usePlaceId}&usePlaceType=${usePlaceType}">客户节点添加</a></li></shiro:hasPermission>
+		<li class="active"><a href="${ctx}/bv/client/customerNode/list?usePlaceId=${usePlaceId}&usePlaceType=${usePlaceType}">节点列表</a></li>
+		<li><a href="${ctx}/bv/client/customerNodeOfData/list?usePlaceId=${usePlaceId}&usePlaceType=${usePlaceType}">数据列表</a></li>
+		<li><a href="${ctx}/bv/client/customerNodeOfData/charts?usePlaceId=${usePlaceId}&usePlaceType=${usePlaceType}">数据图表</a></li>
+		<shiro:hasPermission name="bv:client:customerNode:edit"><li><a href="${ctx}/bv/client/customerNode/form?usePlaceId=${usePlaceId}&usePlaceType=${usePlaceType}">节点添加</a></li></shiro:hasPermission>
 	</ul>
 	<form:form id="searchForm" modelAttribute="customerNode" action="${ctx}/bv/client/customerNode/" method="post" class="breadcrumb form-search">
 		<input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
