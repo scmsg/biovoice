@@ -36,6 +36,7 @@
 				<th>节点ID</th>
 				<th>入库时间</th>
 				<th>是否已分配</th>
+				<th>是否已绑定</th>
 				<shiro:hasPermission name="bv:node:edit"><th>操作</th></shiro:hasPermission>
 			</tr>
 		</thead>
@@ -45,6 +46,7 @@
 				<td>${node.nodeId}</td>
 				<td><fmt:formatDate value="${node.enterTime}" type="both"/></td>
 				<td>${node.isAllocated eq 0?'未分配':'已分配'}</td>
+				<td>${node.boundStatus eq 0?'未绑定':'已绑定'}</td>
 				<shiro:hasPermission name="bv:node:edit"><td>
     				<a href="${ctx}/bv/node/form?id=${node.id}">修改</a>
 					<a href="${ctx}/bv/node/delete?id=${node.id}" onclick="return confirmx('确认要删除该节点信息吗？', this.href)">删除</a>

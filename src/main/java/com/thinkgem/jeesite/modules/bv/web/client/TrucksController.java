@@ -9,6 +9,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -121,12 +122,13 @@ public class TrucksController extends BaseController {
 		usePlace.setUsePlaceType(3);
 		usePlace.setUpdateTime(nowDate);
 		
-		//usePlaceService.save(usePlace);
+		usePlaceService.save(usePlace);
 		usePlace.setUsePlaceId(usePlace.getId());
 		usePlaceService.save(usePlace);
 		
 		trucks.setUsePlaceId(usePlace.getId());
 		trucksService.save(trucks);
+		UserUtils.clearZtreeNodeList();
 		addMessage(redirectAttributes, "保存车辆管理成功");
 		//return "redirect:"+Global.getAdminPath()+"/bv/client/trucks/list?departmentId="+trucks.getDepartmentId();
 		return "redirect:"+Global.getAdminPath()+"/bv/client/usePlace/list?departmentId="+trucks.getDepartmentId();
@@ -135,7 +137,10 @@ public class TrucksController extends BaseController {
 	@RequiresPermissions("bv:client:trucks:edit")
 	@RequestMapping(value = "delete")
 	public String delete(Trucks trucks, RedirectAttributes redirectAttributes) {
+		UsePlace usePlace=new UsePlace();
 		trucksService.delete(trucks);
+		usePlace.setId(trucks.getUsePlaceId());
+		usePlaceService.delete(usePlace);
 		addMessage(redirectAttributes, "删除车辆管理成功");
 		//return "redirect:"+Global.getAdminPath()+"/bv/client/trucks/?repage";
 		return "redirect:"+Global.getAdminPath()+"/bv/client/usePlace/list?departmentId="+trucks.getDepartmentId();

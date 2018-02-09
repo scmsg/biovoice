@@ -23,5 +23,6 @@ public interface GateDao extends CrudDao<Gate> {
 	List<Gate> findBetweenStartAndEnd(GateDto dto);
 	
 	void updateAllocated(Gate gate);
+	List<String> findGateIds();
 	
 }

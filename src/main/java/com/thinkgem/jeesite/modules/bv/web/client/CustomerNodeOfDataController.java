@@ -61,7 +61,7 @@ public class CustomerNodeOfDataController extends BaseController {
 		model.addAttribute("nodeOfData", nodeOfData);
 		model.addAttribute("usePlaceType", usePlaceType);
 		model.addAttribute("usePlaceId", usePlaceId);
-		return "modules/bv/client/customerNodeOfDataList";
+		return "modules/bv/client/customerNodeOfDataListTest";
 	}
 	@RequiresPermissions("bv:client:customerNodeOfdata:view")
 	@RequestMapping(value = "charts")
@@ -98,14 +98,14 @@ public class CustomerNodeOfDataController extends BaseController {
 		List<NodeOfData> nodeOfDatas = page.getList();
 		if(nodeOfDatas != null && nodeOfDatas.size() > 0){
 			List<String> timeTags = new ArrayList<String>();
-			List<Short> datas = new ArrayList<Short>();
+			List<Double> datas = new ArrayList<Double>();
 			for(NodeOfData data : nodeOfDatas){
 				if(null == data.getTimeTag() || data.getTimeTag() == 0
 						|| null == data.getTemperature() || data.getTemperature() == 0){
 					continue;
 				}
 				timeTags.add(DateFormatUtils.format(data.getTimeTag() * 1000, "yyyy-MM-dd HH:mm:ss"));
-				datas.add(data.getTemperature());
+				datas.add((double)data.getTemperature()/10);
 			}
 			//以下数据是为了支持HighCharts而提供的变量
 			model.addAttribute("chart", "line");

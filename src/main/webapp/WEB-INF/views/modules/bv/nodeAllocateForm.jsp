@@ -37,6 +37,30 @@
 									}
 								});
 			});
+  function selectGateId() {
+	  //alert("测试成功");
+      $("#showGateTable").empty();
+      $.ajax({
+          url : "${ctx}/bv/gate/ajax",
+          async : true,
+          type : "post",
+          //data:{"name":"lucy","age":18},
+          success : function(data) {
+              //	alert(data.length);
+              content="";
+              for (var i = 0; i < data.length; i++) {
+                  //alert(i);
+                  content += "<tr style='cursor:pointer;border: 2px solid #000; width: 100%; padding: 0px; margin: 0px'><td onmouseover='overfn(this)'onnouseout='overoutfn(this)'><input type='checkbox' />"
+                      + data[i] + "</td></tr>";
+              }
+              $("#showGateTable").append(content);
+          },
+          error : function(data) {
+              alert("请求失败");
+          },
+          dataType : "json"
+      });
+  };
 	function selectNodeId() {
 		//alert("测试成功");
 		$("#showTable").empty();
@@ -82,8 +106,19 @@
 	   // alert("点击了");
 	  //  alert($(obj).text());
 	   $("#companyName").val($(obj).text());
+        $("#company_id").val($(obj).next().text());
         $("#showCompany").empty();
 	}
+	function GateEnter() {
+        content = "";
+        $("#showGateTable input:checked").each(function(i, n) {
+            content += $(this).parent().text() + ",";
+         //   alert(content);
+        });
+        //alert(content);
+        $("#GateIds").val(content);
+        $("#showGateTable").empty();
+    }
 	function enter() {
 		//alert($("#showTable .sele").size());
 		//alert($("#showTable input:checked").length);
@@ -105,12 +140,14 @@
         //data:{"name":"lucy","age":18},
         success : function(data) {
 		    //	alert(data.length);
+           // jsonData=eval("("+data+")");
             content="";
             for (var i = 0; i < data.length; i++) {
                 content += "<tr style='cursor:pointer;border: 2px solid #000; width: 100%; padding: 0px; margin: 0px'><td onmouseover='overfnc(this)' onmouseout='overoutfnc(this)'  onclick='enterCompany(this)'>"
-                    + data[i] + "</td></tr>";
+                    + data[i].companyName + "</td><td style='display:none'>"+data[i].id+"</td></tr>";
             }
             $("#showCompany").append(content);
+            //style='display:none'
         },
         error : function(data) {
             alert("请求失败");
@@ -133,6 +170,7 @@
 		action="${ctx}/bv/nodeAllocate/save" method="post"
 		class="form-horizontal">
 		<form:hidden path="id" />
+		<form:hidden id="company_id" path="companyId"/>
 		<sys:message content="${message}" />
 		<div class="control-group">
 			<label class="control-label">公司（单位名称）：</label>
@@ -172,8 +210,7 @@
 		<div class="control-group" style="position: relative">
 			<label class="control-label">节点集合：</label>
 			<div class="controls">
-				<form:input path="nodeData" htmlEscape="false" maxlength="255"
-					class="input-xlarge " onclick="nodenum()" id="nodeIds" />
+				<form:textarea path="nodeData"  id="nodeIds" htmlEscape="false" rows="5" maxlength="200" class="input-xxlarge" onclick="nodenum()" />
 					<input type="button" onclick="selectNodeId()" value="选择节点"/>
 					<input type="button" onclick="enter()" value="确定" />
 				<div style="position: absolute; z-index: 1000; margin: 0px; padding: 0px; background: #fff; width: 280px; border: 1px solid #CCC;">					
@@ -182,7 +219,6 @@
 					</table>
 				</div>
 			</div>
-
 		</div>
 		<div class="control-group">
 			<label class="control-label">出租单价：</label>
@@ -197,11 +233,17 @@
 					class="input-xlarge " />
 			</div>
 		</div>
-		<div class="control-group">
+		<div class="control-group" style="position: relative">
 			<label class="control-label">网关集合：</label>
 			<div class="controls">
-				<form:input path="gateData" htmlEscape="false" maxlength="255"
-					class="input-xlarge " />
+				<form:textarea path="gateData"  id="GateIds" htmlEscape="false" rows="5" maxlength="200" class="input-xxlarge" onclick="nodenum()"/>
+				<input type="button" onclick="selectGateId()" value="选择网关"/>
+				<input type="button" onclick="GateEnter()" value="确定" />
+				<div style="position: absolute; z-index: 1000; margin: 0px; padding: 0px; background: #fff; width: 280px; border: 1px solid #CCC;">
+					<table id="showGateTable"
+						   style="margin: 0px; padding: 0px; width: 100%">
+					</table>
+				</div>
 			</div>
 		</div>
 		<div class="control-group">

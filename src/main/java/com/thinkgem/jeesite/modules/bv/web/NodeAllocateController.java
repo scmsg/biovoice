@@ -6,6 +6,7 @@ package com.thinkgem.jeesite.modules.bv.web;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.thinkgem.jeesite.modules.bv.entity.Customer;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -58,7 +59,7 @@ public class NodeAllocateController extends BaseController {
 	
 	@RequiresPermissions("bv:nodeAllocate:view")
 	@RequestMapping(value = {"list", ""})
-	public String list(NodeAllocate nodeAllocate, HttpServletRequest request, HttpServletResponse response, Model model) {
+	public String list( NodeAllocate nodeAllocate, HttpServletRequest request, HttpServletResponse response, Model model) {
 		Page<NodeAllocate> page = nodeAllocateService.findPage(new Page<NodeAllocate>(request, response), nodeAllocate); 
 		model.addAttribute("page", page);
 		return "modules/bv/nodeAllocateList";
@@ -82,10 +83,10 @@ public class NodeAllocateController extends BaseController {
 			addMessage(model, "分配的节点不能为空，请检查");
 			return form(nodeAllocate, model);
 		}
-		if(null == nodeAllocate.getGateData() || nodeAllocate.getGateData().length() == 0){
+/*		if(null == nodeAllocate.getGateData() || nodeAllocate.getGateData().length() == 0){
 			addMessage(model, "分配的网关不能为空，请检查");
 			return form(nodeAllocate, model);
-		}
+		}*/
 		
 		//更新节点信息
 		String nodeDataList = nodeAllocate.getNodeData();
@@ -115,52 +116,57 @@ public class NodeAllocateController extends BaseController {
 				}
 			}
 		}
-		
-		//更新网关信息
-		String gateDataList = nodeAllocate.getGateData();
-		String[] gateDatas = gateDataList.split(",");
 		Gate gate = null;
 		Gate tempGate = null;
-		for(String gateData : gateDatas){
-			Long gateId = 0L;
-			try{
-				gateId = Long.valueOf(gateData);
-			}catch(Exception e){
-				e.printStackTrace();
-				addMessage(model, "分配的网关："+gateData+", 是无效数据，请检查");
-				return form(nodeAllocate, model);
-			}
-			
-			gate = new Gate();
-			gate.setGateId(gateId);
-			tempGate = gateService.getByGateId(gate);
-			if(null == tempGate){
-				addMessage(model, "分配的网关："+gateData+", 存在无效数据，请检查");
-				return form(nodeAllocate, model);
-			}else{
-				if(tempGate.getIsAllocated() == 1){
-					addMessage(model, "分配的网关："+gateData+", 已被分配过，请检查");
+		String[] gateDatas=null;
+		//更新网关信息
+		if(null != nodeAllocate.getGateData() && nodeAllocate.getGateData().length() != 0) {
+			String gateDataList = nodeAllocate.getGateData();
+			gateDatas = gateDataList.split(",");
+/*			Gate gate = null;
+			Gate tempGate = null;*/
+			for (String gateData : gateDatas) {
+				Long gateId = 0L;
+				try {
+					gateId = Long.valueOf(gateData);
+				} catch (Exception e) {
+					e.printStackTrace();
+					addMessage(model, "分配的网关：" + gateData + ", 是无效数据，请检查");
 					return form(nodeAllocate, model);
+				}
+
+				gate = new Gate();
+				gate.setGateId(gateId);
+				tempGate = gateService.getByGateId(gate);
+				if (null == tempGate) {
+					addMessage(model, "分配的网关：" + gateData + ", 存在无效数据，请检查");
+					return form(nodeAllocate, model);
+				} else {
+					if (tempGate.getIsAllocated() == 1) {
+						addMessage(model, "分配的网关：" + gateData + ", 已被分配过，请检查");
+						return form(nodeAllocate, model);
+					}
 				}
 			}
 		}
-		
 		for(String nodeData : nodeDatas){
 			Long nodeId = Long.valueOf(nodeData);
 			node = new Node();
 			node.setNodeId(nodeId);
 			node.setIsAllocated(1);
+			node.setCustomerId(nodeAllocate.getCompanyId());
 			nodeService.updateAllocated(node);
 		}
-		
-		for(String gateData : gateDatas){
-			Long gateId = Long.valueOf(gateData);
-			gate = new Gate();
-			gate.setGateId(gateId);
-			gate.setIsAllocated(1);
-			gateService.updateAllocated(gate);
+		if(null != nodeAllocate.getGateData() && nodeAllocate.getGateData().length() != 0) {
+			for (String gateData : gateDatas) {
+				Long gateId = Long.valueOf(gateData);
+				gate = new Gate();
+				gate.setGateId(gateId);
+				gate.setIsAllocated(1);
+				gate.setCustomerId(nodeAllocate.getCompanyId());
+				gateService.updateAllocated(gate);
+			}
 		}
-		
 		nodeAllocateService.save(nodeAllocate);
 		addMessage(redirectAttributes, "保存节点分配成功");
 		return "redirect:"+Global.getAdminPath()+"/bv/nodeAllocate/?repage";

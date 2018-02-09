@@ -60,6 +60,12 @@ public class NodeService extends CrudService<NodeDao, Node> {
 	public void updateAllocated(Node node){
 		nodeDao.updateAllocated(node);
 	}
+
+	@Transactional(readOnly = false)
+	public void updateBoundStatus(Node node){
+		nodeDao.updateBoundStatus(node);
+	}
+
 	
 	@Transactional(readOnly = false)
 	public void delete(Node node) {

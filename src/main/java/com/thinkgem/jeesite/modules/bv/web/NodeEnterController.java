@@ -105,6 +105,7 @@ public class NodeEnterController extends BaseController {
 			node.setEnterTime(nodeEnter.getEnterTime());
 			
 			node.setIsAllocated(0);
+			node.setBoundStatus(0);
 			nodeService.save(node);
 		}
 		

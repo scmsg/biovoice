@@ -91,6 +91,11 @@ public class DepatementController extends BaseController {
 		}
 		depatement.setUpdateTime(new Date());
 		depatementService.save(depatement);
+
+		//TODO 保对于客户端自己新增的部门，还需要存到用户组里
+
+
+		UserUtils.clearZtreeNodeList();
 		addMessage(redirectAttributes, "保存部门成功");
 		return "redirect:"+Global.getAdminPath()+"/bv/client/depatement/?repage";
 	}

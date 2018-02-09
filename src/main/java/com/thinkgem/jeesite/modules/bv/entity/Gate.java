@@ -23,7 +23,8 @@ public class Gate extends DataEntity<Gate> {
 	private String remark;		// 备注
 	private String placePosition;		// 摆放位置
 	private Integer isAllocated;		// 是否已分配(0:未分配； 1:已分配)
-	private String whichCustomer;		// 所属客户
+	private Long customerId;		// 所属客户
+	//private String whichCustomer;		// 所属客户
 	private String nodeUse;		// 节点用途
 	private String simNum;		// SIM卡号
 	private Long connetedNodes;		// 连接节点数
@@ -88,16 +89,13 @@ public class Gate extends DataEntity<Gate> {
 	public void setIsAllocated(Integer isAllocated) {
 		this.isAllocated = isAllocated;
 	}
-	
-	@Length(min=0, max=255, message="所属客户长度必须介于 0 和 255 之间")
-	public String getWhichCustomer() {
-		return whichCustomer;
-	}
 
-	public void setWhichCustomer(String whichCustomer) {
-		this.whichCustomer = whichCustomer;
+	public Long getCustomerId() {
+		return customerId;
 	}
-	
+	public void setCustomerId(Long customerId) {
+		this.customerId = customerId;
+	}
 	@Length(min=0, max=255, message="节点用途长度必须介于 0 和 255 之间")
 	public String getNodeUse() {
 		return nodeUse;

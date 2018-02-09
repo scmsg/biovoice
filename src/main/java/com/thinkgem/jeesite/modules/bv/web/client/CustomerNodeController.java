@@ -4,10 +4,19 @@
 package com.thinkgem.jeesite.modules.bv.web.client;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.alibaba.fastjson.JSONArray;
+import com.thinkgem.jeesite.modules.bv.dao.CustomerDao;
+import com.thinkgem.jeesite.modules.bv.entity.Customer;
+import com.thinkgem.jeesite.modules.bv.entity.Node;
+import com.thinkgem.jeesite.modules.bv.service.NodeService;
+import com.thinkgem.jeesite.modules.sys.entity.Office;
+import com.thinkgem.jeesite.modules.sys.service.OfficeService;
+import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -36,7 +45,12 @@ public class CustomerNodeController extends BaseController {
 
 	@Autowired
 	private CustomerNodeService  customerNodeService;
-	
+	@Autowired
+	private CustomerDao customerDao;
+	@Autowired
+	private OfficeService officeService;
+	@Autowired
+	private NodeService nodeService;
 	@ModelAttribute
 	public CustomerNode get(@RequestParam(required=false) String id) {
 		CustomerNode entity = null;
@@ -63,6 +77,24 @@ public class CustomerNodeController extends BaseController {
 		}
 		return "modules/bv/client/customerNodeList";
 	}
+	@RequiresPermissions("bv:client:customerNode:view")
+	@RequestMapping(value = "ajax")
+	public void ajax(Node node, HttpServletRequest request, HttpServletResponse response, Model model) {
+ 		Long customerId = UserUtils.getUser().getCustomerId();
+		//Office office=null;
+		//office=officeService.get(customerId);
+		Customer customer= new Customer();
+		customer.setId(customerId+"");
+		//customer.setCompanyName(office.getName());
+		//customer=customerDao.findCompanyIdByCompanyName(customer);
+		List<String> str = customerNodeService.findCustomerNodeId(customer);
+		String json = JSONArray.toJSONString(str);
+		try {
+			response.getWriter().write(json);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 
 	@RequiresPermissions("bv:client:customerNode:view")
 	@RequestMapping(value = "form")
@@ -80,6 +112,10 @@ public class CustomerNodeController extends BaseController {
 		if (!beanValidator(model, customerNode)){
 			return form(customerNode, model);
 		}
+		if(null == customerNode){
+			addMessage(redirectAttributes, "客户节点信息为空，请重新输入");
+			return form(customerNode, model);
+		}
 		if(StringUtils.isEmpty(customerNode.getUsePlaceId())){
 			addMessage(model, "参数异常，请联系管理员!");
 			return form(customerNode, model);
@@ -88,11 +124,52 @@ public class CustomerNodeController extends BaseController {
 			addMessage(model, "参数异常，请联系管理员!!");
 			return form(customerNode, model);
 		}
+/*		String customerId = UserUtils.getUser().getCompany().getId();
+		Office office=null;
+		office=officeService.get(customerId);
+		Customer customer= new Customer();
+		customer.setCompanyName(office.getName());
+		customer=customerDao.findCompanyIdByCompanyName(customer);*/
+		String[] nodeDatas = customerNode.getCustomerNodeIds().split(",");
+		Node node = null;
+		node = new Node();
+		Node tempNode = null;
+		for(String nodeData : nodeDatas) {
+			Long nodeId = 0L;
+			try {
+				nodeId = Long.valueOf(nodeData);
+			}catch(Exception e){
+				e.printStackTrace();
+				addMessage(model, "绑定的节点："+nodeData+", 是无效数据，请检查");
+				return form(customerNode, model);
+			}
+
+		node.setNodeId(nodeId);
+		tempNode = nodeService.getByNodeId(node);
+		if(null == tempNode){
+			addMessage(model, "绑定的节点："+nodeData+", 存在无效数据，请检查");
+			return form(customerNode, model);
+		}else{
+			if(tempNode.getBoundStatus() == 1){
+				addMessage(model, "绑定的节点："+nodeData+", 已被绑定过，请检查");
+				return form(customerNode, model);
+			}
+		}
+	}
+		for(String nodeData : nodeDatas){
+			Long nodeId = Long.valueOf(nodeData);
+			node = new Node();
+			node.setNodeId(nodeId);
+			customerNode.setNodeId(nodeId);
+		//	node.setCustomerId(Long.valueOf(customer.getId()));
+			node.setBoundStatus(1);
+			nodeService.updateBoundStatus(node);
 		if(StringUtils.isEmpty(customerNode.getId())){
 			customerNode.setCreateTime(new Date());
 		}
 		customerNode.setUpdateTime(new Date());
 		customerNodeService.save(customerNode);
+		}
 		addMessage(redirectAttributes, "保存客户节点成功");
 		//return "redirect:"+Global.getAdminPath()+"/bv/client/customerNode/?repage";
 		//return "redirect:"+Global.getAdminPath()+"/bv/client/customerNode/list?usePlaceId="+usePlaceId+"&usePlaceType="+usePlaceType+";

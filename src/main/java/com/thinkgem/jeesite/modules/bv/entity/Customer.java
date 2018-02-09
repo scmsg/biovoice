@@ -31,6 +31,7 @@ public class Customer extends DataEntity<Customer> {
 	private BigDecimal recervable;		// 应收款
 	private BigDecimal deposit;		// 押金
 	private String customerName;		// 客户名称
+	private Integer isAdmin;			//是否为根管理员
 	private String adminAccount;		// 根管理账号
 	private String adminPassword;		// 根管理密码
 	private Integer isBelongCompany;		// 是否&ldquo;集团总公司客户&rdquo;(0:不是；1:是)
@@ -270,5 +271,12 @@ public class Customer extends DataEntity<Customer> {
 	public void setRemark(String remark) {
 		this.remark = remark;
 	}
-	
+
+	public Integer getIsAdmin() {
+		return isAdmin;
+	}
+
+	public void setIsAdmin(Integer isAdmin) {
+		this.isAdmin = isAdmin;
+	}
 }

@@ -10,7 +10,7 @@
 		a.remark AS "remark",
 		a.place_position AS "placePosition",
 		a.is_allocated AS "isAllocated",
-		a.which_customer AS "whichCustomer",
+		a.customer_id AS "customerId",
 		a.node_use AS "nodeUse",
 		a.sim_num AS "simNum",
 		a.conneted_nodes AS "connetedNodes",
@@ -53,6 +53,13 @@
 			</otherwise>
 		</choose>
 	</select>
+
+	<select id="findGateIds" resultType="String">
+		SELECT
+		 gate_id
+		FROM t_bv_gate a WHERE a.is_allocated = 0 limit 30
+	</select>
+
 	
 	<select id="findBetweenStartAndEnd" resultType="Gate">
 		SELECT 
@@ -92,7 +99,7 @@
 			remark,
 			place_position,
 			is_allocated,
-			which_customer,
+			customer_id,
 			node_use,
 			sim_num,
 			conneted_nodes,
@@ -105,7 +112,7 @@
 			#{remark},
 			#{placePosition},
 			#{isAllocated},
-			#{whichCustomer},
+			#{customerId},
 			#{nodeUse},
 			#{simNum},
 			#{connetedNodes},
@@ -121,7 +128,7 @@
 			remark = #{remark},
 			place_position = #{placePosition},
 			is_allocated = #{isAllocated},
-			which_customer = #{whichCustomer},
+			customer_id = #{customerId},
 			node_use = #{nodeUse},
 			sim_num = #{simNum},
 			conneted_nodes = #{connetedNodes},
@@ -131,7 +138,8 @@
 	
 	<update id="updateAllocated">
 		UPDATE t_bv_gate SET 	
-			is_allocated = #{isAllocated}
+			is_allocated = #{isAllocated},
+			customer_id = #{customerId}
 		WHERE gate_id = #{gateId}
 	</update>
 	

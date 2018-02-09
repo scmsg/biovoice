@@ -70,7 +70,6 @@
 			</otherwise>
 		</choose>
 	</select>
-	
 	<insert id="insert">
 		INSERT INTO t_bv_customer_node(
 			id,

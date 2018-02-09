@@ -6,6 +6,8 @@ package com.thinkgem.jeesite.modules.sys.utils;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.thinkgem.jeesite.modules.bv.entity.client.*;
+import com.thinkgem.jeesite.modules.bv.service.client.*;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.UnavailableSecurityManagerException;
 import org.apache.shiro.session.InvalidSessionException;
@@ -15,14 +17,6 @@ import org.apache.shiro.subject.Subject;
 import com.thinkgem.jeesite.common.service.BaseService;
 import com.thinkgem.jeesite.common.utils.CacheUtils;
 import com.thinkgem.jeesite.common.utils.SpringContextHolder;
-import com.thinkgem.jeesite.modules.bv.entity.client.Depatement;
-import com.thinkgem.jeesite.modules.bv.entity.client.Equipment;
-import com.thinkgem.jeesite.modules.bv.entity.client.Trucks;
-import com.thinkgem.jeesite.modules.bv.entity.client.Warehouse;
-import com.thinkgem.jeesite.modules.bv.service.client.DepatementService;
-import com.thinkgem.jeesite.modules.bv.service.client.EquipmentService;
-import com.thinkgem.jeesite.modules.bv.service.client.TrucksService;
-import com.thinkgem.jeesite.modules.bv.service.client.WarehouseService;
 import com.thinkgem.jeesite.modules.sys.dao.AreaDao;
 import com.thinkgem.jeesite.modules.sys.dao.MenuDao;
 import com.thinkgem.jeesite.modules.sys.dao.OfficeDao;
@@ -62,6 +56,8 @@ public class UserUtils {
 	private static WarehouseService warehouseService = SpringContextHolder.getBean(WarehouseService.class);
 	private static EquipmentService equipmentService = SpringContextHolder.getBean(EquipmentService.class);
 	private static TrucksService trucksService = SpringContextHolder.getBean(TrucksService.class);
+
+	private static UsePlaceService usePlaceService = SpringContextHolder.getBean(UsePlaceService.class);
 
 	public static final String USER_CACHE = "userCache";
 	public static final String USER_CACHE_ID_ = "id_";
@@ -238,13 +234,22 @@ public class UserUtils {
 		}
 		return officeList;
 	}
-	
+
+	/**
+	 * 调用时机：
+	 * 1.新增部门
+	 * 2.新增仓库/车辆/设备
+	 */
+	public static void clearZtreeNodeList(){
+		User user = getUser();
+		CacheUtils.remove(USER_CACHE, USER_CACHE_ZTREE_ + user.getId());
+	}
 	/**
 	 * 普通用户，获取树型菜单
 	 * @return
 	 */
 	@SuppressWarnings("unchecked")
-	public static List<ZtreeNode>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  getZtreeNodeList(){
+	public static List<ZtreeNode> getZtreeNodeList(){
 		User user = getUser();
 		List<ZtreeNode> ztreeNodes = (List<ZtreeNode>) CacheUtils.get(USER_CACHE, USER_CACHE_ZTREE_ + user.getId());
 		
@@ -259,35 +264,63 @@ public class UserUtils {
 	}
 	
 	private static List<ZtreeNode> getZtreeNodeList(User user){
+		List<ZtreeNode> ztreeNodes = new ArrayList<ZtreeNode>();
+		if(null != user.getIsAdmin() && user.getIsAdmin() == 1){
+			//根据公司ID，直接查询下面关联的所有部门，仓库/车辆/设备
+			ztreeNodes = getZtreeNodesFromCompany(user);
+		}else {
+			//TODO 查询用户组的权限
+
+		}
+
+		return ztreeNodes;
+	}
+
+	private static List<ZtreeNode> getZtreeNodesFromCompany(User user) {
 		Office company = user.getCompany();
-		
 		String companyId = company.getId();
-		
-		Depatement depatement = new Depatement();
-		depatement.setCompanyId(companyId);
-		List<Depatement> depatements = depatementService.findList(depatement);
-		
+
 		List<ZtreeNode> ztreeNodes = new ArrayList<ZtreeNode>();
 		ZtreeNode ztreeNode = null;
 		ztreeNode = new ZtreeNode();
-		ztreeNode.setId(company.getId());
+		ztreeNode.setId("company_"+company.getId());
 		ztreeNode.setPId(company.getParentId());
 		ztreeNode.setName(company.getName());
 		ztreeNode.setFile("/bv/client/depatement");
 		ztreeNode.setOpen("true");
 		ztreeNodes.add(ztreeNode);
-		
+
+		Depatement depatement = new Depatement();
+		depatement.setCompanyId(companyId);
+		List<Depatement> depatements = depatementService.findList(depatement);
+
 		if(depatements != null && depatements.size() > 0){
 			for(Depatement dep : depatements){
 				ztreeNode = new ZtreeNode();
-				ztreeNode.setId(dep.getId());
-				ztreeNode.setPId(company.getId());
+				ztreeNode.setId("dep_"+dep.getId());
+				ztreeNode.setPId("company_"+company.getId());
 				ztreeNode.setName(dep.getDeptName());
 				//链接跳到所有仓库/设备/车辆的信息列表
 				ztreeNode.setFile("/bv/client/usePlace/list?departmentId="+dep.getId());
 				ztreeNode.setOpen("false");
 				ztreeNodes.add(ztreeNode);
-				
+
+				//TODO 用usePlace替换
+				UsePlace usePlace = new UsePlace();
+				usePlace.setDepartmentId(dep.getId());
+				List<UsePlace> usePlaceList = usePlaceService.findList(usePlace);
+				if(usePlaceList != null && usePlaceList.size() > 0){
+					for(UsePlace up : usePlaceList){
+						ztreeNode = new ZtreeNode();
+						ztreeNode.setId("up_"+up.getId());
+						ztreeNode.setPId("dep_"+dep.getId());
+						ztreeNode.setName(up.getName());
+						ztreeNode.setFile("/bv/client/customerNode/list?usePlaceId="+up.getId()+"&usePlaceType="+up.getUsePlaceType());
+						ztreeNode.setOpen("false");
+						ztreeNodes.add(ztreeNode);
+					}
+				}
+				/*
 				//dept == >> Equipment\Warehouse\Trucks
 				Warehouse warehouse = new Warehouse();
 				warehouse.setDepartmentId(dep.getId());
@@ -331,7 +364,7 @@ public class UserUtils {
 						ztreeNode.setOpen("false");
 						ztreeNodes.add(ztreeNode);
 					}
-				}
+				}*/
 			}
 		}
 		return ztreeNodes;

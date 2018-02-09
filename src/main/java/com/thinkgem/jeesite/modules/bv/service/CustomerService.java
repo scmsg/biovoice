@@ -47,7 +47,7 @@ public class CustomerService extends CrudService<CustomerDao, Customer> {
 	}
 
 	@Transactional(readOnly = false)
-	public List<String> findCompanyList() {
+	public List<Customer> findCompanyList() {
 		return  customerDao.findCompanyList();
 	}
 	@Transactional(readOnly = false)

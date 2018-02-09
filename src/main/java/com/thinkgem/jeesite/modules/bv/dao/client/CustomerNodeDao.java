@@ -14,5 +14,5 @@ import com.thinkgem.jeesite.modules.bv.entity.client.CustomerNode;
  */
 @MyBatisDao
 public interface CustomerNodeDao extends CrudDao<CustomerNode> {
-	
+
 }

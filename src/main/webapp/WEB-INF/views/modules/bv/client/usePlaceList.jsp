@@ -66,11 +66,11 @@
 					</c:if>
 					<c:if test="${usePlace.usePlaceType eq 2}">
 						<a href="${ctx}/bv/client/equipment/form?usePlaceId=${usePlace.id}">修改</a>
-					<a href="${ctx}/bv/client/equipment/delete?usePlaceId=${usePlace.id}" onclick="return confirmx('确认要删除该使用场所吗？', this.href)">删除</a>
+					<a href="${ctx}/bv/client/equipment/delete?departmentId=${departmentId}&usePlaceId=${usePlace.id}" onclick="return confirmx('确认要删除该使用场所吗？', this.href)">删除</a>
 					</c:if>
 					<c:if test="${usePlace.usePlaceType eq 3}">
 						<a href="${ctx}/bv/client/trucks/form?usePlaceId=${usePlace.id}">修改</a>
-						<a href="${ctx}/bv/client/trucks/delete?departmentId=${departmentId}&id=usePlaceId=${usePlace.id}" onclick="return confirmx('确认要删除该使用场所吗？', this.href)">删除</a>
+						<a href="${ctx}/bv/client/trucks/delete?departmentId=${departmentId}&usePlaceId=${usePlace.id}" onclick="return confirmx('确认要删除该使用场所吗？', this.href)">删除</a>
 					</c:if>
 				</td></shiro:hasPermission>
 			</tr>

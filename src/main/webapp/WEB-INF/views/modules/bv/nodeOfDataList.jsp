@@ -65,7 +65,7 @@
 				
 				<td>${nodeOfData.battery}级</td>
 				<td>${nodeOfData.signalIntensity}级</td>
-				<td>${nodeOfData.measureInterval}</td>
+				<td>${nodeOfData.measureInterval}分钟</td>
 				<td>${nodeOfData.viewDataFlag eq 1?'是查看':'未查看'}</td>
 				
 				<td>
@@ -73,7 +73,7 @@
 			    	<jsp:setProperty name="timestamp" property="time" value="${nodeOfData.timeTag * 1000}"/>  
 			    	<fmt:formatDate value="${timestamp}" pattern="yyyy-MM-dd HH:mm:ss" type="both"/>
 		    	</td>
-				<td>${nodeOfData.temperature}</td>
+				<td>${nodeOfData.temperature/10}℃</td>
 				
 				<%-- <shiro:hasPermission name="bv:nodeOfData:edit"><td>
     				<a href="${ctx}/bv/nodeOfData/form?id=${nodeOfData.id}">修改</a>

@@ -8,6 +8,7 @@ import java.util.List;
 import com.thinkgem.jeesite.common.persistence.CrudDao;
 import com.thinkgem.jeesite.common.persistence.annotation.MyBatisDao;
 import com.thinkgem.jeesite.modules.bv.dto.NodeDto;
+import com.thinkgem.jeesite.modules.bv.entity.Customer;
 import com.thinkgem.jeesite.modules.bv.entity.Node;
 
 /**
@@ -21,8 +22,11 @@ public interface NodeDao extends CrudDao<Node> {
 	List<Node> getByNodeId(Node node);
 	
 	List<Node> findBetweenStartAndEnd(NodeDto dto);
-	
+
 	void updateAllocated(Node node);
 
+	void updateBoundStatus(Node node);
+
 	List<String> findPageNodeId();
+	List<String> findCustomerNodeId( Customer customer);
 }

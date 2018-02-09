@@ -81,7 +81,7 @@ public class CustomerController extends BaseController {
 	@RequiresPermissions("bv:customer:view")
 	@RequestMapping(value = {"companyList"})
 	public void companyList(Customer customer, HttpServletRequest request, HttpServletResponse response, Model model) {
-		List<String> strs = customerService.findCompanyList();
+		List<Customer> strs = customerService.findCompanyList();
 		String json = JSONArray.toJSONString(strs);
 		try {
 			response.getWriter().write(json);
@@ -147,7 +147,7 @@ public class CustomerController extends BaseController {
 				return form(customer, model);
 			}
 			//1.sys_office
-			Office office_old = officeService.get(String.valueOf(17));
+			Office office_old = officeService.get(String.valueOf(54));
 			Office office = new Office();
 			BeanUtils.copyProperties(office_old, office);
 			office.setId(null);
@@ -186,12 +186,15 @@ public class CustomerController extends BaseController {
 			if (!beanValidator(model, user)){
 				return form(customer, model);
 			}
+			customer.setIsAdmin(1);//默认为根管理员标识
+			customerService.save(customer);
+			user.setIsAdmin(customer.getIsAdmin());//默认为根管理员标识
+			user.setCustomerId(Long.valueOf(customer.getId()));
 			systemService.saveUser(user);
+		}else {
+			customerService.save(customer);
 		}
-		
 		//3.新增客户
-		customer.setId(null);
-		customerService.save(customer);
 		addMessage(redirectAttributes, "保存客户信息成功");
 		return "redirect:"+Global.getAdminPath()+"/bv/customer/?repage";
 	 }

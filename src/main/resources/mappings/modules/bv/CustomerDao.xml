@@ -15,6 +15,7 @@
 		a.recervable AS "recervable",
 		a.deposit AS "deposit",
 		a.customer_name AS "customerName",
+		a.is_admin AS "isAdmin",
 		a.admin_account AS "adminAccount",
 		a.admin_password AS "adminPassword",
 		a.is_belong_company AS "isBelongCompany",
@@ -41,7 +42,14 @@
 		<include refid="customerJoins"/>
 		WHERE a.id = #{id}
 	</select>
-	
+
+	<select id="findCompanyIdByCompanyName" resultType="Customer">
+		SELECT
+		id
+		FROM t_bv_customer a
+		WHERE a.company_name = #{companyName}
+	</select>
+
 	<select id="findList" resultType="Customer">
 		SELECT 
 			<include refid="customerColumns"/>
@@ -81,12 +89,12 @@
 		FROM t_bv_customer WHERE company_name = #{name}
 	</select>
 
-	<select id="findCompanyList" resultType="String">
-		SELECT company_name
+	<select id="findCompanyList" resultType="Customer">
+		SELECT id,company_name
 		FROM t_bv_customer
 	</select>
 	
-	<insert id="insert">
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
 		INSERT INTO t_bv_customer(
 			id,
 			company_name,
@@ -100,6 +108,7 @@
 			recervable,
 			deposit,
 			customer_name,
+			is_admin,
 			admin_account,
 			admin_password,
 			is_belong_company,
@@ -127,6 +136,7 @@
 			#{recervable},
 			#{deposit},
 			#{customerName},
+			#{isAdmin},
 			#{adminAccount},
 			#{adminPassword},
 			#{isBelongCompany},

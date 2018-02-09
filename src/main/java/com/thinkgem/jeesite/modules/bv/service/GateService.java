@@ -42,7 +42,7 @@ public class GateService extends CrudService<GateDao, Gate> {
 	public List<Gate> findList(Gate gate) {
 		return super.findList(gate);
 	}
-	
+
 	public List<Gate> findBetweenStartAndEnd(GateDto dto) {
 		return gateDao.findBetweenStartAndEnd(dto);
 	}
@@ -64,6 +64,11 @@ public class GateService extends CrudService<GateDao, Gate> {
 	@Transactional(readOnly = false)
 	public void delete(Gate gate) {
 		super.delete(gate);
+	}
+
+	@Transactional(readOnly = true)
+	public List<String> findGateIds() {
+		return gateDao.findGateIds();
 	}
 	
 }

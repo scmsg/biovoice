@@ -4,6 +4,7 @@
     
 	<sql id="nodeAllocateColumns">
 		a.id AS "id",
+		a.company_id  AS "companyId",
 		a.company_name AS "companyName",
 		a.mode_cooperate AS "modeCooperate",
 		a.rent_time AS "rentTime",
@@ -66,6 +67,7 @@
 	<insert id="insert">
 		INSERT INTO t_bv_node_allocate(
 			id,
+			company_id,
 			company_name,
 			mode_cooperate,
 			rent_time,
@@ -80,6 +82,7 @@
 			remark
 		) VALUES (
 			#{id},
+			#{companyId},
 			#{companyName},
 			#{modeCooperate},
 			#{rentTime},
@@ -96,7 +99,8 @@
 	</insert>
 	
 	<update id="update">
-		UPDATE t_bv_node_allocate SET 	
+		UPDATE t_bv_node_allocate SET
+			company_id =#{companyId},
 			company_name = #{companyName},
 			mode_cooperate = #{modeCooperate},
 			rent_time = #{rentTime},

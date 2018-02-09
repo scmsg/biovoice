@@ -6,6 +6,7 @@ package com.thinkgem.jeesite.modules.bv.web;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.alibaba.fastjson.JSONArray;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,6 +22,8 @@ import com.thinkgem.jeesite.common.web.BaseController;
 import com.thinkgem.jeesite.common.utils.StringUtils;
 import com.thinkgem.jeesite.modules.bv.entity.Gate;
 import com.thinkgem.jeesite.modules.bv.service.GateService;
+
+import java.util.List;
 
 /**
  * 网关信息Controller
@@ -52,6 +55,18 @@ public class GateController extends BaseController {
 		Page<Gate> page = gateService.findPage(new Page<Gate>(request, response), gate); 
 		model.addAttribute("page", page);
 		return "modules/bv/gateList";
+	}
+	@RequiresPermissions("bv:node:view")
+	@RequestMapping(value = "ajax")
+	public void ajax(Gate gate, HttpServletRequest request, HttpServletResponse response, Model model) {
+		List<String> str = gateService.findGateIds();
+		String json = JSONArray.toJSONString(str);
+		try {
+			response.getWriter().write(json);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	@RequiresPermissions("bv:gate:view")
 	@RequestMapping(value = {"gateMap"})

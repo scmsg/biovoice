@@ -9,6 +9,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -121,6 +122,7 @@ public class WarehouseController extends BaseController {
 		
 		warehouse.setUsePlaceId(usePlace.getId());
 		warehouseService.save(warehouse);
+		UserUtils.clearZtreeNodeList();
 		addMessage(redirectAttributes, "保存仓库管理成功");
 		//return "redirect:"+Global.getAdminPath()+"/bv/client/warehouse/list?departmentId="+warehouse.getDepartmentId();
 		return "redirect:"+Global.getAdminPath()+"/bv/client/usePlace/list?departmentId="+warehouse.getDepartmentId();

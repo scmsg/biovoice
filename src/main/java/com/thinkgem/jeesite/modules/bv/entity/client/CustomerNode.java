@@ -19,6 +19,7 @@ public class CustomerNode extends DataEntity<CustomerNode> {
 	private static final long serialVersionUID = 1L;
 	private String nodeName;		// 节点名称(客户自定义)
 	private Long nodeId;		// 节点ID
+	private String customerNodeIds;//节点组数据
 	private String placementPosition;		// 摆放位置
 	private Date verificationTime;		// 上次较准时间
 	private String verificationReport;		// 较准报告
@@ -114,5 +115,11 @@ public class CustomerNode extends DataEntity<CustomerNode> {
 	public void setUpdateTime(Date updateTime) {
 		this.updateTime = updateTime;
 	}
-	
+
+	public String getCustomerNodeIds() {
+		return customerNodeIds;
+	}
+	public void setCustomerNodeIds(String customerNodeIds) {
+		this.customerNodeIds = customerNodeIds;
+	}
 }

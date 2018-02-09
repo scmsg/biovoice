@@ -60,6 +60,8 @@
 	
     <sql id="userColumns">
     	a.id,
+		a.is_admin AS "isAdmin",
+		a.customer_id AS "customerId",
     	a.company_id AS "company.id",
     	a.office_id AS "office.id",
     	a.login_name,
@@ -227,6 +229,8 @@
 	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
 		INSERT INTO sys_user(
 			id,
+			is_admin,
+			customer_id,
 			company_id, 
 			office_id, 
 			login_name, 
@@ -247,6 +251,8 @@
 			del_flag
 		) VALUES (
 			#{id},
+			#{isAdmin},
+			#{customerId},
 			#{company.id}, 
 			#{office.id}, 
 			#{loginName}, 
@@ -270,7 +276,8 @@
 	
 	<!-- 更新用户 -->
 	<update id="update">
-		UPDATE sys_user SET 
+		UPDATE sys_user SET
+		    customer_id = #{customerId},
 			company_id = #{company.id}, 
 			office_id = #{office.id}, 
 			login_name = #{loginName}, 

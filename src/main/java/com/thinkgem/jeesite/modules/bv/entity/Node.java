@@ -28,7 +28,8 @@ public class Node extends DataEntity<Node> {
 	private Integer boundStatus;		// 绑定状态(0:未绑定； 1:已绑定)
 	private Date boundTime;		// 绑定时间
 	private Integer isAllocated;		// 是否已分配(0:未分配； 1:已分配)
-	private String whichCustomer;		// 所属客户
+	//private String whichCustomer;		// 所属客户
+	private Long customerId;		// 所属客户
 	
 	public Node() {
 		super();
@@ -133,14 +134,11 @@ public class Node extends DataEntity<Node> {
 	public void setIsAllocated(Integer isAllocated) {
 		this.isAllocated = isAllocated;
 	}
-	
-	@Length(min=0, max=255, message="所属客户长度必须介于 0 和 255 之间")
-	public String getWhichCustomer() {
-		return whichCustomer;
-	}
 
-	public void setWhichCustomer(String whichCustomer) {
-		this.whichCustomer = whichCustomer;
+	public Long getCustomerId() {
+		return customerId;
 	}
-	
+	public void setCustomerId(Long customerId) {
+		this.customerId = customerId;
+	}
 }

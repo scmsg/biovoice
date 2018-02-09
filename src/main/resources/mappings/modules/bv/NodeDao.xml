@@ -15,7 +15,8 @@
 		a.bound_status AS "boundStatus",
 		a.bound_time AS "boundTime",
 		a.is_allocated AS "isAllocated",
-		a.which_customer AS "whichCustomer"
+		a.customer_id AS "customerId"
+		/*	a.which_customer AS "whichCustomer"*/
 	</sql>
 	
 	<sql id="nodeJoins">
@@ -98,7 +99,7 @@
 			bound_status,
 			bound_time,
 			is_allocated,
-			which_customer
+			customer_id
 		) VALUES (
 			#{id},
 			#{nodeId},
@@ -112,7 +113,7 @@
 			#{boundStatus},
 			#{boundTime},
 			#{isAllocated},
-			#{whichCustomer}
+			#{customerId}
 		)
 	</insert>
 	
@@ -129,13 +130,19 @@
 			bound_status = #{boundStatus},
 			bound_time = #{boundTime},
 			is_allocated = #{isAllocated},
-			which_customer = #{whichCustomer}
+			customer_id = #{customerId}
 		WHERE id = #{id}
 	</update>
 	
 	<update id="updateAllocated">
 		UPDATE t_bv_node SET 	
-			is_allocated = #{isAllocated}
+			is_allocated = #{isAllocated},
+			customer_id = #{customerId}
+		WHERE node_id = #{nodeId}
+	</update>
+	<update id="updateBoundStatus">
+		UPDATE t_bv_node SET
+		bound_status = #{boundStatus}
 		WHERE node_id = #{nodeId}
 	</update>
 	
@@ -148,5 +155,11 @@
 			node_id
 		FROM t_bv_node a
 		WHERE a.is_allocated = 0 ORDER BY a.node_id limit 0,50
+	</select>
+	<select id="findCustomerNodeId" resultType="String">
+		SELECT
+		node_id
+		FROM t_bv_node a
+		WHERE a.customer_id = ${id} AND bound_status = 0 ORDER BY a.node_id limit 0,50
 	</select>
 </mapper>

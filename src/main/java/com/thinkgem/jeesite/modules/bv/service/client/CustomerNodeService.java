@@ -5,6 +5,9 @@ package com.thinkgem.jeesite.modules.bv.service.client;
 
 import java.util.List;
 
+import com.thinkgem.jeesite.modules.bv.dao.NodeDao;
+import com.thinkgem.jeesite.modules.bv.entity.Customer;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,7 +24,10 @@ import com.thinkgem.jeesite.modules.bv.dao.client.CustomerNodeDao;
 @Service
 @Transactional(readOnly = true)
 public class CustomerNodeService extends CrudService<CustomerNodeDao, CustomerNode> {
-
+	@Autowired
+	private CustomerNodeDao customerNodeDao;
+	@Autowired
+	private NodeDao nodeDao;
 	public CustomerNode get(String id) {
 		return super.get(id);
 	}
@@ -32,6 +38,10 @@ public class CustomerNodeService extends CrudService<CustomerNodeDao, CustomerNo
 	
 	public Page<CustomerNode> findPage(Page<CustomerNode> page, CustomerNode customerNode) {
 		return super.findPage(page, customerNode);
+	}
+	public List<String> findCustomerNodeId(Customer customer) {
+
+		return nodeDao.findCustomerNodeId(customer);
 	}
 	
 	@Transactional(readOnly = false)

@@ -19,6 +19,7 @@ import com.thinkgem.jeesite.common.persistence.DataEntity;
 public class NodeAllocate extends DataEntity<NodeAllocate> {
 	
 	private static final long serialVersionUID = 1L;
+	private Long companyId;
 	private String companyName;		// 公司（单位名称）
 	private String modeCooperate;		// 合作方式
 	private Date rentTime;		// 起租时间
@@ -29,11 +30,18 @@ public class NodeAllocate extends DataEntity<NodeAllocate> {
 	private String gateData;		// 网关集合
 	private Date payTime;		// 计划付款时间
 	private BigDecimal amount;		// 金额
-	private String deposit;		// 押金
+	private Double deposit;		// 押金
 	private String remark;		// 备注
 	
 	public NodeAllocate() {
 		super();
+	}
+
+	public Long getCompanyId() {
+		return companyId;
+	}
+	public void setCompanyId(Long companyId) {
+		this.companyId = companyId;
 	}
 
 	public NodeAllocate(String id){
@@ -125,15 +133,13 @@ public class NodeAllocate extends DataEntity<NodeAllocate> {
 	public void setAmount(BigDecimal amount) {
 		this.amount = amount;
 	}
-	
-	public String getDeposit() {
+
+	public Double getDeposit() {
 		return deposit;
 	}
-
-	public void setDeposit(String deposit) {
+	public void setDeposit(Double deposit) {
 		this.deposit = deposit;
 	}
-	
 	@Length(min=0, max=255, message="备注长度必须介于 0 和 255 之间")
 	public String getRemark() {
 		return remark;

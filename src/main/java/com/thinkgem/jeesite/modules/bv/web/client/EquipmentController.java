@@ -9,6 +9,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -124,6 +125,7 @@ public class EquipmentController extends BaseController {
 		
 		equipment.setUsePlaceId(usePlace.getId());
 		equipmentService.save(equipment);
+		UserUtils.clearZtreeNodeList();
 		addMessage(redirectAttributes, "保存设备管理成功");
 		//return "redirect:"+Global.getAdminPath()+"/bv/client/equipment/list?departmentId="+equipment.getDepartmentId();
 		return "redirect:"+Global.getAdminPath()+"/bv/client/usePlace/list?departmentId="+equipment.getDepartmentId();
@@ -132,7 +134,10 @@ public class EquipmentController extends BaseController {
 	@RequiresPermissions("bv:client:equipment:edit")
 	@RequestMapping(value = "delete")
 	public String delete(Equipment equipment, RedirectAttributes redirectAttributes) {
+		UsePlace usePlace=new UsePlace();
 		equipmentService.delete(equipment);
+		usePlace.setId(equipment.getUsePlaceId());
+		usePlaceService.delete(usePlace);
 		addMessage(redirectAttributes, "删除设备管理成功");
 		//return "redirect:"+Global.getAdminPath()+"/bv/client/equipment/?repage";
 		return "redirect:"+Global.getAdminPath()+"/bv/client/usePlace/list?departmentId="+equipment.getDepartmentId();
