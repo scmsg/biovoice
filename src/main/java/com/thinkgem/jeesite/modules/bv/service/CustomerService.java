@@ -24,8 +24,13 @@ import com.thinkgem.jeesite.modules.bv.dao.CustomerDao;
 public class CustomerService extends CrudService<CustomerDao, Customer> {
 	@Autowired
 	private CustomerDao customerDao;
+	
 	public Customer get(String id) {
 		return super.get(id);
+	}
+	
+	public Customer getByAdminAccount(Customer customer) {
+		return customerDao.getByAdminAccount(customer);
 	}
 	
 	public List<Customer> findList(Customer customer) {

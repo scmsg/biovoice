@@ -17,6 +17,8 @@
 				/static/** = anon
 				/druid = anon
 				/druid/** = anon
+				/../druid = anon
+				/../druid/** = anon
 				/userfiles/** = anon
 				${adminPath}/cas = cas
 				${adminPath}/login = authc

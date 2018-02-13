@@ -19,4 +19,11 @@ public interface CustomerDao extends CrudDao<Customer> {
     List<Customer> findCompanyList();
     String checkCompanyName(String name);
     Customer findCompanyIdByCompanyName(Customer customer);
+
+    /**
+     * 根据根管理账号查询客户
+     * @param customer
+     * @return
+     */
+    Customer getByAdminAccount(Customer customer);
 }

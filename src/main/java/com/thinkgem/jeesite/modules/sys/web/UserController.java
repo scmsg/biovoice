@@ -32,6 +32,8 @@ import com.thinkgem.jeesite.common.utils.StringUtils;
 import com.thinkgem.jeesite.common.utils.excel.ExportExcel;
 import com.thinkgem.jeesite.common.utils.excel.ImportExcel;
 import com.thinkgem.jeesite.common.web.BaseController;
+import com.thinkgem.jeesite.modules.bv.entity.Customer;
+import com.thinkgem.jeesite.modules.bv.service.CustomerService;
 import com.thinkgem.jeesite.modules.sys.entity.Office;
 import com.thinkgem.jeesite.modules.sys.entity.Role;
 import com.thinkgem.jeesite.modules.sys.entity.User;
@@ -49,6 +51,9 @@ public class UserController extends BaseController {
 
 	@Autowired
 	private SystemService systemService;
+	
+	@Autowired
+	private CustomerService customerService;
 	
 	@ModelAttribute
 	public User get(@RequestParam(required=false) String id) {
@@ -321,6 +326,15 @@ public class UserController extends BaseController {
 				return "modules/sys/userModifyPwd";
 			}
 			if (SystemService.validatePassword(oldPassword, user.getPassword())){
+				//check if the customer account match for the sys user
+				Customer customer = new Customer();
+				customer.setAdminAccount(user.getLoginName());
+				Customer newCustomer = customerService.getByAdminAccount(customer);
+				if(newCustomer != null){
+					newCustomer.setAdminPassword(newPassword);
+					customerService.save(newCustomer);
+				}
+				
 				systemService.updatePasswordById(user.getId(), user.getLoginName(), newPassword);
 				model.addAttribute("message", "修改密码成功");
 			}else{

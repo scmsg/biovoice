@@ -269,7 +269,7 @@ public class UserUtils {
 			//根据公司ID，直接查询下面关联的所有部门，仓库/车辆/设备
 			ztreeNodes = getZtreeNodesFromCompany(user);
 		}else {
-			//TODO 查询用户组的权限
+			//TODO 查询客户端的“用户组”的权限
 
 		}
 

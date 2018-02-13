@@ -46,6 +46,7 @@ public class Customer extends DataEntity<Customer> {
 	private String contact;		// 联系人
 	private String mobile;		// 联系电话
 	private String remark;		// 备注
+	private Long parentId;		//上级customer的ID
 	
 	public Customer() {
 		super();
@@ -278,5 +279,13 @@ public class Customer extends DataEntity<Customer> {
 
 	public void setIsAdmin(Integer isAdmin) {
 		this.isAdmin = isAdmin;
+	}
+
+	public Long getParentId() {
+		return parentId;
+	}
+
+	public void setParentId(Long parentId) {
+		this.parentId = parentId;
 	}
 }

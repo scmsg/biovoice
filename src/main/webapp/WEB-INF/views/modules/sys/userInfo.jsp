@@ -28,15 +28,17 @@
 	<ul class="nav nav-tabs">
 		<li class="active"><a href="${ctx}/sys/user/info">个人信息</a></li>
 		<li><a href="${ctx}/sys/user/modifyPwd">修改密码</a></li>
-		<li><a href="${ctx}/sys/user/modifyPwd">新增用户</a></li>
-		<li><a href="${ctx}/sys/user/modifyPwd">用户组</a></li>
+		<c:if test="${user.isAdmin eq 1}">
+			<li><a href="${ctx}/bv/customer/addClientCustomer">新增用户</a></li>
+			<li><a href="${ctx}/bv/customer/clientCustomerList">用户列表与权限</a></li>
+		</c:if>
 	</ul><br/>
 	<form:form id="inputForm" modelAttribute="user" action="${ctx}/sys/user/info" method="post" class="form-horizontal"><%--
 		<form:hidden path="email" htmlEscape="false" maxlength="255" class="input-xlarge"/>
 		<sys:ckfinder input="email" type="files" uploadPath="/mytask" selectMultiple="false"/> --%>
 		<sys:message content="${message}"/>
 		<script language="javascript">
-		<c:if test="${not empty message}">
+        <c:if test="${not empty message}">
 		alert("${message}")
 		</c:if>
         </script>
