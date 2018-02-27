@@ -656,7 +656,7 @@ public class JedisUtils {
 	/**
 	 * 判断Map缓存中的Key是否存在
 	 * @param key 键
-	 * @param value 值
+	 * @param mapKey 值
 	 * @return
 	 */
 	public static boolean mapObjectExists(String key, String mapKey) {

@@ -6,8 +6,8 @@ package com.thinkgem.jeesite.modules.bv.entity;
 import org.hibernate.validator.constraints.Length;
 import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonFormat;
-
 import com.thinkgem.jeesite.common.persistence.DataEntity;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * 节点信息Entity
@@ -22,6 +22,7 @@ public class Node extends DataEntity<Node> {
 	private Date enterTime;		// 入库时间
 	private Date lastQuasiTime;		// 上次较准时间
 	private String quasiReport;		// 上传较准报告
+	private MultipartFile quasiReportFile;		// 上传较准报告
 	private String remark;		// 备注
 	private String placePosition;		// 摆放位置
 	private String whichVessel;		// 所属容器
@@ -73,7 +74,15 @@ public class Node extends DataEntity<Node> {
 	public void setLastQuasiTime(Date lastQuasiTime) {
 		this.lastQuasiTime = lastQuasiTime;
 	}
-	
+
+	public MultipartFile getQuasiReportFile() {
+		return quasiReportFile;
+	}
+
+	public void setQuasiReportFile(MultipartFile quasiReportFile) {
+		this.quasiReportFile = quasiReportFile;
+	}
+
 	@Length(min=0, max=255, message="上传较准报告长度必须介于 0 和 255 之间")
 	public String getQuasiReport() {
 		return quasiReport;
