@@ -3,11 +3,13 @@
  */
 package com.thinkgem.jeesite.modules.bv.web;
 
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import com.alibaba.fastjson.JSONArray;
+import com.thinkgem.jeesite.common.config.Global;
+import com.thinkgem.jeesite.common.persistence.Page;
+import com.thinkgem.jeesite.common.utils.StringUtils;
+import com.thinkgem.jeesite.common.web.BaseController;
+import com.thinkgem.jeesite.modules.bv.entity.Node;
+import com.thinkgem.jeesite.modules.bv.service.NodeService;
 import org.apache.log4j.Logger;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,14 +20,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
-import com.thinkgem.jeesite.common.config.Global;
-import com.thinkgem.jeesite.common.persistence.Page;
-import com.thinkgem.jeesite.common.web.BaseController;
-import com.thinkgem.jeesite.common.utils.StringUtils;
-import com.thinkgem.jeesite.modules.bv.entity.Node;
-import com.thinkgem.jeesite.modules.bv.service.NodeService;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.net.URLEncoder;
+import java.util.Date;
+import java.util.List;
 
 /**
  * 节点信息Controller
@@ -88,6 +91,17 @@ public class NodeController extends BaseController {
 		if (!beanValidator(model, node)){
 			return form(node, model);
 		}
+		String path=File.separatorChar+"data"+File.separatorChar+new Date().getTime()+node.getQuasiReportFile().getOriginalFilename();
+		File newFile=new File(path);
+		if(!newFile.getParentFile().exists()){
+			newFile.getParentFile().mkdir();		//创建一个文件夹
+		}
+		try {
+			node.getQuasiReportFile().transferTo(newFile);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		node.setQuasiReport(newFile.getName());
 		nodeService.save(node);
 		addMessage(redirectAttributes, "保存节点信息成功");
 		return "redirect:"+Global.getAdminPath()+"/bv/node/?repage";
@@ -100,5 +114,45 @@ public class NodeController extends BaseController {
 		addMessage(redirectAttributes, "删除节点信息成功");
 		return "redirect:"+Global.getAdminPath()+"/bv/node/?repage";
 	}
+    @RequiresPermissions("bv:node:view")
+    @RequestMapping(value = "downloadFile")
+    public void downloadFile(String fileName, HttpServletRequest request, HttpServletResponse response) throws IOException {
+        if(StringUtils.isEmpty(fileName)){
+            return;
+        }
+		String tmpFileName=new Date().getTime()+""+fileName;
+        fileName=File.separatorChar+"data"+File.separatorChar+fileName;
+        File file = new File(fileName);
+        //String tst =file.getAbsolutePath();
+        if(!file.exists()) {
+            return;
+        }
+       // String postfix = tmpFileName.substring(tmpFileName.lastIndexOf("."));
+        response.reset();
+        String userAgent = request.getHeader("User-Agent");
+        if (userAgent.contains("MSIE") || userAgent.contains("Trident")) {
+            response.setHeader("Content-Disposition", "attachment;filename=\"" + URLEncoder.encode(tmpFileName, "utf-8") +"\"");
+        } else {
+            fileName = new String(fileName.getBytes("utf-8"),"ISO-8859-1"); // 下载的文件名显示编码处理
+            response.setHeader("Content-Disposition", "attachment;filename=\"" + tmpFileName+"\"");
+        }
+        response.setContentType("application/x-msdownload;charset=UTF-8");
+        FileInputStream fis = new FileInputStream(fileName);
+        BufferedOutputStream bos = new BufferedOutputStream(response.getOutputStream());
 
+        byte[] buffer = new byte[2048];
+        int readlength = 0;
+        while((readlength = fis.read(buffer)) != -1){
+            bos.write(buffer,0,readlength);
+        }
+        try {
+            fis.close();
+        } catch (IOException e) {
+        }
+        try {
+            bos.flush();
+            bos.close();
+        } catch (IOException e) {
+        }
+    }
 }

@@ -6,7 +6,6 @@
 	<meta name="decorator" content="default"/>
 	<script type="text/javascript">
 		$(document).ready(function() {
-			//$("#name").focus();
 			$("#inputForm").validate({
 				submitHandler: function(form){
 					loading('正在提交，请稍等...');
@@ -23,6 +22,18 @@
 				}
 			});
 		});
+/* function downloadFile(){
+              alert("点击");
+            $.ajax({
+                url:"${ctx}/bv/node/downloadFile",
+                type : "post",
+                data:{"fileName":"${node.quasiReport}"},
+                success : function(data) {
+                    alert("下载完成");
+					alert(data);
+                },
+            });
+        }*/
 	</script>
 </head>
 <body>
@@ -30,7 +41,7 @@
 		<li><a href="${ctx}/bv/node/">节点信息列表</a></li>
 		<li class="active"><a href="${ctx}/bv/node/form?id=${node.id}">节点信息<shiro:hasPermission name="bv:node:edit">${not empty node.id?'修改':'添加'}</shiro:hasPermission><shiro:lacksPermission name="bv:node:edit">查看</shiro:lacksPermission></a></li>
 	</ul><br/>
-	<form:form id="inputForm" modelAttribute="node" action="${ctx}/bv/node/save" method="post" class="form-horizontal">
+	<form:form id="inputForm" modelAttribute="node" action="${ctx}/bv/node/save" method="post" enctype="multipart/form-data" class="form-horizontal">
 		<form:hidden path="id"/>
 		<sys:message content="${message}"/>		
 		<div class="control-group">
@@ -64,7 +75,11 @@
 		<div class="control-group">
 			<label class="control-label">上传较准报告：</label>
 			<div class="controls">
-				<form:input path="quasiReport" htmlEscape="false" maxlength="255" class="input-xlarge "/>
+				<%--<form:input path="quasiReport" htmlEscape="false" maxlength="255" class="input-xlarge "/>--%>
+				<input type="file" name="quasiReportFile"  />
+				<%--	<input type="text" value="${node.quasiReport}"/>--%>
+				<input type="button" value="下载" onclick="avascrtpt:window.location.href='${ctx}/bv/node/downloadFile?fileName=${node.quasiReport}'"/>
+				<%--<input type="file" id="file" name="file" class="required"/>${ctx}/bv/node/downloadFile?fileName=${node.quasiReport}-${ctx}/bv/node/form--%>
 			</div>
 		</div>
 		<div class="control-group">
@@ -108,7 +123,8 @@
 		<div class="control-group">
 			<label class="control-label">所属客户：</label>
 			<div class="controls">
-				<form:input path="whichCustomer" htmlEscape="false" maxlength="255" class="input-xlarge "/>
+				<%--<form:input path="whichCustomer" htmlEscape="false" maxlength="255" class="input-xlarge "/>--%>
+				<form:input path="customerId" htmlEscape="false" maxlength="20" class="input-xlarge  digits"/>
 			</div>
 		</div>
 		<div class="form-actions">

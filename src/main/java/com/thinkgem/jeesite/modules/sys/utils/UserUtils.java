@@ -6,7 +6,6 @@ package com.thinkgem.jeesite.modules.sys.utils;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.thinkgem.jeesite.common.utils.StringUtils;
 import com.thinkgem.jeesite.modules.bv.entity.client.*;
 import com.thinkgem.jeesite.modules.bv.service.client.*;
 import org.apache.shiro.SecurityUtils;
