@@ -8,6 +8,7 @@ import java.util.List;
 
 import com.thinkgem.jeesite.modules.bv.entity.client.*;
 import com.thinkgem.jeesite.modules.bv.service.client.*;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.UnavailableSecurityManagerException;
 import org.apache.shiro.session.InvalidSessionException;
