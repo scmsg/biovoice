@@ -3,12 +3,14 @@
  */
 package com.thinkgem.jeesite.modules.bv.web;
 
-import java.util.List;
+import java.util.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.alibaba.fastjson.JSONArray;
+import com.thinkgem.jeesite.modules.bv.entity.client.UserMenu;
+import com.thinkgem.jeesite.modules.bv.service.client.UserMenuService;
 import com.thinkgem.jeesite.modules.sys.entity.Area;
 import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
 import com.thinkgem.jeesite.modules.sys.vo.ZtreeNode;
@@ -17,10 +19,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.google.common.collect.Lists;
@@ -59,6 +58,9 @@ public class CustomerController extends BaseController {
 	
 	@Autowired
 	private OfficeService officeService;
+
+	@Autowired
+	private UserMenuService userMenuService;
 	
 	@ModelAttribute
 	public Customer get(@RequestParam(required=false) String id) {
@@ -148,8 +150,13 @@ public class CustomerController extends BaseController {
 				addMessage(redirectAttributes, "根管理密码，请重新输入");
 				return form(customer, model);
 			}
+
+			//0.find office
+			User parentUser = UserUtils.getUser();
+			Office parentOffice = parentUser.getOffice();
+
 			//1.sys_office
-			Office office_old = officeService.get(String.valueOf(54));
+			Office office_old = officeService.get(parentOffice.getId());
 			Office office = new Office();
 			BeanUtils.copyProperties(office_old, office);
 			office.setId(null);
@@ -266,8 +273,13 @@ public class CustomerController extends BaseController {
 				addMessage(redirectAttributes, "密码，请重新输入");
 				return addClientCustomer(customer, model);
 			}
+
+			//0.find office
+			User parentUser = UserUtils.getUser();
+			Office parentOffice = parentUser.getOffice();
+
 			//1.sys_office
-			Office office_old = officeService.get(String.valueOf(54));
+			Office office_old = officeService.get(parentOffice.getId());
 			Office office = new Office();
 			BeanUtils.copyProperties(office_old, office);
 			office.setId(null);
@@ -309,6 +321,7 @@ public class CustomerController extends BaseController {
 			customer.setIsAdmin(0);//默认为非根管理员标识。区别上面的save功能
 			Long customerId = UserUtils.getUser().getCustomerId();
 			customer.setParentId(customerId);
+			customer.setCompanyName(parentUser.getCompany().getName());//上级customer的company
 			customerService.save(customer);
 
 			user.setIsAdmin(customer.getIsAdmin());//默认为根管理员标识
@@ -329,40 +342,95 @@ public class CustomerController extends BaseController {
      * @return
      */
 //	@RequiresPermissions("bv:customer:view")
-	@RequestMapping(value = "addMenuToUser")
-	public String addMenuToUser(Customer customer, Model model) {
+	@RequestMapping(value = "addMenuToUserForm")
+	public String addMenuToUserForm(Customer customer, Model model) {
 		model.addAttribute("customer", customer);
 
         String customerId = customer.getId();
         model.addAttribute("customerId", customerId);
 
+        Long userId = Long.valueOf(customerId);
         //TODO 这一步，需要找出customerId的所有菜单权限
+		UserMenu searchUserMenu = new UserMenu();
+		searchUserMenu.setUserId(userId);
+		List<UserMenu> userMenus = userMenuService.findList(searchUserMenu);
+		List<ZtreeNode> customerZtreeNodes = new ArrayList<ZtreeNode>();
+		ZtreeNode ztreeNode = null;
+		for(UserMenu userMenu : userMenus){
+			ztreeNode = new ZtreeNode();
+			ztreeNode.setId(userMenu.getMenuId());
+			ztreeNode.setPId(userMenu.getMenuPId());
+			ztreeNode.setName(userMenu.getName());
+			ztreeNode.setFile(userMenu.getFile());
+			if(StringUtils.isNotEmpty(userMenu.getOpen())
+					&& ("1".equalsIgnoreCase(userMenu.getOpen())||"true".equalsIgnoreCase(userMenu.getOpen()))){
+				ztreeNode.setOpen("true");
+			}else{
+				ztreeNode.setOpen("false");
+			}
+			customerZtreeNodes.add(ztreeNode);
+		}
+
+		String customerZtreeNodesString = com.alibaba.fastjson.JSONArray.toJSONString(customerZtreeNodes);
+		model.addAttribute("customerZtreeNodesString", customerZtreeNodesString);
 
 
         //当前登录用户拥有的所有树型菜单权限
         List<ZtreeNode> ztreeNodes = UserUtils.getZtreeNodeList();
-        model.addAttribute("ztreeNodes", ztreeNodes);
+		String ztreeNodesString = com.alibaba.fastjson.JSONArray.toJSONString(ztreeNodes);
+		model.addAttribute("ztreeNodesString", ztreeNodesString);
 
 		return "modules/bv/addMenuToUserForm";
 	}
 
 //	@RequiresPermissions("bv:customer:edit")
-	@RequestMapping(value = "saveMenuToUser")
-	public String saveMenuToUser(Customer customer, Model model, RedirectAttributes redirectAttributes) {
-		if (!beanValidator(model, customer)){
-			addMessage(redirectAttributes, "客户信息验证失败");
-			return addClientCustomer(customer, model);
-		}
-		if(null == customer){
-			addMessage(redirectAttributes, "客户信息为空，请重新输入");
-			return addClientCustomer(customer, model);
-		}
+	@RequestMapping(value = "/saveMenuToUser", produces = "application/json", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> saveMenuToUser(String menuIds, Long customerId) {
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		try {
+			Customer customer = new Customer();
+			customer.setId(String.valueOf(customerId));
 
-		//TODO 2018-02-10
+			List<UserMenu> userMenuList = Lists.newArrayList(); // 拥有菜单列表
+			UserMenu userMenu = null;
 
-		//3.新增客户
-		addMessage(redirectAttributes, "保存客户信息成功");
-		return "redirect:"+Global.getAdminPath()+"/bv/customer/clientCustomerList?repage";
+			//当前勾选的菜单
+			String[] selectMenuIds = menuIds.split(",");
+
+			//当前登录用户拥有的所有树型菜单权限
+			List<ZtreeNode> ztreeNodes = UserUtils.getZtreeNodeList();
+			for(ZtreeNode ztreeNode : ztreeNodes){
+				for(String menuId : selectMenuIds){
+					if(ztreeNode.getId().equalsIgnoreCase(menuId)){
+						userMenu = new UserMenu();
+						userMenu.setUserId(customerId);
+						userMenu.setMenuId(ztreeNode.getId());
+						userMenu.setMenuPId(ztreeNode.getPId());
+						if(StringUtils.isNotEmpty(ztreeNode.getId()) && ztreeNode.getId().contains("company_")){
+
+						}else{
+							userMenu.setFile(ztreeNode.getFile());
+						}
+						userMenu.setName(ztreeNode.getName());
+						userMenu.setOpen(ztreeNode.getOpen());
+						userMenuList.add(userMenu);
+						break;
+					}
+				}
+			}
+
+			customer.setUserMenuList(userMenuList);
+			userMenuService.saveUserMenu(customer);
+
+			resultMap.put("code", "success");
+			resultMap.put("msg", "保存客户菜单权限信息成功");
+		} catch (Exception e) {
+			logger.error("save role menu error:" + System.currentTimeMillis(), e);
+			resultMap.put("code", "fail");
+			resultMap.put("errMsg", "内部错误 errorCode : 500 "+e.getMessage()+"---- 时间戳:" + System.currentTimeMillis());
+		}
+		return resultMap;
 	}
 
 }

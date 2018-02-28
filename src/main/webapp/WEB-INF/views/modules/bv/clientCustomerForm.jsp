@@ -34,8 +34,8 @@
 </head>
 <body>
 	<ul class="nav nav-tabs">
-		<li><a href="${ctx}/bv/customer/clientCustomerList">客户信息列表</a></li>
-		<li class="active"><a href="${ctx}/bv/customer/addClientCustomer?id=${customer.id}">客户信息${not empty customer.id?'修改':'添加'}</a></li>
+		<li><a href="${ctx}/bv/customer/clientCustomerList">用户列表与权限</a></li>
+		<li class="active"><a href="${ctx}/bv/customer/addClientCustomer?id=${customer.id}">新增客户${not empty customer.id?'修改':'添加'}</a></li>
 	</ul><br/>
 	<form:form name="inputForm" id="inputForm" modelAttribute="customer" action="${ctx}/bv/customer/saveClientCustomer" method="post" class="form-horizontal">
 		<form:hidden path="id"/>

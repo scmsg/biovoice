@@ -6,6 +6,7 @@ package com.thinkgem.jeesite.modules.sys.utils;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.thinkgem.jeesite.common.utils.StringUtils;
 import com.thinkgem.jeesite.modules.bv.entity.client.*;
 import com.thinkgem.jeesite.modules.bv.service.client.*;
 import org.apache.shiro.SecurityUtils;
@@ -58,6 +59,7 @@ public class UserUtils {
 	private static TrucksService trucksService = SpringContextHolder.getBean(TrucksService.class);
 
 	private static UsePlaceService usePlaceService = SpringContextHolder.getBean(UsePlaceService.class);
+    private static UserMenuService userMenuService = SpringContextHolder.getBean(UserMenuService.class);
 
 	public static final String USER_CACHE = "userCache";
 	public static final String USER_CACHE_ID_ = "id_";
@@ -270,7 +272,7 @@ public class UserUtils {
 			ztreeNodes = getZtreeNodesFromCompany(user);
 		}else {
 			//TODO 查询客户端的“用户组”的权限
-
+            ztreeNodes = getZtreeNodesFromCustomer(user);
 		}
 
 		return ztreeNodes;
@@ -369,6 +371,36 @@ public class UserUtils {
 		}
 		return ztreeNodes;
 	}
+
+    /**
+     * 查询客户端的“用户组”的权限
+     * @param user
+     * @return
+     */
+    private static List<ZtreeNode> getZtreeNodesFromCustomer(User user) {
+        UserMenu searchUserMenu = new UserMenu();
+		searchUserMenu.setUserId(user.getCustomerId());
+        List<UserMenu> userMenuList = userMenuService.findList(searchUserMenu);
+
+        List<ZtreeNode> ztreeNodes = new ArrayList<ZtreeNode>();
+        ZtreeNode ztreeNode = null;
+        for(UserMenu userMenu : userMenuList){
+            ztreeNode = new ZtreeNode();
+			ztreeNode.setId(userMenu.getMenuId());
+			ztreeNode.setPId(userMenu.getMenuPId());
+			ztreeNode.setName(userMenu.getName());
+			ztreeNode.setFile(userMenu.getFile());
+            if(StringUtils.isNotEmpty(userMenu.getOpen())
+					&& ("1".equalsIgnoreCase(userMenu.getOpen())||"true".equalsIgnoreCase(userMenu.getOpen()))){
+				ztreeNode.setOpen("true");
+			}else{
+				ztreeNode.setOpen("false");
+			}
+            ztreeNodes.add(ztreeNode);
+        }
+
+        return ztreeNodes;
+    }
 
 	/**
 	 * 获取当前用户有权限访问的部门

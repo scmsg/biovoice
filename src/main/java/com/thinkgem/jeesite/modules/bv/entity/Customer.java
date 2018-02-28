@@ -5,7 +5,11 @@ package com.thinkgem.jeesite.modules.bv.entity;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
+import com.google.common.collect.Lists;
+import com.thinkgem.jeesite.modules.bv.entity.client.UserMenu;
+import com.thinkgem.jeesite.modules.sys.entity.User;
 import org.hibernate.validator.constraints.Length;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -47,6 +51,8 @@ public class Customer extends DataEntity<Customer> {
 	private String mobile;		// 联系电话
 	private String remark;		// 备注
 	private Long parentId;		//上级customer的ID
+
+	private List<UserMenu> userMenuList = Lists.newArrayList(); // 拥有菜单列表
 	
 	public Customer() {
 		super();
@@ -287,5 +293,21 @@ public class Customer extends DataEntity<Customer> {
 
 	public void setParentId(Long parentId) {
 		this.parentId = parentId;
+	}
+
+	public List<UserMenu> getUserMenuList() {
+		return userMenuList;
+	}
+
+	public void setUserMenuList(List<UserMenu> userMenuList) {
+		this.userMenuList = userMenuList;
+	}
+
+	public void addUserMenu(UserMenu userMenu){
+		this.userMenuList.add(userMenu);
+	}
+
+	public void addUserMenuList(List<UserMenu> userMenus){
+		this.userMenuList.addAll(userMenus);
 	}
 }

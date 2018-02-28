@@ -185,6 +185,8 @@ public class LoginController extends BaseController{
 //		System.out.println("==========================b");
 		
 		User user = UserUtils.getUser();
+		model.addAttribute("user", user);
+
 //		List<String> roleIdList = user.getRoleIdList();
 //		List<Role> roles = user.getRoleList();
 		String roleName = user.getRoleNames();

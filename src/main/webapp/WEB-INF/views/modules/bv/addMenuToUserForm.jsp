@@ -36,7 +36,14 @@
 	<script type="text/javascript" src="${ctxStatic}/jquery-ztree/3.5.12/js/jquery.ztree.excheck-3.5.js"></script>
 	<SCRIPT type="text/javascript" >
 
-            <!--
+		//excheck/checkbox.html
+
+        var userMenus = ${customerZtreeNodesString};
+        var ztreeNodes = ${ztreeNodesString};
+        console.log(userMenus);
+        console.log(ztreeNodes);
+
+		//<!--
         var setting = {
             check: {
                 enable: true
@@ -48,21 +55,36 @@
             }
         };
 
-        var zNodes =[
-            { id:1, pId:0, name:"随意勾选 1", open:true},
-            { id:11, pId:1, name:"随意勾选 1-1", open:true},
-            { id:111, pId:11, name:"随意勾选 1-1-1"},
-            { id:112, pId:11, name:"随意勾选 1-1-2"},
-            { id:12, pId:1, name:"随意勾选 1-2", open:true},
-            { id:121, pId:12, name:"随意勾选 1-2-1"},
-            { id:122, pId:12, name:"随意勾选 1-2-2"},
-            { id:2, pId:0, name:"随意勾选 2", checked:true, open:true},
-            { id:21, pId:2, name:"随意勾选 2-1"},
-            { id:22, pId:2, name:"随意勾选 2-2", open:true},
-            { id:221, pId:22, name:"随意勾选 2-2-1", checked:true},
-            { id:222, pId:22, name:"随意勾选 2-2-2"},
-            { id:23, pId:2, name:"随意勾选 2-3"}
-        ];
+        var showZtreeNodes = [];//所有菜单
+        for(var i=0;i<ztreeNodes.length;i++){
+            var ztreeNode = ztreeNodes[i];
+            ztreeNode.open = "true";
+            showZtreeNodes.push(ztreeNode);
+
+            $.each(userMenus,function(j,userMenu){
+                if (ztreeNode.id == userMenu.id) {
+                    ztreeNode.checked = true;
+                    return false;
+                }
+            });
+        }
+
+        var zNodes = showZtreeNodes;
+        // var zNodes =[
+        //     { id:1, pId:0, name:"随意勾选 1", open:true},
+        //     { id:11, pId:1, name:"随意勾选 1-1", open:true},
+        //     { id:111, pId:11, name:"随意勾选 1-1-1"},
+        //     { id:112, pId:11, name:"随意勾选 1-1-2"},
+        //     { id:12, pId:1, name:"随意勾选 1-2", open:true},
+        //     { id:121, pId:12, name:"随意勾选 1-2-1"},
+        //     { id:122, pId:12, name:"随意勾选 1-2-2"},
+        //     { id:2, pId:0, name:"随意勾选 2", checked:true, open:true},
+        //     { id:21, pId:2, name:"随意勾选 2-1"},
+        //     { id:22, pId:2, name:"随意勾选 2-2", open:true},
+        //     { id:221, pId:22, name:"随意勾选 2-2-1", checked:true},
+        //     { id:222, pId:22, name:"随意勾选 2-2-2"},
+        //     { id:23, pId:2, name:"随意勾选 2-3"}
+        // ];
 
         var code;
 
@@ -92,13 +114,86 @@
         });
         //-->
 	</SCRIPT>
+	<SCRIPT type="text/javascript" >
+        $(document).ready(function(){
+            $("#saveBtn").click(
+                function(){
+                    saveMenuToUser();
+                }
+			);
+			// $("#saveBtn").on("click",function(){
+			// 	saveMenuToUser();
+			// });
+        });
+        function saveMenuToUser() {
+            var nodes = [];
+            // var moduleIds = '';//模块id
+            // $.each(zNodes,function(index,val){
+            //     var onemtree = $.fn.zTree.getZTreeObj("treeDemo");
+            //     var onenodes = onemtree.getCheckedNodes(true);
+            //     nodes = nodes.concat(onenodes);
+            //     if (onenodes.length > 0 && moduleIds.indexOf(val.id) == -1) {
+            //         moduleIds +=  moduleIds.length==0 ? val.id : ','+val.id;
+            //     }
+            // });
+            var onemtree = $.fn.zTree.getZTreeObj("treeDemo");
+            var onenodes = onemtree.getCheckedNodes(true);
+            nodes = nodes.concat(onenodes);
+
+            var attrs = new Array();
+            var vals = new Array();
+            var ids = "";
+            for(var i=0;i<nodes.length;i++){
+                if(ids == ""){
+                    ids = nodes[i].id;
+                }else{
+                    ids += ","+nodes[i].id;
+                }
+            }
+            if(ids == ""){
+                layer.alert("请选择菜单");
+                return;
+            }
+            // attrs.push("menuIds");
+            // vals.push(ids);
+            // attrs.push("customerId");
+            // vals.push($("#customerId").val());
+
+            var customerId = $("#customerId").val();
+            $.post("${ctx}/bv/customer/saveMenuToUser",
+				{menuIds:ids, customerId:customerId},
+				function(data){
+                    alert(data.msg);
+                    if (data.code == 'success') {
+                        window.location.href = "${ctx}/bv/customer/clientCustomerList";
+                    }
+				},
+				"json"
+			);
+            <%--formPost.submitAjaxForm("${ctx}/bv/customer/saveMenuToUser", attrs,--%>
+                <%--vals, callBackFucs['saveRoleMenuGroupCallBck']);--%>
+        }
+
+        var callBackFucs = {
+            saveRoleMenuGroupCallBck : function(data){
+                parent.layer.alert(data.msg);
+                if (data.code == 'success') {
+
+                }
+            }
+        }
+	</SCRIPT>
 </head>
 <body>
 	<div class="content_wrap">
+		<input type="hidden" id="customerId" name="customerId" value="${customerId }"/>
 		<div>用户${customer.adminAccount}的菜单权限</div>
 		<div class="zTreeDemoBackground left">
 			<ul id="treeDemo" class="ztree"></ul>
 		</div>
+	</div>
+	<div align="center" style="margin-top:5px;">
+		<input type="button" id="saveBtn" value="添加" style="width: 65px;" />
 	</div>
 </body>
 </html>

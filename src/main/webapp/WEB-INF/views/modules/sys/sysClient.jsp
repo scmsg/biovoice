@@ -34,6 +34,8 @@
   	<script type="text/javascript" src="${ctxStatic}/jquery-ztree/3.5.12/js/jquery-1.4.4.min.js"></script>
 	<script type="text/javascript" src="${ctxStatic}/jquery-ztree/3.5.12/js/jquery.ztree.core-3.5.js"></script>
 	<SCRIPT type="text/javascript" >
+
+		//
 	
 	var ztreeNodes = ${ztreeNodesString};
 	console.log(ztreeNodes);
@@ -60,6 +62,7 @@
 				var zTree = $.fn.zTree.getZTreeObj("tree");
 				if (treeNode.isParent) {
 					demoIframe.attr("src","${ctx}/"+treeNode.file );
+                    zTree.expandNode(treeNode);
 					return true;
 				} else {
 					demoIframe.attr("src","${ctx}/"+treeNode.file );
@@ -120,7 +123,12 @@
 			<TD width=18% align=left valign=top style="BORDER-RIGHT: #999999 1px dashed">
 				<ul id="tree" class="ztree" style="width:260px; overflow:auto;"></ul>
 			</TD>
-			<TD width=100% align=left valign=top><IFRAME ID="testIframe" Name="testIframe" FRAMEBORDER=0 SCROLLING=AUTO width=100%  height=600px SRC="${ctx}/bv/client/depatement"></IFRAME></TD>
+			<c:if test="${user.isAdmin eq 1}">
+				<TD width=100% align=left valign=top><IFRAME ID="testIframe" Name="testIframe" FRAMEBORDER=0 SCROLLING=AUTO width=100%  height=600px SRC="${ctx}/bv/client/depatement"></IFRAME></TD>
+			</c:if>
+			<c:if test="${user.isAdmin eq 0}">
+				<TD width=100% align=left valign=top><IFRAME ID="testIframe" Name="testIframe" FRAMEBORDER=0 SCROLLING=AUTO width=100%  height=600px SRC=""></IFRAME></TD>
+			</c:if>
 		</TR>
 	</TABLE>
 

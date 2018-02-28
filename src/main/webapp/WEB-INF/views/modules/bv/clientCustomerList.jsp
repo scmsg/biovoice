@@ -18,10 +18,10 @@
 </head>
 <body>
 	<ul class="nav nav-tabs">
-		<li class="active"><a href="${ctx}/bv/customer/clientCustomerList">客户信息列表</a></li>
-		<li><a href="${ctx}/bv/customer/addClientCustomer">客户信息添加</a></li>
+		<li class="active"><a href="${ctx}/bv/customer/clientCustomerList">用户列表与权限</a></li>
+		<li><a href="${ctx}/bv/customer/addClientCustomer">新增客户添加</a></li>
 	</ul>
-	<form:form id="searchForm" modelAttribute="customer" action="${ctx}/bv/customer/" method="post" class="breadcrumb form-search">
+	<form:form id="searchForm" modelAttribute="customer" action="${ctx}/bv/customer/clientCustomerList/" method="post" class="breadcrumb form-search">
 		<input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
 		<input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>
 		<ul class="ul-form">
@@ -34,7 +34,9 @@
 		<thead>
 			<tr>
 				<th>单位名称</th>
+				<th>客户名称</th>
 				<th>账号</th>
+				<th>根管理员？</th>
 				<th>联系人</th>
 				<th>联系电话</th>
 				<th>操作</th>
@@ -44,11 +46,20 @@
 		<c:forEach items="${page.list}" var="customer">
 			<tr>
 				<td>${customer.companyName}</td>
+				<td>${customer.customerName}</td>
 				<td>${customer.adminAccount}</td>
+				<td>
+				<c:if test="${customer.isAdmin eq 1}">
+					是
+				</c:if>
+				<c:if test="${customer.isAdmin eq 0}">
+					否
+				</c:if>
+				</td>
 				<td>${customer.contact}</td>
 				<td>${customer.mobile}</td>
 				<td>
-					<a href="${ctx}/bv/customer/addMenuToUser?id=${customer.id}">编辑用户权限</a>
+					<a href="${ctx}/bv/customer/addMenuToUserForm?id=${customer.id}">编辑用户权限</a>
 					<a href="${ctx}/bv/customer/addClientCustomer?id=${customer.id}">修改</a>
 					<a href="${ctx}/bv/customer/delete?id=${customer.id}" onclick="return confirmx('确认要删除该客户信息吗？', this.href)">删除</a>
 				</td>
