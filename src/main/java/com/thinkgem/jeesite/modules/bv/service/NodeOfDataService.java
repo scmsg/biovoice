@@ -41,7 +41,7 @@ public class NodeOfDataService extends CrudService<NodeOfDataDao, NodeOfData> {
 		NodeOfDataDto nodeOfDataDto = new NodeOfDataDto();
 		BeanUtils.copyProperties(nodeOfData, nodeOfDataDto);
 		nodeOfDataDto.setPage(page);
-		logger.info("nodeofdataservice 开始调用了");
+		logger.info("nodeofdataservice findByStartTimeToEndTime 开始调用了");
 		page.setList(nodeOfDataDao.findByStartTimeToEndTime(stime,etime,nodeOfDataDto));
 		return page;
 	}

@@ -4,7 +4,10 @@
 package com.thinkgem.jeesite.common.utils;
 
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.SimpleTimeZone;
+import java.util.TimeZone;
 
 import org.apache.commons.lang3.time.DateFormatUtils;
 
@@ -168,6 +171,95 @@ public class DateUtils extends org.apache.commons.lang3.time.DateUtils {
 		long beforeTime = before.getTime();
 		long afterTime = after.getTime();
 		return (afterTime - beforeTime) / (1000 * 60 * 60 * 24);
+	}
+
+	/**
+	 * 将字符串解析成日期
+	 *
+	 * @param date
+	 * @return
+	 */
+	public static Date parseDate(String date, String pattern) {
+		if ((date == null) || (date.trim().equals(""))) {
+			return null;
+		}
+
+		SimpleDateFormat formatter = new SimpleDateFormat(pattern);
+		formatter.setLenient(false);
+
+		try {
+			return formatter.parse(date);
+		} catch (ParseException e) {
+			return null;
+		}
+	}
+
+	/**
+	 * 将字符串解析成日期
+	 *
+	 * @param date
+	 * @return
+	 */
+	public static Date parseDate(String date) {
+		return parseDate(date, "yyyy-MM-dd");
+	}
+
+	/**
+	 * 将字符串解析成日期
+	 *
+	 * @param datetime
+	 * @return
+	 */
+	public static Date parseDateTime(String datetime) {
+		return parseDate(datetime, "yyyy-MM-dd HH:mm:ss");
+	}
+
+	/**
+	 * 获取北京时间 对象返回
+	 *
+	 * @return
+	 * @since 2016年2月15日 上午10:29:06
+	 *
+	 */
+	public static Date getBeijingDate() {
+		return parseDateTime(getBeijingTime());
+	}
+
+	/**
+	 * 获取北京时间 字符串返回
+	 *
+	 * @return
+	 * @since 2016年2月3日 下午1:08:14
+	 *
+	 */
+	public static String getBeijingTime() {
+		return getFormatedDateString(8);
+	}
+
+	/**
+	 * 此函数非原创，从网上搜索而来，timeZoneOffset原为int类型，为班加罗尔调整成float类型
+	 * timeZoneOffset表示时区，如中国一般使用东八区，因此timeZoneOffset就是8
+	 *
+	 * @param timeZoneOffset
+	 * @return yyyy-MM-dd HH:mm:ss
+	 */
+	public static String getFormatedDateString(float timeZoneOffset) {
+		if (timeZoneOffset > 13 || timeZoneOffset < -12) {
+			timeZoneOffset = 0;
+		}
+
+		int newTime = (int) (timeZoneOffset * 60 * 60 * 1000);
+		TimeZone timeZone;
+		String[] ids = TimeZone.getAvailableIDs(newTime);
+		if (ids.length == 0) {
+			timeZone = TimeZone.getDefault();
+		} else {
+			timeZone = new SimpleTimeZone(newTime, ids[0]);
+		}
+
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		sdf.setTimeZone(timeZone);
+		return sdf.format(new Date());
 	}
 	
 	/**
