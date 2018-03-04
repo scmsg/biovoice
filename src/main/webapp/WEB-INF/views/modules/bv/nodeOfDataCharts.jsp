@@ -21,7 +21,7 @@
 	<script src="${ctxStatic}/Highcharts-6.0.4/code/modules/exporting.js"></script>
 	<ul class="nav nav-tabs">
 		<li><a href="${ctx}/bv/nodeOfData/">节点测量数据列表</a></li>
-		<li class="active"><a href="${ctx}/bv/nodeOfData/charts">节点测量数据图表</a></li>
+		<li class="active"><a href="${ctx}/bv/nodeOfData/charts">节点测量数据图表-曲线图</a></li>
 		<%-- <shiro:hasPermission name="bv:nodeOfData:edit"><li><a href="${ctx}/bv/nodeOfData/form">节点测量数据添加</a></li></shiro:hasPermission> --%>
 	</ul>
 	<%--@elvariable id="nodeOfData" type=""--%>
@@ -49,7 +49,7 @@
 
 	<script type="text/javascript">
 	var xAxis = ${xAxis};
-	var datas = ${datas}; 
+	var datas = ${datas};
 	console.log(xAxis);
 	console.log(datas);
 

@@ -12,7 +12,7 @@ import com.thinkgem.jeesite.common.persistence.DataEntity;
  * @author jinxi
  * @version 2017-12-30
  */
-public class NodeOfData extends DataEntity<NodeOfData> {
+public class NodeOfData extends DataEntity<NodeOfData> implements Comparable<NodeOfData>{
 	
 	private static final long serialVersionUID = 1L;
 	private Long masterId;		// 设备ID(单机版网关ID)
@@ -150,5 +150,11 @@ public class NodeOfData extends DataEntity<NodeOfData> {
 	public void setHumidity(Short humidity) {
 		this.humidity = humidity;
 	}
-	
+
+	@Override
+	public int compareTo(NodeOfData o) {
+		Long thisTime = Long.valueOf(this.timeTag);
+		Long thatTime = Long.valueOf(o.getTimeTag());
+		return thisTime.compareTo(thatTime);
+	}
 }

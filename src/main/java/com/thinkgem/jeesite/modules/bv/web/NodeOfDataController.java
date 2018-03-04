@@ -5,13 +5,14 @@ package com.thinkgem.jeesite.modules.bv.web;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.thinkgem.jeesite.common.utils.DateUtils;
+import com.thinkgem.jeesite.common.utils.GetUTCTimeUtil;
+import com.thinkgem.jeesite.modules.bv.vo.NodeOfDataVo;
 import org.activiti.engine.impl.util.json.JSONArray;
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -102,16 +103,23 @@ public class NodeOfDataController extends BaseController {
 
 			List<NodeOfData> nodeOfDatas = page.getList();
 			if(nodeOfDatas != null && nodeOfDatas.size() > 0){
+
+				Collections.sort(nodeOfDatas);//按时间标识来排序
+
 				List<String> timeTags = new ArrayList<String>();
-				List<Short> datas = new ArrayList<Short>();
-				for(NodeOfData data : nodeOfDatas){
-					if(null == data.getTimeTag() || data.getTimeTag() == 0
-							|| null == data.getTemperature() || data.getTemperature() == 0){
+				for(NodeOfData data : nodeOfDatas) {
+					if (null == data.getTimeTag() || data.getTimeTag() == 0
+							|| null == data.getTemperature() || data.getTemperature() == 0) {
 						continue;
 					}
 					timeTags.add(DateFormatUtils.format(data.getTimeTag() * 1000, "yyyy-MM-dd HH:mm:ss"));
-					datas.add(data.getTemperature());
 				}
+
+				//曲线图
+//				List<Short> datas  = getTemps(nodeOfDatas);
+
+				//时间轴
+				List<NodeOfDataVo> datas = getNodeOfDataVos(nodeOfDatas);
 
 				//以下数据是为了支持HighCharts而提供的变量
 				model.addAttribute("chart", "line");
@@ -137,7 +145,39 @@ public class NodeOfDataController extends BaseController {
 			addMessage(model, "出现异常，请联系管理员，请检查~~");
 		}
 				
-		return "modules/bv/nodeOfDataCharts";
+//		return "modules/bv/nodeOfDataCharts";//曲线图
+		return "modules/bv/nodeOfDataChartsOldie";//时间轴
+	}
+
+	private void getTemps(List<NodeOfData> nodeOfDatas) {
+		List<Short> datas = new ArrayList<Short>();
+		for(NodeOfData data : nodeOfDatas){
+            if(null == data.getTimeTag() || data.getTimeTag() == 0
+                    || null == data.getTemperature() || data.getTemperature() == 0){
+                continue;
+            }
+            datas.add(data.getTemperature());//曲线图用到的
+        }
+	}
+
+	private List<NodeOfDataVo> getNodeOfDataVos(List<NodeOfData> nodeOfDatas) {
+		Long offsetTime = GetUTCTimeUtil.getOffSetBetweenLocalTimeToUTC();
+		NodeOfDataVo vo = null;
+		List<NodeOfDataVo> datas = new ArrayList<NodeOfDataVo>();
+		for(NodeOfData data : nodeOfDatas){
+            if(null == data.getTimeTag() || data.getTimeTag() == 0
+                    || null == data.getTemperature() || data.getTemperature() == 0){
+                continue;
+            }
+            vo = new NodeOfDataVo();
+            //js代码里：
+            //UTC() 方法可根据世界时返回 1970 年 1 月 1 日 到指定日期的毫秒数。
+            //东八时区
+            vo.setTimeTag(data.getTimeTag() * 1000 + offsetTime);
+            vo.setTemperature(data.getTemperature());
+            datas.add(vo);
+        }
+		return datas;
 	}
 
 	@RequiresPermissions("bv:nodeOfData:view")
