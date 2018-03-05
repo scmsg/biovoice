@@ -121,6 +121,8 @@ public class NodeOfDataController extends BaseController {
 				//时间轴
 				List<NodeOfDataVo> datas = getNodeOfDataVos(nodeOfDatas);
 
+				// Y轴标示线 -->> 同时间轴
+
 				//以下数据是为了支持HighCharts而提供的变量
 				model.addAttribute("chart", "line");
 				model.addAttribute("title", "节点测量数据");
@@ -146,7 +148,8 @@ public class NodeOfDataController extends BaseController {
 		}
 				
 //		return "modules/bv/nodeOfDataCharts";//曲线图
-		return "modules/bv/nodeOfDataChartsOldie";//时间轴
+//		return "modules/bv/nodeOfDataChartsOldie";//时间轴
+		return "modules/bv/nodeOfDataChartHighstock_yaxis-plotlines";//Highstock 演示 › Y轴标示线
 	}
 
 	private void getTemps(List<NodeOfData> nodeOfDatas) {
