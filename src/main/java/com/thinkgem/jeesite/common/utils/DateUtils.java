@@ -179,7 +179,7 @@ public class DateUtils extends org.apache.commons.lang3.time.DateUtils {
 	 * @param date
 	 * @return
 	 */
-	public static Date parseDate(String date, String pattern) {
+	public static Date parseDate1(String date, String pattern) {
 		if ((date == null) || (date.trim().equals(""))) {
 			return null;
 		}
@@ -197,21 +197,11 @@ public class DateUtils extends org.apache.commons.lang3.time.DateUtils {
 	/**
 	 * 将字符串解析成日期
 	 *
-	 * @param date
-	 * @return
-	 */
-	public static Date parseDate(String date) {
-		return parseDate(date, "yyyy-MM-dd");
-	}
-
-	/**
-	 * 将字符串解析成日期
-	 *
 	 * @param datetime
 	 * @return
 	 */
 	public static Date parseDateTime(String datetime) {
-		return parseDate(datetime, "yyyy-MM-dd HH:mm:ss");
+		return parseDate1(datetime, "yyyy-MM-dd HH:mm:ss");
 	}
 
 	/**
